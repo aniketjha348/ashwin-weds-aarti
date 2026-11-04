@@ -140,7 +140,7 @@ export default function PersonalizedInvitationModal({
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl bg-[#FFFDF9] text-maroon-900 rounded-3xl border-2 border-gold-400 p-5 sm:p-10 shadow-[0_25px_80px_rgba(31,4,10,0.6)] my-auto select-text overflow-hidden"
+        className="relative w-full max-w-2xl bg-[#FFFDF9] text-maroon-900 rounded-2xl sm:rounded-3xl border-2 border-gold-400 p-4 sm:p-10 shadow-[0_25px_80px_rgba(31,4,10,0.6)] my-auto select-text overflow-hidden max-h-[92dvh] overflow-y-auto"
       >
         {/* Ornate Corner Flourishes */}
         <CornerFlourish className="absolute -left-1 -top-1 h-12 w-12 text-gold-600 pointer-events-none" />

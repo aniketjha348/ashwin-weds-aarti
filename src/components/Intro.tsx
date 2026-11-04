@@ -196,20 +196,20 @@ export default function Intro({ onStartFilm }: IntroProps) {
         className="pointer-events-none absolute top-0 inset-x-0 z-25 flex flex-col items-center"
       >
         {/* Top Velvet Banner with Scallops */}
-        <div className="curtain-valance-scallop w-full h-14 sm:h-20 flex items-center justify-around border-b-2 border-gold-400 relative">
+        <div className="curtain-valance-scallop w-full h-12 sm:h-20 flex items-center justify-around border-b-2 border-gold-400 relative overflow-hidden">
           {Array.from({ length: 9 }).map((_, i) => (
-            <div key={i} className="relative flex flex-col items-center">
+            <div key={i} className="relative flex flex-col items-center shrink-0">
               {/* Scallop swag curve */}
-              <div className="h-10 sm:h-14 w-20 sm:w-28 rounded-b-full border-b-2 border-x border-gold-400/90 shadow-lg bg-gradient-to-b from-[#40050e] to-[#780d1e]" />
+              <div className="h-8 sm:h-14 w-16 sm:w-28 rounded-b-full border-b-2 border-x border-gold-400/90 shadow-lg bg-gradient-to-b from-[#40050e] to-[#780d1e]" />
               {/* Hanging Golden Tassel at Scallop peak */}
-              <span className="h-2.5 w-2.5 rounded-full bg-gold-300 -mt-1 shadow" />
-              <span className="h-4 w-1 bg-gradient-to-b from-gold-300 via-gold-500 to-gold-700" />
+              <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-gold-300 -mt-1 shadow" />
+              <span className="h-3 sm:h-4 w-0.5 sm:w-1 bg-gradient-to-b from-gold-300 via-gold-500 to-gold-700" />
             </div>
           ))}
         </div>
 
         {/* Valance Bottom Golden Braid Trim */}
-        <div className="w-full h-2 bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600 shadow-md" />
+        <div className="w-full h-1.5 sm:h-2 bg-gradient-to-r from-gold-600 via-gold-300 to-gold-600 shadow-md" />
       </div>
 
       {/* ───────── 4. CINEMA HALL COUNTDOWN LEADER (3, 2, 1, ACTION!) ───────── */}
@@ -217,15 +217,15 @@ export default function Intro({ onStartFilm }: IntroProps) {
         ref={countdownRef}
         className="absolute z-35 hidden flex-col items-center justify-center pointer-events-none"
       >
-        <div className="relative flex h-36 w-36 sm:h-44 sm:w-44 items-center justify-center rounded-full border-4 border-gold-400 bg-maroon-950/95 shadow-[0_0_60px_rgba(201,162,75,0.85)] backdrop-blur-md">
+        <div className="relative flex h-32 w-32 sm:h-44 sm:w-44 items-center justify-center rounded-full border-4 border-gold-400 bg-maroon-950/95 shadow-[0_0_60px_rgba(201,162,75,0.85)] backdrop-blur-md">
           <div className="absolute inset-x-0 top-1/2 h-px bg-gold-400/60" />
           <div className="absolute inset-y-0 left-1/2 w-px bg-gold-400/60" />
           <div className="absolute inset-2 rounded-full border border-dashed border-gold-400/70 animate-spin-slow" />
-          <span className="font-serif text-4xl sm:text-5xl font-bold text-gold-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
+          <span className="font-serif text-3xl sm:text-5xl font-bold text-gold-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
             {countdownNum}
           </span>
         </div>
-        <p className="mt-4 font-sans text-xs uppercase tracking-[0.4em] text-gold-300 font-bold">
+        <p className="mt-3 sm:mt-4 font-sans text-[11px] sm:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-gold-300 font-bold">
           ॥ शुभ आरंभ ॥
         </p>
       </div>
@@ -233,15 +233,15 @@ export default function Intro({ onStartFilm }: IntroProps) {
       {/* ───────── 5. CENTER CINEMA PREMIERE TICKET STUB ───────── */}
       <div
         ref={ticketRef}
-        className="relative z-30 flex flex-col items-center justify-center px-4 max-w-xl w-full"
+        className="relative z-30 flex flex-col items-center justify-center px-3 sm:px-4 max-w-xl w-full"
       >
         {/* Cinema Marquee Header */}
-        <div className="text-center mb-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold-400 bg-maroon-950/90 px-4 py-1 text-[11px] font-sans font-bold uppercase tracking-[0.3em] text-gold-300 shadow-xl backdrop-blur-sm">
-            <Film className="h-3.5 w-3.5 text-gold-400 animate-pulse" />
+        <div className="text-center mb-2 sm:mb-3">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-gold-400 bg-maroon-950/90 px-3 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-[11px] font-sans font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-gold-300 shadow-xl backdrop-blur-sm">
+            <Film className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-400 animate-pulse" />
             <span>★ MAURYA CINEMAS PRESENTS ★</span>
           </div>
-          <p className="mt-1 font-serif text-xs italic text-gold-200/80">
+          <p className="mt-1 font-serif text-[11px] sm:text-xs italic text-gold-200/80">
             A Royal Wedding Film Premiere Experience
           </p>
         </div>
@@ -249,68 +249,68 @@ export default function Intro({ onStartFilm }: IntroProps) {
         {/* 🎟️ Royal Cinema Premiere Ticket Stub */}
         <div
           onClick={handleOpenCurtains}
-          className="film-ticket group w-full rounded-2xl bg-white p-5 sm:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.8)] cursor-pointer hover:scale-[1.01] transition-transform duration-300 relative overflow-hidden"
+          className="film-ticket group w-full rounded-2xl bg-white p-4 sm:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.8)] cursor-pointer hover:scale-[1.01] transition-transform duration-300 relative overflow-hidden"
         >
           {/* Golden Corner Flourishes */}
-          <CornerFlourish className="absolute -left-1 -top-1 h-9 w-9 text-gold-600" />
-          <CornerFlourish className="absolute -right-1 -top-1 h-9 w-9 rotate-90 text-gold-600" />
-          <CornerFlourish className="absolute -bottom-1 -right-1 h-9 w-9 rotate-180 text-gold-600" />
-          <CornerFlourish className="absolute -bottom-1 -left-1 h-9 w-9 -rotate-90 text-gold-600" />
+          <CornerFlourish className="absolute -left-1 -top-1 h-8 w-8 sm:h-9 sm:w-9 text-gold-600" />
+          <CornerFlourish className="absolute -right-1 -top-1 h-8 w-8 sm:h-9 sm:w-9 rotate-90 text-gold-600" />
+          <CornerFlourish className="absolute -bottom-1 -right-1 h-8 w-8 sm:h-9 sm:w-9 rotate-180 text-gold-600" />
+          <CornerFlourish className="absolute -bottom-1 -left-1 h-8 w-8 sm:h-9 sm:w-9 -rotate-90 text-gold-600" />
 
           {/* Ticket Notches (Left & Right Cutouts) */}
-          <div className="absolute top-1/2 -left-3.5 h-7 w-7 -translate-y-1/2 rounded-full bg-[#0d0104] border border-gold-400" />
-          <div className="absolute top-1/2 -right-3.5 h-7 w-7 -translate-y-1/2 rounded-full bg-[#0d0104] border border-gold-400" />
+          <div className="absolute top-1/2 -left-3.5 h-6 w-6 sm:h-7 sm:w-7 -translate-y-1/2 rounded-full bg-[#0d0104] border border-gold-400" />
+          <div className="absolute top-1/2 -right-3.5 h-6 w-6 sm:h-7 sm:w-7 -translate-y-1/2 rounded-full bg-[#0d0104] border border-gold-400" />
 
           {/* Top Bar of Ticket */}
-          <div className="flex items-center justify-between border-b border-gold-300/70 pb-3">
-            <div className="flex items-center gap-2">
-              <Diya className="h-5 w-5" />
+          <div className="flex items-center justify-between border-b border-gold-300/70 pb-2.5 sm:pb-3">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <Diya className="h-4 w-4 sm:h-5 sm:w-5" />
               <span className="font-hindi text-xs sm:text-sm font-bold text-maroon-900">
                 ॥ श्री गणेशाय नमः ॥
               </span>
             </div>
             <div className="flex items-center gap-1.5 text-gold-700">
-              <Ticket className="h-4 w-4" />
-              <span className="font-mono text-[10px] tracking-wider uppercase font-semibold text-maroon-700">
+              <Ticket className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase font-semibold text-maroon-700">
                 PASS № MVP-2026
               </span>
             </div>
           </div>
 
           {/* Main Body of Ticket */}
-          <div className="my-4 text-center">
-            <div className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full border border-gold-400 bg-gold-50 shadow-inner">
-              <Ganesha className="h-9 w-9 text-maroon-900" />
+          <div className="my-3 sm:my-4 text-center">
+            <div className="mx-auto mb-1.5 sm:mb-2 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border border-gold-400 bg-gold-50 shadow-inner">
+              <Ganesha className="h-7 w-7 sm:h-9 sm:w-9 text-maroon-900" />
             </div>
 
-            <p className="font-hindi text-base sm:text-lg font-bold text-gold-700">
+            <p className="font-hindi text-sm sm:text-base md:text-lg font-bold text-gold-700">
               ॥ शुभ विवाह फ़िल्म ॥
             </p>
 
-            <h1 className="font-script text-5xl sm:text-6xl text-gold-grad shimmer font-bold leading-tight my-1">
+            <h1 className="font-script text-4xl sm:text-6xl text-gold-grad shimmer font-bold leading-tight my-0.5 sm:my-1">
               Ashwin &amp; Aarti
             </h1>
 
-            <p className="font-serif text-sm italic text-maroon-800">
+            <p className="font-serif text-xs sm:text-sm italic text-maroon-800">
               "Two Hearts · Seven Vows · One Epic Journey"
             </p>
 
             {/* Ticket Details Strip */}
-            <div className="mt-3.5 grid grid-cols-3 divide-x divide-gold-300/70 border-y border-gold-300/70 py-2.5 text-center bg-gold-50/50">
+            <div className="mt-2.5 sm:mt-3.5 grid grid-cols-3 divide-x divide-gold-300/70 border-y border-gold-300/70 py-2 sm:py-2.5 text-center bg-gold-50/50">
               <div>
-                <p className="text-[10px] uppercase font-bold text-maroon-600">Show Date</p>
+                <p className="text-[9px] sm:text-[10px] uppercase font-bold text-maroon-600">Show Date</p>
                 <p className="font-serif text-xs sm:text-sm font-bold text-maroon-950 mt-0.5">
                   09 DEC 2026
                 </p>
               </div>
               <div>
-                <p className="text-[10px] uppercase font-bold text-maroon-600">Admit Seat</p>
+                <p className="text-[9px] sm:text-[10px] uppercase font-bold text-maroon-600">Admit Seat</p>
                 <p className="font-serif text-xs sm:text-sm font-bold text-gold-800 mt-0.5">
                   VIP GUEST
                 </p>
               </div>
               <div>
-                <p className="text-[10px] uppercase font-bold text-maroon-600">Location</p>
+                <p className="text-[9px] sm:text-[10px] uppercase font-bold text-maroon-600">Location</p>
                 <p className="font-serif text-xs sm:text-sm font-bold text-maroon-950 mt-0.5">
                   Mau, UP
                 </p>
@@ -319,16 +319,16 @@ export default function Intro({ onStartFilm }: IntroProps) {
           </div>
 
           {/* Ticket Call To Action Button */}
-          <div className="pt-2 text-center">
+          <div className="pt-1.5 sm:pt-2 text-center">
             <button
               type="button"
-              className="w-full inline-flex items-center justify-center gap-3 rounded-xl border-2 border-gold-500 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-maroon-950 shadow-[0_10px_25px_-5px_rgba(201,162,75,0.6)] group-hover:brightness-110 group-hover:shadow-[0_15px_35px_-5px_rgba(201,162,75,0.8)] transition-all"
+              className="w-full inline-flex items-center justify-center gap-2 sm:gap-3 rounded-xl border-2 border-gold-500 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 py-3 sm:py-3.5 px-3 sm:px-6 text-xs sm:text-sm font-bold uppercase tracking-wider sm:tracking-[0.25em] text-maroon-950 shadow-[0_10px_25px_-5px_rgba(201,162,75,0.6)] group-hover:brightness-110 group-hover:shadow-[0_15px_35px_-5px_rgba(201,162,75,0.8)] transition-all"
             >
-              <Play className="h-4 w-4 fill-current text-maroon-950 animate-pulse" />
+              <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current text-maroon-950 animate-pulse" />
               <span>पर्दा उठाएँ व फ़िल्म शुरू करें 🎬</span>
-              <SparklesIcon className="h-4 w-4 text-maroon-950" />
+              <SparklesIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-maroon-950" />
             </button>
-            <p className="mt-2 text-[11px] font-serif italic text-maroon-700/75">
+            <p className="mt-1.5 sm:mt-2 text-[10px] sm:text-[11px] font-serif italic text-maroon-700/75">
               (Tap ticket to part velvet curtains with music)
             </p>
           </div>

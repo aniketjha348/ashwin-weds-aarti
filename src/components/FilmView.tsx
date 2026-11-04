@@ -94,6 +94,17 @@ export default function FilmView({
     "आभार व शुभ स्थल",
   ];
 
+  const sceneLabelsShort = [
+    "श्री गणेशाय नमः",
+    "नायक-नायिका",
+    "पारिवारिक मिलन",
+    "उत्सव तिथियाँ",
+    "प्रेम कहानी",
+    "मामा की शादी",
+    "सात फेरे",
+    "शुभ स्थल व कार्ड",
+  ];
+
   // Double tap / click to shower flower petals (पुष्प वर्षा)
   const showerPetals = () => {
     const id = Date.now();
@@ -355,103 +366,108 @@ export default function FilmView({
         </div>
       ))}
 
-      {/* ─────────── 2. Top-Left Floating Chapter Selector ─────────── */}
-      <div className="absolute top-5 left-5 sm:top-7 sm:left-8 z-40 pointer-events-auto">
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsChapterMenuOpen((prev) => !prev);
-          }}
-          className="flex items-center gap-2 rounded-full border border-gold-400/90 bg-white/95 px-3.5 py-1.5 text-xs shadow-md backdrop-blur-md hover:bg-gold-50 transition-colors cursor-pointer group"
-          title="Click to jump to any scene"
-        >
-          <span className="h-2 w-2 rounded-full bg-gold-600 animate-pulse" />
-          <span className="font-hindi text-maroon-900 font-bold text-xs">
-            {sceneLabels[activeSceneIndex]}
-          </span>
-          <ChevronDown className="h-3 w-3 text-gold-700 group-hover:translate-y-0.5 transition-transform" />
-        </button>
-
-        {/* Chapter Menu Dropdown */}
-        {isChapterMenuOpen && (
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="mt-2 w-72 rounded-2xl border-2 border-gold-400 bg-white/98 p-2.5 shadow-2xl backdrop-blur-lg animate-fade-in"
+      {/* ─────────── 2. Cinema Top Header Navigation (Fully Responsive) ─────────── */}
+      <header className="absolute top-0 inset-x-0 z-40 flex items-center justify-between px-3 sm:px-6 md:px-8 pt-3 sm:pt-4 pointer-events-none">
+        {/* Left: Chapter Selector with Short Label on Mobile */}
+        <div className="relative pointer-events-auto">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsChapterMenuOpen((prev) => !prev);
+            }}
+            className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-gold-400/90 bg-white/95 px-2.5 sm:px-3.5 py-1 sm:py-1.5 text-xs shadow-md backdrop-blur-md hover:bg-gold-50 transition-colors cursor-pointer group"
+            title="Click to jump to any scene"
           >
-            <div className="flex items-center justify-between border-b border-gold-200 px-3 py-1.5">
-              <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-gold-800">
-                ★ दृश्य चयन (Chapters) ★
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsChapterMenuOpen(false)}
-                className="text-xs text-maroon-600 hover:text-maroon-950 font-bold cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="mt-1 divide-y divide-gold-100 max-h-72 overflow-y-auto">
-              {sceneLabels.map((label, idx) => (
+            <span className="h-2 w-2 rounded-full bg-gold-600 animate-pulse shrink-0" />
+            <span className="font-hindi text-maroon-900 font-bold text-xs truncate max-w-[130px] sm:max-w-none">
+              <span className="sm:hidden">{sceneLabelsShort[activeSceneIndex]}</span>
+              <span className="hidden sm:inline">{sceneLabels[activeSceneIndex]}</span>
+            </span>
+            <ChevronDown className="h-3 w-3 text-gold-700 group-hover:translate-y-0.5 transition-transform shrink-0" />
+          </button>
+
+          {/* Chapter Menu Dropdown - Fully bounded on mobile */}
+          {isChapterMenuOpen && (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="absolute left-0 top-full mt-2 w-72 max-w-[calc(100vw-24px)] rounded-2xl border-2 border-gold-400 bg-white/98 p-2.5 shadow-2xl backdrop-blur-lg animate-fade-in z-50"
+            >
+              <div className="flex items-center justify-between border-b border-gold-200 px-3 py-1.5">
+                <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-gold-800">
+                  ★ दृश्य चयन (Chapters) ★
+                </span>
                 <button
-                  key={idx}
                   type="button"
-                  onClick={() => jumpToScene(idx)}
-                  className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between transition-colors rounded-lg cursor-pointer ${
-                    activeSceneIndex === idx
-                      ? "bg-gold-100 text-maroon-950 font-bold border border-gold-400"
-                      : "text-maroon-800 hover:bg-gold-50"
-                  }`}
+                  onClick={() => setIsChapterMenuOpen(false)}
+                  className="text-xs text-maroon-600 hover:text-maroon-950 font-bold cursor-pointer"
                 >
-                  <span className="font-hindi">{label}</span>
-                  <span className="text-[10px] font-mono text-gold-700">0{idx + 1}</span>
+                  ✕
                 </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ─────────── 3. Top-Right Floating Utilities ─────────── */}
-      <div className="absolute top-5 right-5 sm:top-7 sm:right-8 z-40 flex items-center gap-2.5 pointer-events-auto">
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onSwitchToScroll();
-          }}
-          className="text-[11px] font-sans font-semibold uppercase tracking-wider text-maroon-800 hover:text-maroon-950 bg-white/95 border border-gold-400/80 px-3.5 py-1.5 rounded-full shadow-md backdrop-blur-md transition-all hover:bg-gold-50 cursor-pointer"
-        >
-          📜 Scroll Card
-        </button>
-
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleMusic();
-          }}
-          aria-label="Toggle background music"
-          className="h-8 px-2.5 rounded-full border border-gold-400 bg-white/95 shadow-md flex items-center justify-center gap-1.5 text-maroon-900 hover:bg-gold-50 transition-colors backdrop-blur-md cursor-pointer"
-        >
-          {isPlayingMusic ? (
-            <>
-              <div className="flex items-end gap-[2px] h-3.5 px-0.5" title="Shehnai playing">
-                <span className="w-[3px] bg-gold-600 rounded-full animate-eq-1" />
-                <span className="w-[3px] bg-gold-500 rounded-full animate-eq-2" />
-                <span className="w-[3px] bg-gold-400 rounded-full animate-eq-3" />
-                <span className="w-[3px] bg-gold-600 rounded-full animate-eq-4" />
               </div>
-              <Volume2 className="h-3.5 w-3.5 text-gold-700" />
-            </>
-          ) : (
-            <VolumeX className="h-4 w-4 text-maroon-600" />
+              <div className="mt-1 divide-y divide-gold-100 max-h-64 sm:max-h-72 overflow-y-auto">
+                {sceneLabels.map((label, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => jumpToScene(idx)}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between transition-colors rounded-lg cursor-pointer ${
+                      activeSceneIndex === idx
+                        ? "bg-gold-100 text-maroon-950 font-bold border border-gold-400"
+                        : "text-maroon-800 hover:bg-gold-50"
+                    }`}
+                  >
+                    <span className="font-hindi truncate">{label}</span>
+                    <span className="text-[10px] font-mono text-gold-700 ml-2">0{idx + 1}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           )}
-        </button>
-      </div>
+        </div>
+
+        {/* Right: Scroll Mode Toggle & Audio Controls */}
+        <div className="flex items-center gap-2 pointer-events-auto shrink-0">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSwitchToScroll();
+            }}
+            className="text-[10px] sm:text-[11px] font-sans font-semibold uppercase tracking-wider text-maroon-800 hover:text-maroon-950 bg-white/95 border border-gold-400/80 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full shadow-md backdrop-blur-md transition-all hover:bg-gold-50 cursor-pointer"
+          >
+            <span className="sm:hidden">📜 Card</span>
+            <span className="hidden sm:inline">📜 Scroll Card</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleMusic();
+            }}
+            aria-label="Toggle background music"
+            className="h-7 sm:h-8 px-2 sm:px-2.5 rounded-full border border-gold-400 bg-white/95 shadow-md flex items-center justify-center gap-1.5 text-maroon-900 hover:bg-gold-50 transition-colors backdrop-blur-md cursor-pointer"
+          >
+            {isPlayingMusic ? (
+              <>
+                <div className="flex items-end gap-[2px] h-3 sm:h-3.5 px-0.5" title="Shehnai playing">
+                  <span className="w-[2.5px] sm:w-[3px] bg-gold-600 rounded-full animate-eq-1" />
+                  <span className="w-[2.5px] sm:w-[3px] bg-gold-500 rounded-full animate-eq-2" />
+                  <span className="w-[2.5px] sm:w-[3px] bg-gold-400 rounded-full animate-eq-3" />
+                  <span className="w-[2.5px] sm:w-[3px] bg-gold-600 rounded-full animate-eq-4" />
+                </div>
+                <Volume2 className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-gold-700" />
+              </>
+            ) : (
+              <VolumeX className="h-3.5 sm:h-4 w-3.5 sm:w-4 text-maroon-600" />
+            )}
+          </button>
+        </div>
+      </header>
 
       {/* ─────────── Floating Bottom-Left Petal Shower Button ─────────── */}
-      <div className="absolute bottom-5 left-5 sm:bottom-7 sm:left-8 z-40 pointer-events-auto">
+      <div className="absolute bottom-3 left-3 sm:bottom-6 sm:left-6 z-40 pointer-events-auto">
         <button
           type="button"
           onClick={(e) => {
@@ -459,10 +475,10 @@ export default function FilmView({
             showerPetals();
             setPetalShowerCount((c) => c + 1);
           }}
-          className="inline-flex items-center gap-1.5 rounded-full border border-gold-400 bg-white/95 px-3 py-1.5 text-xs font-hindi font-bold text-maroon-900 shadow-md backdrop-blur-md hover:bg-gold-50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          className="inline-flex items-center gap-1.5 rounded-full border border-gold-400/90 bg-white/95 px-2.5 sm:px-3 py-1 sm:py-1.5 text-[11px] sm:text-xs font-hindi font-bold text-maroon-900 shadow-md backdrop-blur-md hover:bg-gold-50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
           title="Tap to shower auspicious flowers"
         >
-          <span className="text-base">🌸</span>
+          <span className="text-sm sm:text-base">🌸</span>
           <span>पुष्प वर्षा {petalShowerCount > 0 ? `(${petalShowerCount})` : ""}</span>
         </button>
       </div>
@@ -574,59 +590,59 @@ export default function FilmView({
       ════════════════════════════════════════════════════════════ */}
       <section
         id="scene-1"
-        className="film-scene absolute inset-0 z-20 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-14 px-6 md:px-16"
+        className="film-scene absolute inset-0 z-20 flex flex-col md:flex-row items-center justify-center gap-3 sm:gap-6 md:gap-14 px-4 sm:px-8 md:px-16 pt-12 sm:pt-0"
       >
         {/* Ornate Royal Palace Arch with Couple Portrait */}
         <div className="couple-arch-box relative shrink-0">
-          <div className="arch-shadow rounded-t-[14rem] rounded-b-2xl border-4 border-gold-400 bg-white p-2.5 shadow-2xl">
-            <div className="overflow-hidden rounded-t-[13.5rem] rounded-b-xl border border-gold-300">
+          <div className="arch-shadow rounded-t-[10rem] sm:rounded-t-[12rem] md:rounded-t-[14rem] rounded-b-xl sm:rounded-b-2xl border-2 sm:border-4 border-gold-400 bg-white p-1.5 sm:p-2.5 shadow-2xl">
+            <div className="overflow-hidden rounded-t-[9.5rem] sm:rounded-t-[11.5rem] md:rounded-t-[13.5rem] rounded-b-lg sm:rounded-b-xl border border-gold-300">
               <img
                 src={img3488}
                 alt="Ashwin and Aarti"
-                className="couple-arch-img h-[48vh] sm:h-[56vh] md:h-[64vh] w-auto aspect-[4/5] object-cover object-top will-change-transform"
+                className="couple-arch-img h-[28vh] sm:h-[38vh] md:h-[58vh] max-h-[380px] md:max-h-[520px] w-auto aspect-[4/5] object-cover object-top will-change-transform"
               />
             </div>
           </div>
-          <CornerFlourish className="absolute -left-2 -top-2 h-10 w-10 text-gold-600 pointer-events-none" />
-          <CornerFlourish className="absolute -right-2 -top-2 h-10 w-10 rotate-90 text-gold-600 pointer-events-none" />
-          <CornerFlourish className="absolute -bottom-2 -right-2 h-10 w-10 rotate-180 text-gold-600 pointer-events-none" />
-          <CornerFlourish className="absolute -bottom-2 -left-2 h-10 w-10 -rotate-90 text-gold-600 pointer-events-none" />
+          <CornerFlourish className="absolute -left-1.5 -top-1.5 sm:-left-2 sm:-top-2 h-7 w-7 sm:h-10 sm:w-10 text-gold-600 pointer-events-none" />
+          <CornerFlourish className="absolute -right-1.5 -top-1.5 sm:-right-2 sm:-top-2 h-7 w-7 sm:h-10 sm:w-10 rotate-90 text-gold-600 pointer-events-none" />
+          <CornerFlourish className="absolute -bottom-1.5 -right-1.5 sm:-bottom-2 sm:-right-2 h-7 w-7 sm:h-10 sm:w-10 rotate-180 text-gold-600 pointer-events-none" />
+          <CornerFlourish className="absolute -bottom-1.5 -left-1.5 sm:-bottom-2 sm:-left-2 h-7 w-7 sm:h-10 sm:w-10 -rotate-90 text-gold-600 pointer-events-none" />
         </div>
 
         {/* Wedding Cinema Titles */}
         <div className="text-center md:text-left max-w-xl">
-          <p className="couple-title-text font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.45em] text-maroon-700/80 mb-1">
+          <p className="couple-title-text font-sans text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.3em] sm:tracking-[0.45em] text-maroon-700/80 mb-0.5 sm:mb-1">
             Maurya Family Productions Presents
           </p>
 
-          <p className="couple-title-text font-hindi text-2xl sm:text-3xl font-bold tracking-widest text-gold-700">
+          <p className="couple-title-text font-hindi text-xl sm:text-2xl md:text-3xl font-bold tracking-widest text-gold-700">
             ॥ शुभ विवाह ॥
           </p>
 
-          <h1 className="couple-title-text font-script text-6xl sm:text-7xl md:text-8xl font-bold text-gold-grad shimmer leading-tight my-1">
+          <h1 className="couple-title-text font-script text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-gold-grad shimmer leading-[1.05] sm:leading-tight my-0.5 sm:my-1">
             Ashwin &amp; Aarti
           </h1>
 
-          <div className="couple-title-text flex items-center justify-center md:justify-start gap-3 my-2.5">
-            <span className="h-px w-12 sm:w-20 bg-gold-400" />
-            <p className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.35em] text-maroon-900">
+          <div className="couple-title-text flex items-center justify-center md:justify-start gap-2 sm:gap-3 my-1.5 sm:my-2.5">
+            <span className="h-px w-8 sm:w-16 md:w-20 bg-gold-400" />
+            <p className="font-sans text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.25em] sm:tracking-[0.35em] text-maroon-900">
               Wednesday · 09 December 2026
             </p>
-            <span className="h-px w-12 sm:w-20 bg-gold-400" />
+            <span className="h-px w-8 sm:w-16 md:w-20 bg-gold-400" />
           </div>
 
           {/* Live Auspicious Countdown Badge */}
-          <div className="couple-title-text flex items-center justify-center md:justify-start gap-1.5 my-2">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gold-400/90 bg-white/95 px-3.5 py-1 text-xs font-hindi font-bold text-maroon-900 shadow-sm backdrop-blur-sm">
-              <Clock className="h-3.5 w-3.5 text-gold-700 animate-spin-slow shrink-0" />
+          <div className="couple-title-text flex items-center justify-center md:justify-start gap-1.5 my-1 sm:my-2">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-gold-400/90 bg-white/95 px-3 sm:px-3.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-hindi font-bold text-maroon-900 shadow-sm backdrop-blur-sm">
+              <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-700 animate-spin-slow shrink-0" />
               <span>
                 शुभ विवाह में शेष: {countdown.days} दिन · {countdown.hours} घंटे · {countdown.mins} मिनट · {countdown.secs} सेकंड
               </span>
             </div>
           </div>
 
-          <p className="couple-title-text flex items-center justify-center md:justify-start gap-2 font-serif text-base sm:text-lg text-maroon-800/90 italic">
-            <MapPin className="h-4 w-4 text-gold-600 shrink-0" />
+          <p className="couple-title-text flex items-center justify-center md:justify-start gap-1.5 sm:gap-2 font-serif text-xs sm:text-base md:text-lg text-maroon-800/90 italic">
+            <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gold-600 shrink-0" />
             Village Bigrahpur, Post Dubari, Mau — Uttar Pradesh
           </p>
         </div>
@@ -638,52 +654,52 @@ export default function FilmView({
       ════════════════════════════════════════════════════════════ */}
       <section
         id="scene-2"
-        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 max-w-4xl mx-auto"
+        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 max-w-4xl mx-auto pt-10 sm:pt-0"
       >
-        <p className="font-hindi text-base sm:text-lg font-bold text-gold-700">
+        <p className="font-hindi text-sm sm:text-base md:text-lg font-bold text-gold-700">
           ॥ पारिवारिक मिलन ॥
         </p>
-        <h2 className="font-serif text-3xl sm:text-5xl font-bold text-maroon-900 cinema-title-shadow">
+        <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-bold text-maroon-900 cinema-title-shadow">
           Two Families <span className="text-gold-grad italic font-serif">United in Love</span>
         </h2>
 
         {/* Featured Photo: DSC_1776 */}
-        <div className="family-photo-box my-3 border-2 border-gold-400 bg-white p-2 rounded-xl shadow-lg max-w-sm mx-auto">
+        <div className="family-photo-box my-2 sm:my-3 border-2 border-gold-400 bg-white p-1.5 sm:p-2 rounded-xl shadow-lg max-w-xs sm:max-w-sm mx-auto">
           <img
             src={img1776}
             alt="The Union"
-            className="h-44 sm:h-52 w-full object-cover rounded-lg"
+            className="h-32 sm:h-44 md:h-52 w-full object-cover rounded-lg"
           />
         </div>
 
         {/* Groom & Bride Family Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mt-1">
-          <div className="family-card-item bg-white/95 border-2 border-gold-400/80 p-5 rounded-2xl shadow-md text-center">
-            <p className="font-hindi text-xs font-bold uppercase tracking-wider text-gold-700">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 w-full mt-1 max-w-2xl">
+          <div className="family-card-item bg-white/95 border-2 border-gold-400/80 p-3 sm:p-5 rounded-xl sm:rounded-2xl shadow-md text-center">
+            <p className="font-hindi text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gold-700">
               दूल्हा पक्ष (The Groom)
             </p>
-            <h3 className="font-serif text-2xl font-bold text-maroon-900 mt-0.5">
+            <h3 className="font-serif text-lg sm:text-2xl font-bold text-maroon-900 mt-0.5">
               Ashwin Maurya
             </h3>
-            <p className="text-[11px] uppercase tracking-wider text-maroon-600 mt-1">
+            <p className="text-[10px] sm:text-[11px] uppercase tracking-wider text-maroon-600 mt-0.5">
               Son of
             </p>
-            <p className="font-serif text-lg font-semibold text-maroon-900">
+            <p className="font-serif text-sm sm:text-lg font-semibold text-maroon-900">
               Shri Vijay Narayan Maurya &amp; Smt. Nirmala Maurya
             </p>
           </div>
 
-          <div className="family-card-item bg-white/95 border-2 border-gold-400/80 p-5 rounded-2xl shadow-md text-center">
-            <p className="font-hindi text-xs font-bold uppercase tracking-wider text-gold-700">
+          <div className="family-card-item bg-white/95 border-2 border-gold-400/80 p-3 sm:p-5 rounded-xl sm:rounded-2xl shadow-md text-center">
+            <p className="font-hindi text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gold-700">
               दुल्हन पक्ष (The Bride)
             </p>
-            <h3 className="font-serif text-2xl font-bold text-maroon-900 mt-0.5">
+            <h3 className="font-serif text-lg sm:text-2xl font-bold text-maroon-900 mt-0.5">
               Aarti Maurya
             </h3>
-            <p className="text-[11px] uppercase tracking-wider text-maroon-600 mt-1">
+            <p className="text-[10px] sm:text-[11px] uppercase tracking-wider text-maroon-600 mt-0.5">
               Daughter of
             </p>
-            <p className="font-serif text-lg font-semibold text-maroon-900">
+            <p className="font-serif text-sm sm:text-lg font-semibold text-maroon-900">
               Shri Radheshyam Maurya &amp; Smt. Suman Maurya
             </p>
           </div>
@@ -696,61 +712,61 @@ export default function FilmView({
       ════════════════════════════════════════════════════════════ */}
       <section
         id="scene-3"
-        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 max-w-4xl mx-auto"
+        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 max-w-4xl mx-auto pt-10 sm:pt-0"
       >
-        <p className="font-hindi text-base font-bold text-gold-700">हमारे उत्सव</p>
-        <h2 className="font-serif text-3xl sm:text-5xl font-bold text-maroon-900 cinema-title-shadow">
+        <p className="font-hindi text-sm sm:text-base font-bold text-gold-700">हमारे उत्सव</p>
+        <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-bold text-maroon-900 cinema-title-shadow">
           Wedding <span className="text-gold-grad italic font-serif">Celebrations</span>
         </h2>
 
         {/* Candid Photo: DSC_1777 */}
-        <div className="events-photo-box my-2.5 border-2 border-gold-400 bg-white p-1.5 rounded-xl shadow-md max-w-xs mx-auto">
+        <div className="events-photo-box my-1.5 sm:my-2.5 border-2 border-gold-400 bg-white p-1 sm:p-1.5 rounded-xl shadow-md max-w-[200px] sm:max-w-xs mx-auto">
           <img
             src={img1777}
             alt="Celebration Radiance"
-            className="h-36 sm:h-44 w-full object-cover rounded-lg"
+            className="h-28 sm:h-36 md:h-44 w-full object-cover rounded-lg"
           />
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-1 text-center">
-          <div className="event-card-item bg-white/95 border border-gold-400/80 p-3 rounded-xl shadow-sm">
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-gold-100 text-maroon-900 px-2 py-0.5 rounded font-mono border border-gold-300">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 w-full mt-1 text-center">
+          <div className="event-card-item bg-white/95 border border-gold-400/80 p-2 sm:p-3 rounded-xl shadow-sm">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-gold-100 text-maroon-900 px-1.5 sm:px-2 py-0.5 rounded font-mono border border-gold-300">
               05 Dec 2026
             </span>
-            <p className="font-hindi text-sm font-bold text-gold-700 mt-1.5">शुभ तिलक</p>
-            <h4 className="font-serif text-lg font-bold text-maroon-900">Tilak</h4>
-            <p className="text-xs text-maroon-700">7:00 PM Onwards</p>
-            <p className="text-[10px] font-sans font-medium text-gold-800 mt-1">👔 Royal Traditional</p>
+            <p className="font-hindi text-xs sm:text-sm font-bold text-gold-700 mt-1">शुभ तिलक</p>
+            <h4 className="font-serif text-sm sm:text-lg font-bold text-maroon-900">Tilak</h4>
+            <p className="text-[11px] sm:text-xs text-maroon-700">7:00 PM Onwards</p>
+            <p className="text-[9px] sm:text-[10px] font-sans font-medium text-gold-800 mt-0.5">👔 Royal Traditional</p>
           </div>
 
-          <div className="event-card-item bg-white/95 border border-gold-400/80 p-3 rounded-xl shadow-sm">
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-gold-100 text-maroon-900 px-2 py-0.5 rounded font-mono border border-gold-300">
+          <div className="event-card-item bg-white/95 border border-gold-400/80 p-2 sm:p-3 rounded-xl shadow-sm">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-gold-100 text-maroon-900 px-1.5 sm:px-2 py-0.5 rounded font-mono border border-gold-300">
               07 Dec 2026
             </span>
-            <p className="font-hindi text-sm font-bold text-gold-700 mt-1.5">हल्दी समारोह</p>
-            <h4 className="font-serif text-lg font-bold text-maroon-900">Haldi</h4>
-            <p className="text-xs text-maroon-700">7:00 PM Onwards</p>
-            <p className="text-[10px] font-sans font-medium text-amber-700 mt-1">💛 Haldi Yellow (पीत वर्ण)</p>
+            <p className="font-hindi text-xs sm:text-sm font-bold text-gold-700 mt-1">हल्दी समारोह</p>
+            <h4 className="font-serif text-sm sm:text-lg font-bold text-maroon-900">Haldi</h4>
+            <p className="text-[11px] sm:text-xs text-maroon-700">7:00 PM Onwards</p>
+            <p className="text-[9px] sm:text-[10px] font-sans font-medium text-amber-700 mt-0.5">💛 Haldi Yellow</p>
           </div>
 
-          <div className="event-card-item bg-white/95 border border-gold-400/80 p-3 rounded-xl shadow-sm">
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-gold-100 text-maroon-900 px-2 py-0.5 rounded font-mono border border-gold-300">
+          <div className="event-card-item bg-white/95 border border-gold-400/80 p-2 sm:p-3 rounded-xl shadow-sm">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-gold-100 text-maroon-900 px-1.5 sm:px-2 py-0.5 rounded font-mono border border-gold-300">
               08 Dec 2026
             </span>
-            <p className="font-hindi text-sm font-bold text-gold-700 mt-1.5">मेहंदी व संगीत</p>
-            <h4 className="font-serif text-lg font-bold text-maroon-900">Sangeet</h4>
-            <p className="text-xs text-maroon-700">7:00 PM Onwards</p>
-            <p className="text-[10px] font-sans font-medium text-emerald-800 mt-1">✨ Indo-Western Glam</p>
+            <p className="font-hindi text-xs sm:text-sm font-bold text-gold-700 mt-1">मेहंदी व संगीत</p>
+            <h4 className="font-serif text-sm sm:text-lg font-bold text-maroon-900">Sangeet</h4>
+            <p className="text-[11px] sm:text-xs text-maroon-700">7:00 PM Onwards</p>
+            <p className="text-[9px] sm:text-[10px] font-sans font-medium text-emerald-800 mt-0.5">✨ Indo-Western</p>
           </div>
 
-          <div className="event-card-item bg-[#FFFDF9] border-2 border-gold-500 p-3 rounded-xl shadow-md">
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-gold-500 text-white px-2 py-0.5 rounded font-mono font-bold shadow-sm">
+          <div className="event-card-item bg-[#FFFDF9] border-2 border-gold-500 p-2 sm:p-3 rounded-xl shadow-md">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-gold-500 text-white px-1.5 sm:px-2 py-0.5 rounded font-mono font-bold shadow-sm">
               09 Dec 2026
             </span>
-            <p className="font-hindi text-sm font-bold text-maroon-900 mt-1.5">शुभ विवाह</p>
-            <h4 className="font-serif text-lg font-bold text-maroon-900">The Wedding</h4>
-            <p className="text-xs text-maroon-900 font-bold">Shubh Muhurat</p>
-            <p className="text-[10px] font-sans font-medium text-rose-800 mt-1">👑 Royal Red & Gold</p>
+            <p className="font-hindi text-xs sm:text-sm font-bold text-maroon-900 mt-1">शुभ विवाह</p>
+            <h4 className="font-serif text-sm sm:text-lg font-bold text-maroon-900">The Wedding</h4>
+            <p className="text-[11px] sm:text-xs text-maroon-900 font-bold">Shubh Muhurat</p>
+            <p className="text-[9px] sm:text-[10px] font-sans font-medium text-rose-800 mt-0.5">👑 Royal Red &amp; Gold</p>
           </div>
         </div>
       </section>
@@ -760,35 +776,35 @@ export default function FilmView({
       ════════════════════════════════════════════════════════════ */}
       <section
         id="scene-4"
-        className="film-scene absolute inset-0 z-20 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-6 max-w-4xl mx-auto"
+        className="film-scene absolute inset-0 z-20 flex flex-col md:flex-row items-center justify-center gap-3 sm:gap-6 md:gap-12 px-4 sm:px-6 max-w-4xl mx-auto pt-10 sm:pt-0"
       >
         <div className="story-photo-box relative shrink-0">
-          <div className="relative border-2 border-gold-500 bg-white p-2.5 shadow-xl rounded-xl">
+          <div className="relative border-2 border-gold-500 bg-white p-1.5 sm:p-2.5 shadow-xl rounded-xl">
             <img
               src={img1773}
               alt="Ring and Promise"
-              className="h-60 w-48 sm:h-76 sm:w-60 md:h-88 md:w-72 object-cover object-top rounded-lg"
+              className="h-44 w-36 sm:h-60 sm:w-48 md:h-80 md:w-68 object-cover object-top rounded-lg"
             />
-            <CornerFlourish className="absolute -left-2 -top-2 h-9 w-9 text-gold-600" />
-            <CornerFlourish className="absolute -right-2 -top-2 h-9 w-9 rotate-90 text-gold-600" />
-            <CornerFlourish className="absolute -bottom-2 -right-2 h-9 w-9 rotate-180 text-gold-600" />
-            <CornerFlourish className="absolute -bottom-2 -left-2 h-9 w-9 -rotate-90 text-gold-600" />
+            <CornerFlourish className="absolute -left-1.5 -top-1.5 sm:-left-2 sm:-top-2 h-7 w-7 sm:h-9 sm:w-9 text-gold-600" />
+            <CornerFlourish className="absolute -right-1.5 -top-1.5 sm:-right-2 sm:-top-2 h-7 w-7 sm:h-9 sm:w-9 rotate-90 text-gold-600" />
+            <CornerFlourish className="absolute -bottom-1.5 -right-1.5 sm:-bottom-2 sm:-right-2 h-7 w-7 sm:h-9 sm:w-9 rotate-180 text-gold-600" />
+            <CornerFlourish className="absolute -bottom-1.5 -left-1.5 sm:-bottom-2 sm:-left-2 h-7 w-7 sm:h-9 sm:w-9 -rotate-90 text-gold-600" />
           </div>
-          <p className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap border border-gold-400 bg-white px-3.5 py-0.5 font-script text-lg text-maroon-900 shadow-sm rounded-full">
+          <p className="absolute -bottom-3 sm:-bottom-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap border border-gold-400 bg-white px-3 sm:px-3.5 py-0.5 font-script text-base sm:text-lg text-maroon-900 shadow-sm rounded-full">
             the ring &amp; the promise
           </p>
         </div>
 
         <div className="text-center md:text-left max-w-md">
-          <p className="story-text-item font-hindi text-base font-bold text-gold-700">हमारी कहानी</p>
-          <h2 className="story-text-item font-serif text-3xl sm:text-5xl font-semibold text-maroon-900 mt-1">
+          <p className="story-text-item font-hindi text-sm sm:text-base font-bold text-gold-700">हमारी कहानी</p>
+          <h2 className="story-text-item font-serif text-2xl sm:text-4xl md:text-5xl font-semibold text-maroon-900 mt-0.5 sm:mt-1">
             From this day, <span className="italic text-gold-700 font-serif">forever.</span>
           </h2>
-          <Divider tone="maroon" className="story-text-item h-5 w-44 my-2 mx-auto md:mx-0" />
-          <blockquote className="story-text-item font-serif text-lg md:text-xl italic text-maroon-800/90 my-2.5">
+          <Divider tone="maroon" className="story-text-item h-4 sm:h-5 w-36 sm:w-44 my-1 sm:my-2 mx-auto md:mx-0" />
+          <blockquote className="story-text-item font-serif text-sm sm:text-lg md:text-xl italic text-maroon-800/90 my-1 sm:my-2.5">
             "दो दिल मिले, दो राहें एक हुईं... जहाँ से शुरू होती है हमारी सबसे ख़ूबसूरत दास्तान।"
           </blockquote>
-          <p className="story-text-item font-script text-4xl sm:text-5xl text-maroon-900 font-bold mt-2">
+          <p className="story-text-item font-script text-3xl sm:text-4xl md:text-5xl text-maroon-900 font-bold mt-1 sm:mt-2">
             Ashwin &amp; Aarti
           </p>
         </div>
@@ -799,29 +815,29 @@ export default function FilmView({
       ════════════════════════════════════════════════════════════ */}
       <section
         id="scene-5"
-        className="film-scene absolute inset-0 z-20 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-6 max-w-3xl mx-auto"
+        className="film-scene absolute inset-0 z-20 flex flex-col md:flex-row items-center justify-center gap-3 sm:gap-6 md:gap-12 px-4 sm:px-6 max-w-3xl mx-auto pt-10 sm:pt-0"
       >
         <div className="kids-photo-box relative shrink-0">
-          <div className="arch-shadow rounded-t-full border-2 border-gold-400 bg-white p-2 shadow-xl">
+          <div className="arch-shadow rounded-t-full border-2 border-gold-400 bg-white p-1.5 sm:p-2 shadow-xl">
             <img
               src={funImg}
               alt="The Little Ones"
-              className="h-60 w-48 sm:h-72 sm:w-56 md:h-80 md:w-64 rounded-t-full object-cover object-top"
+              className="h-44 w-36 sm:h-56 sm:w-44 md:h-72 md:w-56 rounded-t-full object-cover object-top"
             />
           </div>
-          <span className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 flex h-9 w-9 items-center justify-center rounded-full border-2 border-gold-400 bg-white shadow-md">
-            <Heart className="h-4 w-4 fill-rose-500 text-rose-500" />
+          <span className="absolute -bottom-3 sm:-bottom-3.5 left-1/2 -translate-x-1/2 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border-2 border-gold-400 bg-white shadow-md">
+            <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-rose-500 text-rose-500" />
           </span>
         </div>
 
         <div className="kids-dialogue text-center md:text-left max-w-md">
-          <p className="font-hindi text-base font-bold text-gold-700">नन्हे मेहमानों की ओर से</p>
-          <blockquote className="font-serif text-2xl sm:text-3xl md:text-4xl font-medium italic leading-snug text-maroon-900 my-3">
+          <p className="font-hindi text-sm sm:text-base font-bold text-gold-700">नन्हे मेहमानों की ओर से</p>
+          <blockquote className="font-serif text-xl sm:text-2xl md:text-3xl font-medium italic leading-snug text-maroon-900 my-1.5 sm:my-3">
             "Mere <span className="text-gold-grad font-bold">mama ki shaadi</span> hai, aana zaroori hai…
             <br />
             <span className="text-maroon-700 font-bold">bahaane-baazi strictly nahi chalegi!</span>"
           </blockquote>
-          <p className="font-sans text-xs font-semibold uppercase tracking-widest text-maroon-700 mt-2">
+          <p className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-maroon-700 mt-1 sm:mt-2">
             — strictly no excuses from nieces &amp; nephews!
           </p>
         </div>
@@ -832,40 +848,40 @@ export default function FilmView({
       ════════════════════════════════════════════════════════════ */}
       <section
         id="scene-6"
-        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 max-w-4xl mx-auto"
+        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 max-w-4xl mx-auto pt-10 sm:pt-0"
       >
-        <div className="panorama-caption mb-3">
-          <p className="font-hindi text-gold-700 text-base font-bold">गोधूलि बेला · सात फेरे</p>
-          <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-maroon-900">
+        <div className="panorama-caption mb-1.5 sm:mb-3">
+          <p className="font-hindi text-gold-700 text-sm sm:text-base font-bold">गोधूलि बेला · सात फेरे</p>
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-semibold text-maroon-900">
             The Golden Hour Promise
           </h2>
         </div>
 
-        <div className="panorama-box relative border-2 border-gold-400 bg-white p-2.5 shadow-2xl w-full max-w-3xl rounded-2xl">
-          <div className="relative overflow-hidden h-60 sm:h-76 md:h-96 rounded-xl">
+        <div className="panorama-box relative border-2 border-gold-400 bg-white p-1.5 sm:p-2.5 shadow-2xl w-full max-w-3xl rounded-xl sm:rounded-2xl">
+          <div className="relative overflow-hidden h-44 sm:h-60 md:h-80 lg:h-96 rounded-lg sm:rounded-xl">
             <img
               src={img3501}
               alt="Ashwin and Aarti Golden Hour Sunset"
               className="h-full w-full object-cover object-center will-change-transform"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-maroon-950/60 via-transparent to-transparent" />
-            <div className="absolute bottom-4 left-6 right-6 flex items-end justify-between text-white">
-              <span className="font-hindi text-gold-300 text-sm md:text-base font-semibold flex items-center gap-1.5">
-                <SparklesIcon className="h-4 w-4 text-gold-400" />
+            <div className="absolute inset-0 bg-gradient-to-t from-maroon-950/65 via-transparent to-transparent" />
+            <div className="absolute bottom-2.5 left-3 right-3 sm:bottom-4 sm:left-6 sm:right-6 flex items-end justify-between text-white">
+              <span className="font-hindi text-gold-300 text-xs sm:text-base font-semibold flex items-center gap-1.5">
+                <SparklesIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gold-400" />
                 <span>सात फेरे, अटूट विश्वास</span>
               </span>
-              <span className="font-script text-2xl md:text-3xl text-gold-200">
+              <span className="font-script text-xl sm:text-2xl md:text-3xl text-gold-200">
                 Ashwin &amp; Aarti
               </span>
             </div>
           </div>
-          <CornerFlourish className="absolute -left-1.5 -top-1.5 h-8 w-8 text-gold-600" />
-          <CornerFlourish className="absolute -right-1.5 -top-1.5 h-8 w-8 rotate-90 text-gold-600" />
-          <CornerFlourish className="absolute -bottom-1.5 -right-1.5 h-8 w-8 rotate-180 text-gold-600" />
-          <CornerFlourish className="absolute -bottom-1.5 -left-1.5 h-8 w-8 -rotate-90 text-gold-600" />
+          <CornerFlourish className="absolute -left-1.5 -top-1.5 h-6 w-6 sm:h-8 sm:w-8 text-gold-600" />
+          <CornerFlourish className="absolute -right-1.5 -top-1.5 h-6 w-6 sm:h-8 sm:w-8 rotate-90 text-gold-600" />
+          <CornerFlourish className="absolute -bottom-1.5 -right-1.5 h-6 w-6 sm:h-8 sm:w-8 rotate-180 text-gold-600" />
+          <CornerFlourish className="absolute -bottom-1.5 -left-1.5 h-6 w-6 sm:h-8 sm:w-8 -rotate-90 text-gold-600" />
         </div>
 
-        <p className="panorama-caption font-serif text-base md:text-lg italic text-maroon-800/85 mt-3">
+        <p className="panorama-caption font-serif text-sm sm:text-base md:text-lg italic text-maroon-800/85 mt-2 sm:mt-3">
           "सात फेरे, सात वचन — सात जन्मों का अटूट बंधन।"
         </p>
       </section>
@@ -875,25 +891,25 @@ export default function FilmView({
       ════════════════════════════════════════════════════════════ */}
       <section
         id="scene-7"
-        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 max-w-2xl mx-auto overflow-y-auto py-8"
+        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-start sm:justify-center text-center px-3 sm:px-6 max-w-2xl mx-auto overflow-y-auto pt-14 sm:pt-16 pb-8"
       >
         <div className="venue-item flex items-center justify-center gap-3 mb-1">
-          <WeddingBells className="h-8 w-8 text-gold-600" />
-          <span className="h-12 w-12 flex items-center justify-center rounded-full border-2 border-gold-400 bg-white shadow-md">
-            <MapPin className="h-6 w-6 text-maroon-800" />
+          <WeddingBells className="h-6 w-6 sm:h-8 sm:w-8 text-gold-600" />
+          <span className="h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center rounded-full border-2 border-gold-400 bg-white shadow-md">
+            <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-maroon-800" />
           </span>
-          <WeddingBells className="h-8 w-8 text-gold-600 -scale-x-100" />
+          <WeddingBells className="h-6 w-6 sm:h-8 sm:w-8 text-gold-600 -scale-x-100" />
         </div>
 
-        <div className="venue-item mb-2">
-          <span className="text-[10px] font-sans font-bold uppercase tracking-[0.35em] text-gold-700 bg-gold-100/90 border border-gold-300 px-3 py-0.5 rounded-full">
+        <div className="venue-item mb-1.5 sm:mb-2">
+          <span className="text-[10px] font-sans font-bold uppercase tracking-[0.3em] sm:tracking-[0.35em] text-gold-700 bg-gold-100/90 border border-gold-300 px-3 py-0.5 rounded-full">
             ॥ शुभ स्थल व आमंत्रण ॥
           </span>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-maroon-900 mt-1">
+          <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-bold text-maroon-900 mt-1">
             Village Bigrahpur, Mau
           </h2>
-          <div className="mt-1.5 inline-flex items-center gap-1.5 rounded-full border border-gold-400/90 bg-gold-100/70 px-3.5 py-0.5 text-[11px] font-hindi font-bold text-maroon-900 shadow-sm">
-            <Clock className="h-3.5 w-3.5 text-gold-800 shrink-0" />
+          <div className="mt-1 inline-flex items-center gap-1.5 rounded-full border border-gold-400/90 bg-gold-100/70 px-3 py-0.5 text-[10px] sm:text-[11px] font-hindi font-bold text-maroon-900 shadow-sm">
+            <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-800 shrink-0" />
             <span>
               शुभ लग्न में शेष: {countdown.days} दिन · {countdown.hours} घंटे · {countdown.mins} मिनट
             </span>
@@ -901,24 +917,24 @@ export default function FilmView({
         </div>
 
         {/* Traditional Maurya Family Blessing Strip */}
-        <div className="venue-item w-full bg-white/95 border border-gold-400/80 p-4 shadow-md rounded-2xl my-2">
-          <div className="flex items-center justify-center gap-3">
-            <Kalash className="h-6 w-6 text-gold-600" />
-            <p className="font-hindi text-base sm:text-lg font-bold text-gold-700">
+        <div className="venue-item w-full bg-white/95 border border-gold-400/80 p-3 sm:p-4 shadow-md rounded-xl sm:rounded-2xl my-1.5 sm:my-2">
+          <div className="flex items-center justify-center gap-2 sm:gap-3">
+            <Kalash className="h-5 w-5 sm:h-6 sm:w-6 text-gold-600" />
+            <p className="font-hindi text-sm sm:text-base md:text-lg font-bold text-gold-700">
               स्वागताकांक्षी: समस्त मौर्य परिवार
             </p>
-            <Kalash className="h-6 w-6 text-gold-600 -scale-x-100" />
+            <Kalash className="h-5 w-5 sm:h-6 sm:w-6 text-gold-600 -scale-x-100" />
           </div>
-          <p className="font-serif text-xl sm:text-2xl font-bold text-maroon-900 mt-1">
+          <p className="font-serif text-lg sm:text-xl md:text-2xl font-bold text-maroon-900 mt-0.5 sm:mt-1">
             Village Bigrahpur, Post Dubari, Mau — Uttar Pradesh
           </p>
-          <p className="font-sans text-xs uppercase tracking-wider text-maroon-700 mt-1">
+          <p className="font-sans text-[11px] sm:text-xs uppercase tracking-wider text-maroon-700 mt-0.5">
             Wedding Invitation by <strong className="text-maroon-900 font-bold">Ashwin Maurya</strong> (+91 99583 00518)
           </p>
         </div>
 
         {/* 🌟 🌟 🌟 KEY FEATURE: YOUR PERSONALIZED INVITATION BUTTON 🌟 🌟 🌟 */}
-        <div className="venue-item my-3 w-full max-w-md mx-auto">
+        <div className="venue-item my-2 sm:my-3 w-full max-w-md mx-auto">
           <button
             type="button"
             onClick={(e) => {
@@ -927,15 +943,15 @@ export default function FilmView({
             }}
             className="group relative w-full overflow-hidden rounded-2xl border-2 border-gold-500 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 p-1 shadow-[0_12px_35px_-5px_rgba(201,162,75,0.7)] hover:shadow-[0_18px_45px_-5px_rgba(201,162,75,0.9)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
           >
-            <div className="flex items-center justify-center gap-3 rounded-xl bg-white/95 px-5 py-3.5 text-maroon-950 backdrop-blur-sm group-hover:bg-gold-50/95 transition-colors">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-gold-500 bg-gold-100 text-maroon-900 shadow-inner group-hover:rotate-12 transition-transform">
-                <SparklesIcon className="h-6 w-6 text-gold-700 animate-pulse" />
+            <div className="flex items-center justify-center gap-2.5 sm:gap-3 rounded-xl bg-white/95 px-3.5 sm:px-5 py-2.5 sm:py-3.5 text-maroon-950 backdrop-blur-sm group-hover:bg-gold-50/95 transition-colors">
+              <span className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full border-2 border-gold-500 bg-gold-100 text-maroon-900 shadow-inner group-hover:rotate-12 transition-transform">
+                <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gold-700 animate-pulse" />
               </span>
               <div className="text-left">
-                <p className="font-serif text-lg sm:text-xl font-bold text-maroon-950 leading-tight">
+                <p className="font-serif text-base sm:text-xl font-bold text-maroon-950 leading-tight">
                   Your Invitation 💌
                 </p>
-                <p className="font-hindi text-xs sm:text-sm text-gold-800 font-bold mt-0.5">
+                <p className="font-hindi text-[11px] sm:text-sm text-gold-800 font-bold mt-0.5">
                   नाम दर्ज कर अपना व्यक्तिगत कार्ड देखें ✨
                 </p>
               </div>
@@ -944,23 +960,23 @@ export default function FilmView({
         </div>
 
         {/* Action Buttons for Guests */}
-        <div className="venue-item flex flex-wrap items-center justify-center gap-2 mt-2">
+        <div className="venue-item flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-1 sm:mt-2 max-w-xl">
           <a
             href="https://www.google.com/maps/search/?api=1&query=Bigrahpur,+Dubari,+Mau,+Uttar+Pradesh"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-500 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-950 hover:bg-gold-600 transition-colors shadow-md rounded-lg"
+            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-500 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-950 hover:bg-gold-600 transition-colors shadow-md rounded-lg"
           >
-            <Navigation className="h-3.5 w-3.5" />
+            <Navigation className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             Directions
           </a>
 
           <button
             type="button"
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg cursor-pointer"
+            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg cursor-pointer"
           >
-            {copied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5 text-gold-700" />}
+            {copied ? <Check className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-600" /> : <Copy className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-700" />}
             <span>{copied ? "Copied!" : "Copy"}</span>
           </button>
 
@@ -970,9 +986,9 @@ export default function FilmView({
               e.stopPropagation();
               setIsTravelGuideOpen(true);
             }}
-            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg cursor-pointer"
+            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg cursor-pointer"
           >
-            <Compass className="h-3.5 w-3.5 text-gold-700" />
+            <Compass className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-700" />
             <span>मार्गदर्शिका (Route)</span>
           </button>
 
@@ -982,9 +998,9 @@ export default function FilmView({
               e.stopPropagation();
               setIsBlessingsOpen(true);
             }}
-            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-gold-50 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-200 transition-colors shadow-sm rounded-lg cursor-pointer"
+            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-gold-50 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-200 transition-colors shadow-sm rounded-lg cursor-pointer"
           >
-            <SparklesIcon className="h-3.5 w-3.5 text-gold-700" />
+            <SparklesIcon className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-700" />
             <span>आशीर्वाद (Blessings)</span>
           </button>
 
@@ -992,17 +1008,17 @@ export default function FilmView({
             href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ashwin%20%E2%99%A5%20Aarti%20%E2%80%94%20Shubh%20Vivah&dates=20261209T133000Z%2F20261209T170000Z&details=Saat%20phere%2C%20ek%20vaada.%20Join%20the%20celebration!&location=Vill.%20Bigrahpur%2C%20Post%20Dubari%2C%20Mau%2C%20Uttar%20Pradesh"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg"
+            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg"
           >
-            <CalendarPlus className="h-3.5 w-3.5 text-gold-700" />
+            <CalendarPlus className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-700" />
             <span>Calendar</span>
           </a>
 
           <a
             href="tel:+919958300518"
-            className="inline-flex items-center gap-1.5 border border-maroon-800 bg-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg"
+            className="inline-flex items-center gap-1.5 border border-maroon-800 bg-white px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg"
           >
-            <Phone className="h-3.5 w-3.5 text-maroon-800" />
+            <Phone className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-maroon-800" />
             Call
           </a>
 
@@ -1010,33 +1026,33 @@ export default function FilmView({
             href="https://wa.me/919958300518?text=Congratulations%20Ashwin%20%26%20Aarti!%20We%27ll%20definitely%20be%20there%20%E2%9C%A8"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 border border-emerald-600 bg-emerald-600 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-700 transition-colors shadow-md rounded-lg"
+            className="inline-flex items-center gap-1.5 border border-emerald-600 bg-emerald-600 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-700 transition-colors shadow-md rounded-lg"
           >
-            <MessageCircle className="h-3.5 w-3.5" />
+            <MessageCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             WhatsApp
           </a>
 
           <button
             type="button"
             onClick={handleShare}
-            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-50 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-500 hover:text-white transition-colors shadow-sm rounded-lg cursor-pointer"
+            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-50 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-500 hover:text-white transition-colors shadow-sm rounded-lg cursor-pointer"
           >
-            <Share2 className="h-3.5 w-3.5 text-maroon-800" />
+            <Share2 className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-maroon-800" />
             <span>{shared ? "Shared!" : "Share"}</span>
           </button>
         </div>
 
         {/* Replay Film & Scroll Card Options */}
-        <div className="venue-item mt-4 flex items-center gap-3">
+        <div className="venue-item mt-3 sm:mt-4 flex items-center justify-center gap-3">
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               handleReplay();
             }}
-            className="inline-flex items-center gap-2 rounded-full border-2 border-gold-500 bg-gradient-to-r from-gold-600 to-gold-500 px-6 py-2 text-xs font-bold uppercase tracking-[0.2em] text-maroon-950 shadow-md hover:scale-105 transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border-2 border-gold-500 bg-gradient-to-r from-gold-600 to-gold-500 px-4 sm:px-6 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-maroon-950 shadow-md hover:scale-105 transition-all cursor-pointer"
           >
-            <RotateCcw className="h-3.5 w-3.5" />
+            <RotateCcw className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             <span>Replay Film 📽️</span>
           </button>
 
@@ -1046,21 +1062,23 @@ export default function FilmView({
               e.stopPropagation();
               onSwitchToScroll();
             }}
-            className="text-xs font-sans font-semibold uppercase tracking-wider text-maroon-700 hover:text-maroon-950 underline underline-offset-4 cursor-pointer"
+            className="text-[11px] sm:text-xs font-sans font-semibold uppercase tracking-wider text-maroon-700 hover:text-maroon-950 underline underline-offset-4 cursor-pointer"
           >
             Scroll Full Card 📜
           </button>
         </div>
       </section>
 
-      {/* ─────────── 4. Subtitles in Clean Light Frosted Pill ─────────── */}
-      <div className="relative z-40 w-full px-6 pb-4 text-center pointer-events-none">
-        <div className="inline-block max-w-3xl bg-white/95 backdrop-blur-md border border-gold-400 px-5 py-2 rounded-full shadow-md">
-          <p className="font-serif text-sm sm:text-base italic leading-relaxed text-maroon-950 font-medium">
-            "{subtitles[activeSceneIndex]}"
-          </p>
+      {/* ─────────── 4. Subtitles in Clean Light Frosted Pill (Scenes 0 to 6) ─────────── */}
+      {activeSceneIndex !== 7 && (
+        <div className="relative z-40 w-full px-4 sm:px-6 pb-3 sm:pb-5 text-center pointer-events-none">
+          <div className="inline-block max-w-2xl bg-white/95 backdrop-blur-md border border-gold-400 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full shadow-md">
+            <p className="font-serif text-xs sm:text-sm md:text-base italic leading-snug text-maroon-950 font-medium">
+              "{subtitles[activeSceneIndex]}"
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ─────────── 5. Personalized Royal Invitation Modal ─────────── */}
       <PersonalizedInvitationModal
