@@ -304,6 +304,14 @@ export default function PersonalizedInvitationModal({
                     बुधवार, 09 दिसम्बर 2026
                   </p>
                   <p className="text-xs text-maroon-700">शुभ विवाह एवं प्रीतिभोज</p>
+                  <a
+                    href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ashwin%20%E2%99%A5%20Aarti%20%E2%80%94%20Shubh%20Vivah&dates=20261209T133000Z%2F20261209T170000Z&details=Saat%20phere%2C%20ek%20vaada.%20Join%20the%20celebration!&location=Vill.%20Bigrahpur%2C%20Post%20Dubari%2C%20Mau%2C%20Uttar%20Pradesh"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block mt-1 text-[11px] font-bold text-gold-800 hover:text-maroon-900 underline underline-offset-2"
+                  >
+                    + Add to Calendar 📅
+                  </a>
                 </div>
               </div>
 

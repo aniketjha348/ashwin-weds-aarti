@@ -13,6 +13,8 @@ import {
   Check,
   Pause,
   Heart,
+  CalendarPlus,
+  Compass,
   Sparkles as SparklesIcon,
 } from "lucide-react";
 import {
@@ -26,6 +28,8 @@ import {
   CornerFlourish,
 } from "./Ornaments";
 import PersonalizedInvitationModal from "./PersonalizedInvitationModal";
+import TravelGuideModal from "./TravelGuideModal";
+import BlessingsModal from "./BlessingsModal";
 
 import img1773 from "../assets/dsc_1773.jpg";
 import img1776 from "../assets/dsc_1776.jpg";
@@ -55,6 +59,8 @@ export default function FilmView({
   const [shared, setShared] = useState(false);
   const [extraPetals, setExtraPetals] = useState<number[]>([]);
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
+  const [isTravelGuideOpen, setIsTravelGuideOpen] = useState(false);
+  const [isBlessingsOpen, setIsBlessingsOpen] = useState(false);
 
   // Subtitles for each cinematic scene
   const subtitles = [
@@ -734,7 +740,7 @@ export default function FilmView({
             href="https://www.google.com/maps/search/?api=1&query=Bigrahpur,+Dubari,+Mau,+Uttar+Pradesh"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-500 px-4 py-2 text-xs font-bold uppercase tracking-wider text-maroon-950 hover:bg-gold-600 transition-colors shadow-md rounded-lg"
+            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-500 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-950 hover:bg-gold-600 transition-colors shadow-md rounded-lg"
           >
             <Navigation className="h-3.5 w-3.5" />
             Directions
@@ -743,15 +749,49 @@ export default function FilmView({
           <button
             type="button"
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg cursor-pointer"
+            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg cursor-pointer"
           >
             {copied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5 text-gold-700" />}
-            <span>{copied ? "Copied!" : "Copy Address"}</span>
+            <span>{copied ? "Copied!" : "Copy"}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsTravelGuideOpen(true);
+            }}
+            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg cursor-pointer"
+          >
+            <Compass className="h-3.5 w-3.5 text-gold-700" />
+            <span>मार्गदर्शिका (Route)</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsBlessingsOpen(true);
+            }}
+            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-gold-50 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-200 transition-colors shadow-sm rounded-lg cursor-pointer"
+          >
+            <SparklesIcon className="h-3.5 w-3.5 text-gold-700" />
+            <span>आशीर्वाद (Blessings)</span>
           </button>
 
           <a
+            href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ashwin%20%E2%99%A5%20Aarti%20%E2%80%94%20Shubh%20Vivah&dates=20261209T133000Z%2F20261209T170000Z&details=Saat%20phere%2C%20ek%20vaada.%20Join%20the%20celebration!&location=Vill.%20Bigrahpur%2C%20Post%20Dubari%2C%20Mau%2C%20Uttar%20Pradesh"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg"
+          >
+            <CalendarPlus className="h-3.5 w-3.5 text-gold-700" />
+            <span>Calendar</span>
+          </a>
+
+          <a
             href="tel:+919958300518"
-            className="inline-flex items-center gap-1.5 border border-maroon-800 bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg"
+            className="inline-flex items-center gap-1.5 border border-maroon-800 bg-white px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg"
           >
             <Phone className="h-3.5 w-3.5 text-maroon-800" />
             Call
@@ -761,7 +801,7 @@ export default function FilmView({
             href="https://wa.me/919958300518?text=Congratulations%20Ashwin%20%26%20Aarti!%20We%27ll%20definitely%20be%20there%20%E2%9C%A8"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 border border-emerald-600 bg-emerald-600 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-700 transition-colors shadow-md rounded-lg"
+            className="inline-flex items-center gap-1.5 border border-emerald-600 bg-emerald-600 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-700 transition-colors shadow-md rounded-lg"
           >
             <MessageCircle className="h-3.5 w-3.5" />
             WhatsApp
@@ -770,7 +810,7 @@ export default function FilmView({
           <button
             type="button"
             onClick={handleShare}
-            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-50 px-4 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-500 hover:text-white transition-colors shadow-sm rounded-lg cursor-pointer"
+            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-50 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-500 hover:text-white transition-colors shadow-sm rounded-lg cursor-pointer"
           >
             <Share2 className="h-3.5 w-3.5 text-maroon-800" />
             <span>{shared ? "Shared!" : "Share"}</span>
@@ -817,6 +857,18 @@ export default function FilmView({
       <PersonalizedInvitationModal
         isOpen={isInvitationModalOpen}
         onClose={() => setIsInvitationModalOpen(false)}
+      />
+
+      {/* ─────────── 6. Travel & Route Guide Modal ─────────── */}
+      <TravelGuideModal
+        isOpen={isTravelGuideOpen}
+        onClose={() => setIsTravelGuideOpen(false)}
+      />
+
+      {/* ─────────── 7. Blessings & Ashirwad Modal ─────────── */}
+      <BlessingsModal
+        isOpen={isBlessingsOpen}
+        onClose={() => setIsBlessingsOpen(false)}
       />
     </div>
   );
