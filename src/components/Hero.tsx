@@ -152,7 +152,7 @@ export default function Hero() {
               <img
                 src={coupleImg}
                 alt="Ashwin and Aarti"
-                className="h-[19rem] w-[15rem] object-cover object-top sm:h-[21rem] sm:w-[17rem] md:h-[23rem] md:w-[19rem]"
+                className="h-[21rem] w-[16rem] object-cover object-top sm:h-[24rem] sm:w-[18rem] md:h-[27rem] md:w-[21rem]"
               />
             </div>
           </div>
