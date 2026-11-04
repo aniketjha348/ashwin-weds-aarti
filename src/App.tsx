@@ -13,7 +13,7 @@ import { Mangalacharan, Swagatakankshi } from "./components/FamilyBlessings";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const AUDIO_URL = "/song.mp3";
+const AUDIO_URL = "./song.mp3";
 const FALLBACK_AUDIO_URL =
   "https://gvn-photon-weddifly.sgp1.digitaloceanspaces.com/uploads/flipbook/song/5ImyqTtOc8pdxr0XmwTnD5sYVR1leRbspUzaIfSa.mp3";
 
