@@ -16,6 +16,9 @@ import {
   CalendarPlus,
   Compass,
   Sparkles as SparklesIcon,
+  Clock,
+  ChevronDown,
+  Flame,
 } from "lucide-react";
 import {
   Divider,
@@ -27,6 +30,7 @@ import {
   WeddingBells,
   CornerFlourish,
 } from "./Ornaments";
+import { useCountdown } from "./Story";
 import PersonalizedInvitationModal from "./PersonalizedInvitationModal";
 import TravelGuideModal from "./TravelGuideModal";
 import BlessingsModal from "./BlessingsModal";
@@ -61,6 +65,11 @@ export default function FilmView({
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
   const [isTravelGuideOpen, setIsTravelGuideOpen] = useState(false);
   const [isBlessingsOpen, setIsBlessingsOpen] = useState(false);
+  const [isDiyaLit, setIsDiyaLit] = useState(false);
+  const [isChapterMenuOpen, setIsChapterMenuOpen] = useState(false);
+  const [petalShowerCount, setPetalShowerCount] = useState(0);
+
+  const countdown = useCountdown();
 
   // Subtitles for each cinematic scene
   const subtitles = [
@@ -92,6 +101,60 @@ export default function FilmView({
     setTimeout(() => {
       setExtraPetals((prev) => prev.filter((p) => p !== id));
     }, 4500);
+  };
+
+  // Harmonious temple chime / chime bells on Diya lighting
+  const playTempleChime = useCallback(() => {
+    try {
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof window.AudioContext })
+          .webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      if (ctx.state === "suspended") ctx.resume();
+
+      const freqs = [528, 660, 792];
+      freqs.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.08 / (idx + 1), ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 2.8);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + idx * 0.06);
+        osc.stop(ctx.currentTime + 3.0);
+      });
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const handleLightDiya = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsDiyaLit(true);
+    playTempleChime();
+    showerPetals();
+    setPetalShowerCount((c) => c + 1);
+  };
+
+  const sceneTimeOffsets = [0, 6.6, 14.6, 22.1, 30.6, 38.1, 44.6, 52.6];
+
+  const jumpToScene = (index: number) => {
+    setIsChapterMenuOpen(false);
+    setActiveSceneIndex(index);
+    gsap.set(".film-scene", { opacity: 0, display: "none" });
+    gsap.set(`#scene-${index}`, { opacity: 1, display: "flex" });
+
+    if (masterTimelineRef.current) {
+      const targetTime = sceneTimeOffsets[index] || 0;
+      masterTimelineRef.current.seek(targetTime);
+      masterTimelineRef.current.play();
+      setIsPaused(false);
+    }
+    showerPetals();
   };
 
   // Build the cinematic master timeline in light royal theme
@@ -292,12 +355,61 @@ export default function FilmView({
         </div>
       ))}
 
-      {/* ─────────── 2. Top-Left Floating Scene Badge ─────────── */}
-      <div className="absolute top-5 left-5 sm:top-7 sm:left-8 z-40 flex items-center gap-2 rounded-full border border-gold-400/80 bg-white/95 px-3.5 py-1 text-xs shadow-md backdrop-blur-md pointer-events-none">
-        <span className="h-2 w-2 rounded-full bg-gold-600 animate-pulse" />
-        <span className="font-hindi text-maroon-900 font-bold text-xs">
-          {sceneLabels[activeSceneIndex]}
-        </span>
+      {/* ─────────── 2. Top-Left Floating Chapter Selector ─────────── */}
+      <div className="absolute top-5 left-5 sm:top-7 sm:left-8 z-40 pointer-events-auto">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsChapterMenuOpen((prev) => !prev);
+          }}
+          className="flex items-center gap-2 rounded-full border border-gold-400/90 bg-white/95 px-3.5 py-1.5 text-xs shadow-md backdrop-blur-md hover:bg-gold-50 transition-colors cursor-pointer group"
+          title="Click to jump to any scene"
+        >
+          <span className="h-2 w-2 rounded-full bg-gold-600 animate-pulse" />
+          <span className="font-hindi text-maroon-900 font-bold text-xs">
+            {sceneLabels[activeSceneIndex]}
+          </span>
+          <ChevronDown className="h-3 w-3 text-gold-700 group-hover:translate-y-0.5 transition-transform" />
+        </button>
+
+        {/* Chapter Menu Dropdown */}
+        {isChapterMenuOpen && (
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="mt-2 w-72 rounded-2xl border-2 border-gold-400 bg-white/98 p-2.5 shadow-2xl backdrop-blur-lg animate-fade-in"
+          >
+            <div className="flex items-center justify-between border-b border-gold-200 px-3 py-1.5">
+              <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-gold-800">
+                ★ दृश्य चयन (Chapters) ★
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsChapterMenuOpen(false)}
+                className="text-xs text-maroon-600 hover:text-maroon-950 font-bold cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="mt-1 divide-y divide-gold-100 max-h-72 overflow-y-auto">
+              {sceneLabels.map((label, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => jumpToScene(idx)}
+                  className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between transition-colors rounded-lg cursor-pointer ${
+                    activeSceneIndex === idx
+                      ? "bg-gold-100 text-maroon-950 font-bold border border-gold-400"
+                      : "text-maroon-800 hover:bg-gold-50"
+                  }`}
+                >
+                  <span className="font-hindi">{label}</span>
+                  <span className="text-[10px] font-mono text-gold-700">0{idx + 1}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ─────────── 3. Top-Right Floating Utilities ─────────── */}
@@ -320,13 +432,38 @@ export default function FilmView({
             onToggleMusic();
           }}
           aria-label="Toggle background music"
-          className="h-8 w-8 rounded-full border border-gold-400 bg-white/95 shadow-md flex items-center justify-center text-maroon-900 hover:bg-gold-50 transition-colors backdrop-blur-md cursor-pointer"
+          className="h-8 px-2.5 rounded-full border border-gold-400 bg-white/95 shadow-md flex items-center justify-center gap-1.5 text-maroon-900 hover:bg-gold-50 transition-colors backdrop-blur-md cursor-pointer"
         >
           {isPlayingMusic ? (
-            <Volume2 className="h-4 w-4 text-gold-700 animate-pulse" />
+            <>
+              <div className="flex items-end gap-[2px] h-3.5 px-0.5" title="Shehnai playing">
+                <span className="w-[3px] bg-gold-600 rounded-full animate-eq-1" />
+                <span className="w-[3px] bg-gold-500 rounded-full animate-eq-2" />
+                <span className="w-[3px] bg-gold-400 rounded-full animate-eq-3" />
+                <span className="w-[3px] bg-gold-600 rounded-full animate-eq-4" />
+              </div>
+              <Volume2 className="h-3.5 w-3.5 text-gold-700" />
+            </>
           ) : (
             <VolumeX className="h-4 w-4 text-maroon-600" />
           )}
+        </button>
+      </div>
+
+      {/* ─────────── Floating Bottom-Left Petal Shower Button ─────────── */}
+      <div className="absolute bottom-5 left-5 sm:bottom-7 sm:left-8 z-40 pointer-events-auto">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            showerPetals();
+            setPetalShowerCount((c) => c + 1);
+          }}
+          className="inline-flex items-center gap-1.5 rounded-full border border-gold-400 bg-white/95 px-3 py-1.5 text-xs font-hindi font-bold text-maroon-900 shadow-md backdrop-blur-md hover:bg-gold-50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          title="Tap to shower auspicious flowers"
+        >
+          <span className="text-base">🌸</span>
+          <span>पुष्प वर्षा {petalShowerCount > 0 ? `(${petalShowerCount})` : ""}</span>
         </button>
       </div>
 
@@ -345,36 +482,88 @@ export default function FilmView({
         id="scene-0"
         className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6"
       >
-        <div className="flex items-center justify-center gap-6 md:gap-12 mb-3">
-          <div className="diya-flame hidden sm:block">
-            <Diya className="h-14 w-14 md:h-18 md:w-18 animate-flicker text-gold-600" />
-          </div>
+        <div className="flex items-center justify-center gap-6 md:gap-12 mb-2">
+          <button
+            type="button"
+            onClick={handleLightDiya}
+            className={`diya-flame group relative p-1.5 rounded-full transition-transform cursor-pointer ${
+              isDiyaLit ? "scale-110" : "hover:scale-105"
+            }`}
+            title="Tap to light the sacred flame"
+          >
+            <Diya
+              className={`h-14 w-14 md:h-18 md:w-18 animate-flicker text-gold-600 transition-all ${
+                isDiyaLit ? "drop-shadow-[0_0_25px_rgba(234,179,8,0.95)]" : ""
+              }`}
+            />
+            {isDiyaLit && (
+              <span className="absolute inset-0 rounded-full bg-amber-400/20 blur-md pointer-events-none animate-ping" />
+            )}
+          </button>
 
           <div className="ganesh-icon-box relative">
-            <div className="h-28 w-28 md:h-36 md:w-36 rounded-full border-2 border-gold-400 bg-white shadow-xl flex items-center justify-center p-4">
+            <div
+              className={`h-28 w-28 md:h-36 md:w-36 rounded-full border-2 border-gold-400 bg-white shadow-xl flex items-center justify-center p-4 transition-all ${
+                isDiyaLit ? "shadow-[0_0_40px_rgba(201,162,75,0.7)] border-gold-500" : ""
+              }`}
+            >
               <Ganesha className="h-20 w-20 md:h-24 md:w-24 text-maroon-800" />
             </div>
             <div className="absolute inset-0 rounded-full border border-dashed border-gold-500 animate-spin-slow pointer-events-none" />
           </div>
 
-          <div className="diya-flame hidden sm:block">
-            <Diya className="h-14 w-14 md:h-18 md:w-18 animate-flicker text-gold-600" />
-          </div>
+          <button
+            type="button"
+            onClick={handleLightDiya}
+            className={`diya-flame group relative p-1.5 rounded-full transition-transform cursor-pointer ${
+              isDiyaLit ? "scale-110" : "hover:scale-105"
+            }`}
+            title="Tap to light the sacred flame"
+          >
+            <Diya
+              className={`h-14 w-14 md:h-18 md:w-18 animate-flicker text-gold-600 transition-all ${
+                isDiyaLit ? "drop-shadow-[0_0_25px_rgba(234,179,8,0.95)]" : ""
+              }`}
+            />
+            {isDiyaLit && (
+              <span className="absolute inset-0 rounded-full bg-amber-400/20 blur-md pointer-events-none animate-ping" />
+            )}
+          </button>
         </div>
 
-        <p className="ganesh-text font-hindi text-3xl md:text-5xl font-bold tracking-widest text-gold-700 mb-2">
+        {/* 🪔 Interactive Diya Lighting Prompt Button */}
+        <div className="my-2 pointer-events-auto">
+          <button
+            type="button"
+            onClick={handleLightDiya}
+            className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-hindi font-bold shadow-md transition-all cursor-pointer ${
+              isDiyaLit
+                ? "border-gold-500 bg-gold-100 text-maroon-950 shadow-[0_0_20px_rgba(201,162,75,0.4)]"
+                : "border-gold-400/80 bg-white/95 text-maroon-900 hover:bg-gold-50 animate-bounce"
+            }`}
+          >
+            <Flame className={`h-3.5 w-3.5 ${isDiyaLit ? "text-amber-600 fill-amber-500" : "text-gold-600"}`} />
+            <span>
+              {isDiyaLit
+                ? "॥ शुभं करोति कल्याणं आरोग्यं धनसंपदा · दीप प्रज्ज्वलित ॥"
+                : "✨ दीप प्रज्ज्वलित कर आशीर्वाद लें (Tap to light flame)"}
+            </span>
+          </button>
+        </div>
+
+        <p className="ganesh-text font-hindi text-3xl md:text-5xl font-bold tracking-widest text-gold-700 mb-1">
           ॥ श्री गणेशाय नमः ॥
         </p>
 
-        <Divider tone="maroon" className="ganesh-text h-7 w-64 mx-auto my-2" />
+        <Divider tone="maroon" className="ganesh-text h-7 w-64 mx-auto my-1.5" />
 
-        <blockquote className="ganesh-text font-hindi text-xl md:text-3xl font-medium leading-relaxed text-maroon-950 max-w-2xl bg-white/90 border border-gold-400/80 p-6 md:p-8 rounded-2xl shadow-lg my-3">
+        <blockquote className="ganesh-text font-hindi text-xl md:text-3xl font-medium leading-relaxed text-maroon-950 max-w-2xl bg-white/90 border border-gold-400/80 p-5 md:p-7 rounded-2xl shadow-lg my-2">
           वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।
           <br />
           निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥
         </blockquote>
 
-        <p className="ganesh-text font-serif text-base md:text-xl italic text-maroon-800/90 mt-2">
+        <p className="ganesh-text font-serif text-base md:text-xl italic text-maroon-800/90 mt-1">
           "With the sacred blessings of Lord Ganesha, beginning the auspicious journey of marriage"
         </p>
       </section>
@@ -424,6 +613,16 @@ export default function FilmView({
               Wednesday · 09 December 2026
             </p>
             <span className="h-px w-12 sm:w-20 bg-gold-400" />
+          </div>
+
+          {/* Live Auspicious Countdown Badge */}
+          <div className="couple-title-text flex items-center justify-center md:justify-start gap-1.5 my-2">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gold-400/90 bg-white/95 px-3.5 py-1 text-xs font-hindi font-bold text-maroon-900 shadow-sm backdrop-blur-sm">
+              <Clock className="h-3.5 w-3.5 text-gold-700 animate-spin-slow shrink-0" />
+              <span>
+                शुभ विवाह में शेष: {countdown.days} दिन · {countdown.hours} घंटे · {countdown.mins} मिनट · {countdown.secs} सेकंड
+              </span>
+            </div>
           </div>
 
           <p className="couple-title-text flex items-center justify-center md:justify-start gap-2 font-serif text-base sm:text-lg text-maroon-800/90 italic">
@@ -514,40 +713,44 @@ export default function FilmView({
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-1 text-center">
-          <div className="event-card-item bg-white/95 border border-gold-400/80 p-3.5 rounded-xl shadow-sm">
+          <div className="event-card-item bg-white/95 border border-gold-400/80 p-3 rounded-xl shadow-sm">
             <span className="text-[10px] font-bold uppercase tracking-wider bg-gold-100 text-maroon-900 px-2 py-0.5 rounded font-mono border border-gold-300">
               05 Dec 2026
             </span>
-            <p className="font-hindi text-sm font-bold text-gold-700 mt-2">शुभ तिलक</p>
+            <p className="font-hindi text-sm font-bold text-gold-700 mt-1.5">शुभ तिलक</p>
             <h4 className="font-serif text-lg font-bold text-maroon-900">Tilak</h4>
             <p className="text-xs text-maroon-700">7:00 PM Onwards</p>
+            <p className="text-[10px] font-sans font-medium text-gold-800 mt-1">👔 Royal Traditional</p>
           </div>
 
-          <div className="event-card-item bg-white/95 border border-gold-400/80 p-3.5 rounded-xl shadow-sm">
+          <div className="event-card-item bg-white/95 border border-gold-400/80 p-3 rounded-xl shadow-sm">
             <span className="text-[10px] font-bold uppercase tracking-wider bg-gold-100 text-maroon-900 px-2 py-0.5 rounded font-mono border border-gold-300">
               07 Dec 2026
             </span>
-            <p className="font-hindi text-sm font-bold text-gold-700 mt-2">हल्दी समारोह</p>
+            <p className="font-hindi text-sm font-bold text-gold-700 mt-1.5">हल्दी समारोह</p>
             <h4 className="font-serif text-lg font-bold text-maroon-900">Haldi</h4>
             <p className="text-xs text-maroon-700">7:00 PM Onwards</p>
+            <p className="text-[10px] font-sans font-medium text-amber-700 mt-1">💛 Haldi Yellow (पीत वर्ण)</p>
           </div>
 
-          <div className="event-card-item bg-white/95 border border-gold-400/80 p-3.5 rounded-xl shadow-sm">
+          <div className="event-card-item bg-white/95 border border-gold-400/80 p-3 rounded-xl shadow-sm">
             <span className="text-[10px] font-bold uppercase tracking-wider bg-gold-100 text-maroon-900 px-2 py-0.5 rounded font-mono border border-gold-300">
               08 Dec 2026
             </span>
-            <p className="font-hindi text-sm font-bold text-gold-700 mt-2">मेहंदी व संगीत</p>
+            <p className="font-hindi text-sm font-bold text-gold-700 mt-1.5">मेहंदी व संगीत</p>
             <h4 className="font-serif text-lg font-bold text-maroon-900">Sangeet</h4>
             <p className="text-xs text-maroon-700">7:00 PM Onwards</p>
+            <p className="text-[10px] font-sans font-medium text-emerald-800 mt-1">✨ Indo-Western Glam</p>
           </div>
 
-          <div className="event-card-item bg-[#FFFDF9] border-2 border-gold-500 p-3.5 rounded-xl shadow-md">
+          <div className="event-card-item bg-[#FFFDF9] border-2 border-gold-500 p-3 rounded-xl shadow-md">
             <span className="text-[10px] font-bold uppercase tracking-wider bg-gold-500 text-white px-2 py-0.5 rounded font-mono font-bold shadow-sm">
               09 Dec 2026
             </span>
-            <p className="font-hindi text-sm font-bold text-maroon-900 mt-2">शुभ विवाह</p>
+            <p className="font-hindi text-sm font-bold text-maroon-900 mt-1.5">शुभ विवाह</p>
             <h4 className="font-serif text-lg font-bold text-maroon-900">The Wedding</h4>
             <p className="text-xs text-maroon-900 font-bold">Shubh Muhurat</p>
+            <p className="text-[10px] font-sans font-medium text-rose-800 mt-1">👑 Royal Red & Gold</p>
           </div>
         </div>
       </section>
@@ -689,6 +892,12 @@ export default function FilmView({
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-maroon-900 mt-1">
             Village Bigrahpur, Mau
           </h2>
+          <div className="mt-1.5 inline-flex items-center gap-1.5 rounded-full border border-gold-400/90 bg-gold-100/70 px-3.5 py-0.5 text-[11px] font-hindi font-bold text-maroon-900 shadow-sm">
+            <Clock className="h-3.5 w-3.5 text-gold-800 shrink-0" />
+            <span>
+              शुभ लग्न में शेष: {countdown.days} दिन · {countdown.hours} घंटे · {countdown.mins} मिनट
+            </span>
+          </div>
         </div>
 
         {/* Traditional Maurya Family Blessing Strip */}

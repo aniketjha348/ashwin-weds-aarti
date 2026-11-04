@@ -10,8 +10,12 @@ import {
   MapPin,
   Calendar,
   Users,
+  Download,
+  Clock,
 } from "lucide-react";
 import { Ganesha, Diya, CornerFlourish, Divider, Petals } from "./Ornaments";
+import { useCountdown } from "./Story";
+import { generateWeddingCardImage } from "../utils/downloadCard";
 
 interface PersonalizedInvitationModalProps {
   isOpen: boolean;
@@ -29,7 +33,10 @@ export default function PersonalizedInvitationModal({
   const [isEditing, setIsEditing] = useState(!initialName);
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [showCelebrationPetals, setShowCelebrationPetals] = useState(false);
+
+  const countdown = useCountdown();
 
   // Read URL query parameter "?guest=Name" if present
   useEffect(() => {
@@ -97,6 +104,26 @@ export default function PersonalizedInvitationModal({
       : `सादर प्रणाम अश्विन भैया! 🙏 मैं *${name}* आप दोनों को शुभ विवाह की हार्दिक बधाई व अनंत शुभकामनाएँ प्रेषित करता हूँ। ईश्वर आपकी जोड़ी सदा बनाए रखे! 💐`;
     const waUrl = `https://wa.me/919958300518?text=${encodeURIComponent(message)}`;
     window.open(waUrl, "_blank");
+  };
+
+  const handleDownloadCard = async () => {
+    setIsDownloading(true);
+    try {
+      const dataUrl = await generateWeddingCardImage(guestName || inputName || "अतिथि");
+      if (dataUrl) {
+        const link = document.createElement("a");
+        const safeName = (guestName || inputName || "Guest").replace(/[^a-zA-Z0-9_\u0900-\u097F]/g, "_");
+        link.download = `Ashwin_Aarti_Nimantran_${safeName}.png`;
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (err) {
+      console.error("Card download error:", err);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
@@ -304,14 +331,20 @@ export default function PersonalizedInvitationModal({
                     बुधवार, 09 दिसम्बर 2026
                   </p>
                   <p className="text-xs text-maroon-700">शुभ विवाह एवं प्रीतिभोज</p>
-                  <a
-                    href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ashwin%20%E2%99%A5%20Aarti%20%E2%80%94%20Shubh%20Vivah&dates=20261209T133000Z%2F20261209T170000Z&details=Saat%20phere%2C%20ek%20vaada.%20Join%20the%20celebration!&location=Vill.%20Bigrahpur%2C%20Post%20Dubari%2C%20Mau%2C%20Uttar%20Pradesh"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-block mt-1 text-[11px] font-bold text-gold-800 hover:text-maroon-900 underline underline-offset-2"
-                  >
-                    + Add to Calendar 📅
-                  </a>
+                  <div className="flex items-center gap-2 mt-1">
+                    <a
+                      href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ashwin%20%E2%99%A5%20Aarti%20%E2%80%94%20Shubh%20Vivah&dates=20261209T133000Z%2F20261209T170000Z&details=Saat%20phere%2C%20ek%20vaada.%20Join%20the%20celebration!&location=Vill.%20Bigrahpur%2C%20Post%20Dubari%2C%20Mau%2C%20Uttar%20Pradesh"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[11px] font-bold text-gold-800 hover:text-maroon-900 underline underline-offset-2"
+                    >
+                      + Add to Calendar 📅
+                    </a>
+                  </div>
+                  <div className="mt-2 flex items-center gap-1.5 text-[10px] font-hindi font-bold text-maroon-900 bg-gold-200/60 border border-gold-300 px-2 py-0.5 rounded">
+                    <Clock className="h-3 w-3 text-gold-800 shrink-0" />
+                    <span>शेष: {countdown.days} दिन · {countdown.hours}घं · {countdown.mins}मि</span>
+                  </div>
                 </div>
               </div>
 
@@ -323,6 +356,14 @@ export default function PersonalizedInvitationModal({
                     ग्राम बिगहपुर, पोस्ट दुबारी
                   </p>
                   <p className="text-xs text-maroon-700">मऊ — उत्तर प्रदेश</p>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Bigrahpur,+Dubari,+Mau,+Uttar+Pradesh"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block mt-1 text-[11px] font-bold text-gold-800 hover:text-maroon-900 underline underline-offset-2"
+                  >
+                    Google Maps 📍
+                  </a>
                 </div>
               </div>
             </div>
@@ -353,6 +394,16 @@ export default function PersonalizedInvitationModal({
 
             {/* Sharing & Action Options */}
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 pt-3 border-t border-gold-300">
+              <button
+                type="button"
+                onClick={handleDownloadCard}
+                disabled={isDownloading}
+                className="inline-flex items-center gap-2 rounded-xl border-2 border-gold-500 bg-gradient-to-r from-gold-600 to-gold-500 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-maroon-950 hover:brightness-110 transition-all shadow-md cursor-pointer disabled:opacity-60"
+              >
+                <Download className="h-4 w-4" />
+                <span>{isDownloading ? "तैयार हो रहा है..." : "कार्ड डाउनलोड (Save Card)"}</span>
+              </button>
+
               <button
                 type="button"
                 onClick={handleShareWhatsApp}

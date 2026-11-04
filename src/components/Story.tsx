@@ -114,7 +114,7 @@ export function Story() {
 /* ═══════════════════════ Countdown (Light & Straight) ═══════════════════════ */
 const TARGET = new Date("2026-12-09T19:00:00+05:30").getTime();
 
-function useCountdown() {
+export function useCountdown() {
   const calc = () => {
     const diff = Math.max(0, TARGET - Date.now());
     return {
