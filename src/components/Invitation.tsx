@@ -97,7 +97,7 @@ export default function Invitation() {
           With joyful hearts
         </p>
 
-        <h2 className="inv-reveal mt-3 font-serif text-5xl font-medium text-maroon-900 md:text-6xl">
+        <h2 className="inv-reveal mt-3 font-serif text-3xl sm:text-4xl font-medium text-maroon-900 md:text-6xl">
           We are getting <span className="italic text-gold-600">married!</span>
         </h2>
 
@@ -105,7 +105,7 @@ export default function Invitation() {
           <Divider tone="maroon" className="mx-auto mt-6 h-9 w-64 md:w-80" />
         </div>
 
-        <p className="inv-reveal mx-auto mt-8 max-w-2xl font-serif text-xl leading-relaxed text-maroon-900/85 md:text-2xl">
+        <p className="inv-reveal mx-auto mt-6 sm:mt-8 max-w-2xl font-serif text-base sm:text-lg leading-relaxed text-maroon-900/85 md:text-2xl">
           We invite you to be part of our celebration as
           <span className="italic font-semibold text-gold-700"> two hearts</span> begin a beautiful
           <span className="italic font-semibold text-gold-700"> forever</span> together.
@@ -116,7 +116,7 @@ export default function Invitation() {
           <img
             src={inviteCoupleImg}
             alt="Ashwin & Aarti Together"
-            className="h-64 sm:h-72 w-full object-cover"
+            className="h-52 sm:h-64 md:h-72 w-full object-cover"
           />
         </div>
 
@@ -152,7 +152,7 @@ export default function Invitation() {
           />
         </div>
 
-        <p className="inv-reveal mx-auto mt-14 max-w-xl font-sans text-xs font-medium uppercase leading-loose tracking-[0.3em] text-maroon-800/80">
+        <p className="inv-reveal mx-auto mt-10 sm:mt-14 max-w-xl font-sans text-xs font-medium uppercase leading-loose tracking-[0.15em] sm:tracking-[0.3em] text-maroon-800/80">
           request the honour of your gracious presence
           <br />
           on the auspicious occasion
@@ -176,7 +176,7 @@ function FamilyCard({
   parents: string;
 }) {
   return (
-    <div className="family-card group relative bg-white border border-gold-400/60 p-8 text-center shadow-[0_10px_35px_-10px_rgba(75,13,27,0.08)] transition-all duration-500 hover:border-gold-500 hover:shadow-[0_15px_45px_-10px_rgba(201,162,75,0.25)] md:p-10">
+    <div className="family-card group relative bg-white border border-gold-400/60 p-5 sm:p-8 text-center shadow-[0_10px_35px_-10px_rgba(75,13,27,0.08)] transition-all duration-500 hover:border-gold-500 hover:shadow-[0_15px_45px_-10px_rgba(201,162,75,0.25)] md:p-10">
       {/* Straight Corner Filigrees */}
       <span className="absolute left-2.5 top-2.5 h-3.5 w-3.5 border-l-2 border-t-2 border-gold-500" />
       <span className="absolute right-2.5 top-2.5 h-3.5 w-3.5 border-r-2 border-t-2 border-gold-500" />
@@ -188,7 +188,7 @@ function FamilyCard({
         {side}
       </p>
 
-      <h3 className="mt-3 font-serif text-3xl font-semibold text-maroon-900 md:text-4xl">
+      <h3 className="mt-3 font-serif text-2xl sm:text-3xl font-semibold text-maroon-900 md:text-4xl">
         {name}
       </h3>
 
@@ -197,7 +197,7 @@ function FamilyCard({
       <p className="font-sans text-[10px] font-medium uppercase tracking-[0.25em] text-maroon-600/75">
         {relation}
       </p>
-      <p className="mt-2 font-serif text-lg leading-relaxed text-maroon-900/90 font-medium">
+      <p className="mt-2 font-serif text-base sm:text-lg leading-relaxed text-maroon-900/90 font-medium">
         {parents}
       </p>
     </div>

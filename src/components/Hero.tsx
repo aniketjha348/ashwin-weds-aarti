@@ -135,13 +135,13 @@ export default function Hero() {
       {/* Main hero content */}
       <div
         ref={contentRef}
-        className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 pb-24 pt-20 text-center"
+        className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-4 sm:px-6 pb-28 sm:pb-24 pt-16 sm:pt-20 text-center"
       >
         <p className="hero-subhead font-hindi text-xl md:text-2xl tracking-wide text-maroon-800 font-medium">
           ॥ शुभ विवाह ॥
         </p>
 
-        <p className="hero-subhead mt-3 font-sans text-[11px] md:text-xs font-medium uppercase tracking-[0.55em] text-maroon-700/80">
+        <p className="hero-subhead mt-3 font-sans text-[10px] md:text-xs font-medium uppercase tracking-[0.25em] sm:tracking-[0.4em] md:tracking-[0.55em] text-maroon-700/80">
           Together with their families
         </p>
 
@@ -152,7 +152,7 @@ export default function Hero() {
               <img
                 src={coupleImg}
                 alt="Ashwin and Aarti"
-                className="h-[21rem] w-[16rem] object-cover object-top sm:h-[24rem] sm:w-[18rem] md:h-[27rem] md:w-[21rem]"
+                className="h-[17rem] w-[13rem] object-cover object-top sm:h-[22rem] sm:w-[17rem] md:h-[27rem] md:w-[21rem]"
               />
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function Hero() {
         {/* Names */}
         <div ref={namesRef} className="relative mt-8 md:mt-11">
           <h1 className="flex flex-col items-center leading-[0.95]">
-            <span className="font-script text-gold-grad shimmer text-[4.4rem] sm:text-8xl md:text-[8.5rem]">
+            <span className="font-script text-gold-grad shimmer text-[2.9rem] sm:text-7xl md:text-[8.5rem]">
               Ashwin
             </span>
             <span className="my-1 flex items-center gap-4 md:my-2">
@@ -181,24 +181,24 @@ export default function Hero() {
               </span>
               <span className="gold-line-h h-px w-16 md:w-28" />
             </span>
-            <span className="font-script text-gold-grad shimmer text-[4.4rem] sm:text-8xl md:text-[8.5rem]">
+            <span className="font-script text-gold-grad shimmer text-[2.9rem] sm:text-7xl md:text-[8.5rem]">
               Aarti
             </span>
           </h1>
 
-          <p className="hero-meta mx-auto mt-6 max-w-xl font-serif text-lg italic text-maroon-800/85 md:text-xl">
+          <p className="hero-meta mx-auto mt-4 sm:mt-6 max-w-xl font-serif text-sm sm:text-base md:text-lg italic text-maroon-800/85 md:text-xl">
             "Two hearts, one soul — beginning a beautiful forever together"
           </p>
 
           <div className="hero-meta mt-8 flex flex-col items-center gap-4">
             <div className="flex items-center gap-4">
               <span className="gold-line-h h-px w-14 md:w-24" />
-              <p className="font-sans text-xs md:text-sm font-semibold uppercase tracking-[0.45em] text-maroon-800">
+              <p className="font-sans text-[10px] sm:text-xs md:text-sm font-semibold uppercase tracking-[0.2em] sm:tracking-[0.35em] md:tracking-[0.45em] text-maroon-800">
                 Wednesday · 09 December 2026
               </p>
               <span className="gold-line-h h-px w-14 md:w-24" />
             </div>
-            <p className="flex items-center gap-2 font-sans text-[11px] md:text-xs font-medium uppercase tracking-[0.3em] text-maroon-700/80">
+            <p className="flex items-center gap-2 font-sans text-[10px] md:text-xs font-medium uppercase tracking-[0.15em] sm:tracking-[0.25em] md:tracking-[0.3em] text-maroon-700/80">
               <MapPin className="h-3.5 w-3.5 text-gold-600" />
               Vill. Bigrahpur · Post Dubari · Mau
             </p>

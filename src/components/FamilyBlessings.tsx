@@ -83,7 +83,7 @@ export function Swagatakankshi() {
           ॥ स्नेह निमंत्रण ॥
         </p>
 
-        <h2 className="swagat-reveal font-serif text-3xl md:text-4xl font-semibold text-maroon-900 mt-1">
+        <h2 className="swagat-reveal font-serif text-2xl sm:text-3xl md:text-4xl font-semibold text-maroon-900 mt-1">
           स्वागताकांक्षी व दर्शनाभिलाषी
         </h2>
 
@@ -117,7 +117,7 @@ export function Swagatakankshi() {
           </div>
         </div>
 
-        <p className="swagat-reveal font-hindi text-base font-semibold text-maroon-800 mt-8 bg-white/80 border border-gold-400/60 py-3 px-8 rounded-full shadow-sm max-w-xl">
+        <p className="swagat-reveal font-hindi text-sm sm:text-base font-semibold text-maroon-800 mt-6 sm:mt-8 bg-white/80 border border-gold-400/60 py-3 px-4 sm:px-8 rounded-full shadow-sm max-w-xl">
           ॥ आपकी गरिमामयी उपस्थिति हमारे लिए सौभाग्य एवं मंगलकारी होगी ॥
         </p>
       </div>

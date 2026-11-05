@@ -64,7 +64,7 @@ export function Story() {
               <img
                 src={storyImg}
                 alt="Ashwin putting a ring on Aarti's finger"
-                className="h-[26rem] w-full object-cover object-top md:h-[30rem]"
+                className="h-[20rem] sm:h-[26rem] w-full object-cover object-top md:h-[30rem]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-maroon-900/15 via-transparent to-transparent" />
             </div>
@@ -94,7 +94,7 @@ export function Story() {
             <Divider tone="maroon" className="mx-auto mt-5 h-9 w-64 md:mx-0 md:w-80" />
           </div>
 
-          <p className="story-anim mt-8 font-serif text-xl italic leading-relaxed text-maroon-800/90 md:text-2xl">
+          <p className="story-anim mt-5 sm:mt-8 font-serif text-base sm:text-lg italic leading-relaxed text-maroon-800/90 md:text-2xl">
             "We found a little magic in ordinary moments, and now we are ready to create a lifetime of extraordinary ones."
           </p>
 
@@ -206,7 +206,7 @@ export function Countdown() {
               <span className="absolute bottom-1.5 left-1.5 h-2.5 w-2.5 border-b-2 border-l-2 border-gold-500" />
               <span className="absolute bottom-1.5 right-1.5 h-2.5 w-2.5 border-b-2 border-r-2 border-gold-500" />
 
-              <p className="font-serif text-6xl font-bold tabular-nums text-maroon-900 md:text-7xl">
+              <p className="font-serif text-5xl sm:text-6xl font-bold tabular-nums text-maroon-900 md:text-7xl">
                 {String(u.value).padStart(2, "0")}
               </p>
               <div className="mx-auto mt-4 h-px w-10 bg-gold-400 transition-all duration-500 group-hover:w-16" />
@@ -225,7 +225,7 @@ export function Countdown() {
             href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ashwin%20%E2%99%A5%20Aarti%20%E2%80%94%20Shubh%20Vivah&dates=20261209T133000Z%2F20261209T170000Z&details=Saat%20phere%2C%20ek%20vaada.%20Join%20the%20celebration!&location=Vill.%20Bigrahpur%2C%20Post%20Dubari%2C%20Mau%2C%20Uttar%20Pradesh"
             target="_blank"
             rel="noreferrer"
-            className="group relative inline-flex items-center gap-3 overflow-hidden border border-gold-400 bg-maroon-800 px-8 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.3em] text-gold-100 transition-all duration-500 hover:bg-maroon-900 hover:shadow-[0_12px_35px_-8px_rgba(75,13,27,0.35)]"
+            className="group relative inline-flex items-center gap-3 overflow-hidden border border-gold-400 bg-maroon-800 px-5 sm:px-8 py-3 sm:py-3.5 font-sans text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] sm:tracking-[0.3em] text-gold-100 transition-all duration-500 hover:bg-maroon-900 hover:shadow-[0_12px_35px_-8px_rgba(75,13,27,0.35)]"
           >
             <CalendarPlus className="h-4 w-4 text-gold-300" />
             Save the date

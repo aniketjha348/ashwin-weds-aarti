@@ -145,9 +145,9 @@ export default function Celebrations() {
         {/* timeline */}
         <div className="relative mt-16 md:mt-20">
           {/* center line */}
-          <div className="absolute left-[1.35rem] top-0 h-full w-px bg-gradient-to-b from-transparent via-gold-500/50 to-transparent md:left-1/2" />
+          <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-transparent via-gold-500/50 to-transparent md:left-1/2" />
 
-          <div className="flex flex-col gap-12 md:gap-16">
+          <div className="flex flex-col gap-10 md:gap-16">
             {EVENTS.map((ev, i) => {
               const left = i % 2 === 0;
               const dm = dayMon(ev.dateISO);
@@ -160,7 +160,7 @@ export default function Celebrations() {
                   }`}
                 >
                   {/* node */}
-                  <span className="event-node absolute left-[1.35rem] top-8 z-10 -translate-x-1/2 md:left-1/2 md:top-1/2 md:-translate-y-1/2">
+                  <span className="event-node absolute left-4 top-8 z-10 -translate-x-1/2 md:left-1/2 md:top-1/2 md:-translate-y-1/2">
                     <span
                       className={`block rounded-full border-2 ${
                         ev.big
@@ -176,19 +176,19 @@ export default function Celebrations() {
                       left ? "justify-end pr-16" : "justify-start pl-16"
                     }`}
                   >
-                    <span className="font-serif text-[7rem] font-semibold leading-none text-gold-600/15 select-none">
+                    <span className="font-serif text-[5rem] lg:text-[7rem] font-semibold leading-none text-gold-600/15 select-none">
                       {ev.no}
                     </span>
                   </div>
 
                   {/* card */}
                   <div
-                    className={`ml-14 w-full md:ml-0 md:w-1/2 ${
+                    className={`ml-11 sm:ml-14 w-full md:ml-0 md:w-1/2 ${
                       left ? "md:pr-16" : "md:pl-16"
                     }`}
                   >
                     <div
-                      className={`event-card group relative overflow-hidden bg-white p-7 transition-all duration-500 hover:-translate-y-1 md:p-8 ${
+                      className={`event-card group relative overflow-hidden bg-white p-4 sm:p-6 transition-all duration-500 hover:-translate-y-1 md:p-8 ${
                         ev.big
                           ? "big-day-glow border-2 border-gold-400/80 bg-[#FFFDF9]"
                           : "card-light border border-gold-400/50 hover:border-gold-500 hover:shadow-md"
@@ -201,14 +201,14 @@ export default function Celebrations() {
                       )}
 
                       <div className="flex items-center gap-4">
-                        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-gold-400/60 bg-gold-50 transition-transform duration-500 group-hover:scale-110">
+                        <span className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border border-gold-400/60 bg-gold-50 transition-transform duration-500 group-hover:scale-110">
                           <Icon className="h-5 w-5 text-gold-700" />
                         </span>
                         <div>
                           <p className="font-hindi text-sm font-semibold text-gold-700">{ev.hindi}</p>
                           <h3
                             className={`font-serif text-maroon-900 ${
-                              ev.big ? "text-3xl font-semibold md:text-4xl" : "text-2xl font-medium md:text-3xl"
+                              ev.big ? "text-2xl sm:text-3xl font-semibold md:text-4xl" : "text-xl sm:text-2xl font-medium md:text-3xl"
                             }`}
                           >
                             {ev.title}
@@ -216,11 +216,11 @@ export default function Celebrations() {
                         </div>
                       </div>
 
-                      <p className="mt-4 font-serif text-base italic leading-relaxed text-maroon-900/80">
+                      <p className="mt-3 sm:mt-4 font-serif text-sm sm:text-base italic leading-relaxed text-maroon-900/80">
                         {ev.note}
                       </p>
 
-                      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 border-t border-gold-400/30 pt-4">
+                      <div className="mt-4 sm:mt-5 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 sm:gap-x-4 sm:gap-y-3 border-t border-gold-400/30 pt-3 sm:pt-4">
                         <div className="flex flex-wrap items-baseline gap-2">
                           <span className="border border-gold-400/60 bg-gold-50/80 px-3 py-1 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-maroon-800">
                             {weekday(ev.dateISO)}
@@ -260,7 +260,7 @@ export default function Celebrations() {
         </div>
 
         {/* closing note */}
-        <p className="cel-head mx-auto mt-16 flex max-w-md items-center justify-center gap-3 text-center font-sans text-[11px] font-medium uppercase tracking-[0.35em] text-maroon-800/80">
+        <p className="cel-head mx-auto mt-12 sm:mt-16 flex max-w-md items-center justify-center gap-3 text-center font-sans text-[11px] font-medium uppercase tracking-[0.2em] sm:tracking-[0.35em] text-maroon-800/80">
           <Flower2 className="h-4 w-4 text-maroon-600" />
           Followed by grand reception & dinner
         </p>
