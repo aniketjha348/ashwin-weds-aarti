@@ -145,7 +145,8 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
     ctx.fillText("सादर आमंत्रण · CORDIAL INVITATION", W / 2, 317);
 
     ctx.fillStyle = INK;
-    const displayName = guestName.trim() || "सम्मानित अतिथि";
+    const raw = guestName.trim() || "सम्मानित अतिथि";
+    const displayName = raw.replace(/\b\w/g, (c) => c.toUpperCase());
     fitText(ctx, displayName, W / 2, 387, 840, 46, (px) => `bold ${px}px ${DISPLAY}`);
 
     ctx.font = `20px ${HINDI}`;
@@ -173,7 +174,7 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
 
     ctx.font = `bold 32px ${SCRIPT}`;
     ctx.fillStyle = GOLD;
-    ctx.fillText("— संग (weds) —", W / 2, 674);
+    ctx.fillText("— संग (Weds) —", W / 2, 674);
 
     ctx.fillStyle = INK;
     fitText(ctx, "Aarti", W / 2, 752, 860, 60, (px) => `bold ${px}px ${DISPLAY}`);

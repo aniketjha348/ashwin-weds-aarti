@@ -128,7 +128,7 @@ export default function Invitation() {
           className="mt-16 grid items-stretch gap-10 md:grid-cols-[1fr_auto_1fr] md:gap-8"
         >
           <FamilyCard
-            side="The Groom"
+            side="The Dulha · Groom"
             hindi="दूल्हा"
             name="Ashwin Maurya"
             relation="Son of"
@@ -146,7 +146,7 @@ export default function Invitation() {
           </div>
 
           <FamilyCard
-            side="The Bride"
+            side="The Bride · Dulhan"
             hindi="दुल्हन"
             name="Aarti Maurya"
             relation="Daughter of"

@@ -236,7 +236,7 @@ export default function Footer() {
       </section>
 
       {/* ─────────── Bottom Bar (Light & Royal) ─────────── */}
-      <div className="relative border-t border-gold-400/30 bg-[#FAF6EF] py-12">
+      <div className="relative border-t border-gold-400/30 bg-[#FAF6EF] pt-12 pb-24 sm:pb-28">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 text-center">
           <div className="relative">
             <Monogram className="h-24 w-24 animate-spin-slow opacity-90 text-gold-600" />

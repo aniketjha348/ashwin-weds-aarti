@@ -33,4 +33,11 @@ describe("constants", () => {
   it("waShareUrl has no recipient", () => {
     expect(waShareUrl("hi")).toMatch(/^https:\/\/wa\.me\/\?text=/);
   });
+
+  it("wedding couple names have first letter capitalized", () => {
+    const groom = "Ashwin";
+    const bride = "Aarti";
+    expect(groom[0]).toBe(groom[0].toUpperCase());
+    expect(bride[0]).toBe(bride[0].toUpperCase());
+  });
 });

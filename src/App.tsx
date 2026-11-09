@@ -157,9 +157,6 @@ export default function App() {
         <Swagatakankshi />
         <Footer />
 
-        {/* Clearance so the floating utility bar never covers the sign-off */}
-        <div className="h-32 sm:h-24" aria-hidden />
-
         {/* Floating Utilities (Music + Switch to Film View) */}
         <MusicPlayer
           isPlaying={isPlayingMusic}

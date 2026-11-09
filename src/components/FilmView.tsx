@@ -363,7 +363,7 @@ export default function FilmView({
       "Watch the royal wedding invitation film of Ashwin & Aarti (09 Dec 2026 · Mau, UP): " +
       window.location.href;
     if (navigator.share) {
-      navigator.share({ title: "Ashwin weds Aarti — Wedding Film", text, url: window.location.href }).catch(() => {});
+      navigator.share({ title: "Ashwin Weds Aarti — Wedding Film", text, url: window.location.href }).catch(() => {});
     } else {
       window.open(waShareUrl(text), "_blank");
       setShared(true);
@@ -724,7 +724,7 @@ export default function FilmView({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 w-full mt-1 max-w-2xl">
           <div className="family-card-item bg-white/95 border-2 border-gold-400/80 p-3 sm:p-5 rounded-xl sm:rounded-2xl shadow-md text-center">
             <p className="font-hindi text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gold-700">
-              दूल्हा पक्ष (The Groom)
+              दूल्हा पक्ष (The Dulha · Groom)
             </p>
             <h3 className="font-serif text-lg sm:text-2xl font-bold text-maroon-900 mt-0.5">
               Ashwin Maurya
@@ -739,7 +739,7 @@ export default function FilmView({
 
           <div className="family-card-item bg-white/95 border-2 border-gold-400/80 p-3 sm:p-5 rounded-xl sm:rounded-2xl shadow-md text-center">
             <p className="font-hindi text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gold-700">
-              दुल्हन पक्ष (The Bride)
+              दुल्हन पक्ष (The Bride · Dulhan)
             </p>
             <h3 className="font-serif text-lg sm:text-2xl font-bold text-maroon-900 mt-0.5">
               Aarti Maurya
@@ -939,7 +939,7 @@ export default function FilmView({
       ════════════════════════════════════════════════════════════ */}
       <section
         id="scene-7"
-        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-start sm:justify-center text-center px-3 sm:px-6 max-w-2xl mx-auto overflow-y-auto pt-14 sm:pt-16 pb-8"
+        className="film-scene absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-3 sm:px-6 max-w-2xl mx-auto overflow-y-auto py-8 sm:py-10"
       >
         <div className="venue-item flex items-center justify-center gap-3 mb-1">
           <WeddingBells className="h-6 w-6 sm:h-8 sm:w-8 text-gold-600" />

@@ -43,7 +43,10 @@ export default function PersonalizedInvitationModal({
   const countdown = useCountdown();
   const panelRef = useModalBehavior(isOpen, onClose);
 
-  const normalizeName = (v: string) => v.replace(/\s+/g, " ").trim().slice(0, 60);
+  const normalizeName = (v: string) => {
+    const cleaned = v.replace(/\s+/g, " ").trim().slice(0, 60);
+    return cleaned.replace(/\b\w/g, (char) => char.toUpperCase());
+  };
 
   const passNo = (() => {
     const n = normalizeName(guestName || inputName || "Guest");
@@ -114,7 +117,7 @@ export default function PersonalizedInvitationModal({
   const handleShareWhatsApp = () => {
     const name = guestName || inputName || "अतिथि";
     const base = `${window.location.origin}${window.location.pathname}`;
-    const text = `सादर प्रणाम 🙏\n\nAshwin weds Aarti के शुभ विवाह (09 Dec 2026, मऊ) का डिजिटल निमंत्रण पत्र आदरणीय ${name} सपरिवार के लिए:\n${base}?guest=${encodeURIComponent(name)}`;
+    const text = `सादर प्रणाम 🙏\n\nAshwin Weds Aarti के शुभ विवाह (09 Dec 2026, मऊ) का डिजिटल निमंत्रण पत्र आदरणीय ${name} सपरिवार के लिए:\n${base}?guest=${encodeURIComponent(name)}`;
     const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(waUrl, "_blank");
     setShared(true);
@@ -362,7 +365,12 @@ export default function PersonalizedInvitationModal({
                 <p className="font-hindi text-sm font-semibold text-maroon-800">
                   परमपिता परमेश्वर की असीम अनुकंपा से
                 </p>
-                <p className="font-serif text-3xl sm:text-4xl font-bold text-maroon-900 mt-1">Ashwin</p>
+                <div className="mt-1 flex items-center justify-center">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold-800 bg-gold-100/90 border border-gold-300 px-2.5 py-0.5 rounded-full shadow-sm">
+                    दूल्हा · Dulha (Groom)
+                  </span>
+                </div>
+                <p className="font-serif text-3xl sm:text-4xl font-bold text-maroon-900 mt-0.5">Ashwin</p>
                 <p className="text-xs text-maroon-700">(सुपुत्र: श्री विजय नारायण मौर्य एवं श्रीमती निर्मला मौर्य)</p>
                 <div className="flex items-center justify-center gap-2 my-1.5 text-gold-700">
                   <span className="h-px w-8 bg-gold-400" />
@@ -371,7 +379,12 @@ export default function PersonalizedInvitationModal({
                   <Heart className="h-4 w-4 fill-rose-500 text-rose-500" />
                   <span className="h-px w-8 bg-gold-400" />
                 </div>
-                <p className="font-serif text-3xl sm:text-4xl font-bold text-maroon-900">Aarti</p>
+                <div className="mt-0.5 flex items-center justify-center">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold-800 bg-gold-100/90 border border-gold-300 px-2.5 py-0.5 rounded-full shadow-sm">
+                    दुल्हन · Bride (Dulhan)
+                  </span>
+                </div>
+                <p className="font-serif text-3xl sm:text-4xl font-bold text-maroon-900 mt-0.5">Aarti</p>
                 <p className="text-xs text-maroon-700">(सुपुत्री: श्री राधेश्याम मौर्य एवं श्रीमती सुमन मौर्य)</p>
               </div>
             </div>

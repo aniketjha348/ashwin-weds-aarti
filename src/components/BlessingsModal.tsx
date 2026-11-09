@@ -79,7 +79,8 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const name = authorName.trim() || "स्नेहीजन";
+    const rawName = authorName.trim();
+    const name = rawName ? rawName.replace(/\b\w/g, (c) => c.toUpperCase()) : "स्नेहीजन";
     const msg = customMessage.trim() || selectedBadge;
 
     const newBlessing: Blessing = {
@@ -108,7 +109,8 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
   };
 
   const handleSendWhatsAppWish = () => {
-    const name = authorName.trim() || "स्नेहीजन";
+    const rawName = authorName.trim();
+    const name = rawName ? rawName.replace(/\b\w/g, (c) => c.toUpperCase()) : "स्नेहीजन";
     const msg = customMessage.trim() || selectedBadge;
     const text = `सादर प्रणाम अश्विन भैया! 🙏\n\n*${name}* की ओर से आप दोनों को वैवाहिक जीवन की अनंत शुभकामनाएँ व मंगल आशीष:\n\n"${msg}" 🌸✨\n(09 Dec 2026, मऊ)`;
     window.open(waRsvpUrl(text), "_blank");

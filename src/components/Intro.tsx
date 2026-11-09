@@ -270,7 +270,7 @@ export default function Intro({ onStartFilm }: IntroProps) {
         <div
           role="button"
           tabIndex={0}
-          aria-label="Open the curtains and start the wedding film"
+          aria-label="Open the royal wedding invitation and begin the film"
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
@@ -346,11 +346,11 @@ export default function Intro({ onStartFilm }: IntroProps) {
               className="w-full inline-flex items-center justify-center gap-2 sm:gap-3 rounded-xl border-2 border-gold-500 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 py-3 sm:py-3.5 px-3 sm:px-6 text-xs sm:text-sm font-bold uppercase tracking-wider sm:tracking-[0.25em] text-maroon-950 shadow-[0_10px_25px_-5px_rgba(201,162,75,0.6)] group-hover:brightness-110 group-hover:shadow-[0_15px_35px_-5px_rgba(201,162,75,0.8)] transition-all"
             >
               <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current text-maroon-950 animate-pulse" />
-              <span>पर्दा उठाएँ व फ़िल्म शुरू करें 🎬</span>
+              <span>शुभ निमंत्रण खोलें ✨</span>
               <SparklesIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-maroon-950" />
             </button>
             <p className="mt-1.5 sm:mt-2 text-[10px] sm:text-[11px] font-serif italic text-maroon-700/75">
-              (Tap ticket to part velvet curtains with music)
+              (टैप कर निमंत्रण खोलें व संगीत का आनंद लें · Tap ticket to begin)
             </p>
           </div>
         </div>
