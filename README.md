@@ -2,7 +2,7 @@
 
 A cinematic, Bollywood-style interactive digital wedding invitation card for **Ashwin & Aarti** (09 December 2026 · Village Bigrahpur, Mau, Uttar Pradesh).
 
-**Live:** https://aniketjha348.github.io/ashwin-weds-aarti/
+**Live:** https://ashwin-weds-aarti.vercel.app/
 
 ## ✨ Features
 
@@ -61,4 +61,5 @@ public/         favicon.svg, og-image.jpg (WhatsApp preview), song.mp3
 
 ## 🚢 Deployment
 
-Deploys to **GitHub Pages** automatically on push to `main` via `.github/workflows/deploy.yml` (Node 20 → `npm ci` → `npm run build` → deploy `dist/`).
+Deploys to **Vercel** automatically on push to `main` (Vite preset → `npm run build` → `dist/`).
+Backup: also publishes to **GitHub Pages** via `.github/workflows/deploy.yml` (Node 20 → `npm ci` → `npm run build` → deploy `dist/`).
