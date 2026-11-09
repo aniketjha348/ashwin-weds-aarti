@@ -13,11 +13,12 @@ import {
   Download,
   Clock,
 } from "lucide-react";
-import { Ganesha, Diya, CornerFlourish, Divider, Petals } from "./Ornaments";
+import { Ganesha, Diya, CornerFlourish, Divider, Petals, Monogram } from "./Ornaments";
 import { useCountdown } from "../hooks/useCountdown";
 import { GOOGLE_MAPS_URL, WEDDING_CALENDAR_URL, waRsvpUrl } from "../constants";
 import { generateWeddingCardImage } from "../utils/downloadCard";
 import { useModalBehavior } from "../hooks/useModalBehavior";
+import coupleImg from "../assets/dsc_3488.jpg";
 
 interface PersonalizedInvitationModalProps {
   isOpen: boolean;
@@ -37,9 +38,19 @@ export default function PersonalizedInvitationModal({
   const [shared, setShared] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [showCelebrationPetals, setShowCelebrationPetals] = useState(false);
+  const [rsvpDone, setRsvpDone] = useState<null | "yes" | "no">(null);
 
   const countdown = useCountdown();
   const panelRef = useModalBehavior(isOpen, onClose);
+
+  const normalizeName = (v: string) => v.replace(/\s+/g, " ").trim().slice(0, 60);
+
+  const passNo = (() => {
+    const n = normalizeName(guestName || inputName || "Guest");
+    let h = 0;
+    for (let i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) >>> 0;
+    return `№ AA-${1000 + (h % 9000)}`;
+  })();
 
   // Read URL query parameter "?guest=Name" if present
   useEffect(() => {
@@ -69,9 +80,10 @@ export default function PersonalizedInvitationModal({
 
   const handleSaveName = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const trimmed = inputName.trim();
+    const trimmed = normalizeName(inputName);
     if (trimmed) {
       setGuestName(trimmed);
+      setInputName(trimmed);
       setIsEditing(false);
     }
   };
@@ -115,6 +127,8 @@ export default function PersonalizedInvitationModal({
       ? `सादर प्रणाम अश्विन भैया! 🙏 मैं *${name}* सपरिवार आपके और आरती जी के शुभ विवाह (09 दिसम्बर 2026, गाँव बिगहपुर, मऊ) में अवश्य पधारूँगा। आप दोनों को बहुत-बहुत बधाई व मंगलकामनाएँ! 🌸✨`
       : `सादर प्रणाम अश्विन भैया! 🙏 मैं *${name}* आप दोनों को शुभ विवाह की हार्दिक बधाई व अनंत शुभकामनाएँ प्रेषित करता हूँ। ईश्वर आपकी जोड़ी सदा बनाए रखे! 💐`;
     window.open(waRsvpUrl(message), "_blank");
+    setRsvpDone(attending ? "yes" : "no");
+    setTimeout(() => setRsvpDone(null), 6000);
   };
 
   const handleDownloadCard = async () => {
@@ -191,9 +205,11 @@ export default function PersonalizedInvitationModal({
               कृपया अपना शुभ नाम दर्ज करें ताकि आपके नाम से अलंकृत राजसी निमंत्रण पत्र तैयार किया जा सके:
             </p>
 
-            <form onSubmit={handleSaveName} className="mt-6 max-w-md mx-auto">
-              <label htmlFor="guest-name" className="sr-only">Your full name</label>
-              <div className="relative">
+            <form onSubmit={handleSaveName} className="mt-6 max-w-md mx-auto text-left">
+              <label htmlFor="guest-name" className="block text-center text-[11px] font-bold uppercase tracking-[0.2em] text-maroon-700">
+                आपका शुभ नाम · Your Full Name
+              </label>
+              <div className="relative mt-2">
                 <input
                   id="guest-name"
                   type="text"
@@ -201,9 +217,15 @@ export default function PersonalizedInvitationModal({
                   value={inputName}
                   onChange={(e) => setInputName(e.target.value)}
                   placeholder="उदा. श्री राजेश कुमार शर्मा / Ramesh Gupta"
-                  className="w-full rounded-2xl border-2 border-gold-400 bg-white px-5 py-3.5 text-center font-serif text-lg sm:text-xl font-bold text-maroon-950 placeholder:text-maroon-400/60 shadow-inner focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-gold-600 transition-all"
+                  maxLength={60}
+                  autoComplete="name"
+                  dir="auto"
+                  className="w-full rounded-2xl border-2 border-gold-400 bg-white px-5 py-4 text-center font-serif text-lg sm:text-xl font-bold text-maroon-950 placeholder:text-maroon-400/50 shadow-inner focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-gold-600 transition-all"
                 />
               </div>
+              <p className="mt-1.5 text-center text-[11px] font-medium text-maroon-600/80">
+                {inputName.length}/60 · नाम कार्ड पर ठीक वैसे ही छपेगा जैसा आप लिखेंगे
+              </p>
 
               {/* Quick Suffix Chips */}
               <div className="mt-3 flex items-center justify-center gap-2 flex-wrap">
@@ -256,66 +278,92 @@ export default function PersonalizedInvitationModal({
             </form>
           </div>
         ) : (
-          /* ────────── STATE B: The Royal Personalized Card ────────── */
-          <div className="text-center py-1">
+          /* ────────── STATE B: The Royal Personalized Card (professional) ────────── */
+          <div className="text-center py-1 relative">
+            {/* Inner hairline frame */}
+            <div className="pointer-events-none absolute inset-1 rounded-[1.35rem] border border-gold-300/70" aria-hidden />
+
             {/* Top Ganesha Blessing */}
-            <div className="flex items-center justify-center gap-4 mb-2">
+            <div className="relative flex items-center justify-center gap-4 mb-1">
               <Diya className="h-8 w-8 animate-flicker hidden sm:block" />
-              <div className="h-14 w-14 rounded-full border-2 border-gold-400 bg-white shadow-md flex items-center justify-center p-2.5">
-                <Ganesha className="h-10 w-10 text-maroon-900" />
+              <div className="relative">
+                <div className="h-14 w-14 rounded-full border-2 border-gold-400 bg-white shadow-md flex items-center justify-center p-2">
+                  <Ganesha className="h-10 w-10 text-maroon-900" />
+                </div>
+                <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-full border border-gold-400 bg-[#FFFDF9] px-2 py-0.5 font-mono text-[9px] font-bold tracking-wider text-gold-800">
+                  {passNo}
+                </span>
               </div>
               <Diya className="h-8 w-8 animate-flicker hidden sm:block" />
             </div>
 
-            <p className="font-hindi text-base sm:text-lg font-bold text-gold-700">
+            <p className="relative font-hindi text-sm sm:text-base font-bold text-gold-700 mt-3">
               ॥ श्री गणेशाय नमः ॥
             </p>
-
-            <p className="font-hindi text-xs sm:text-sm font-bold text-maroon-800 uppercase tracking-widest mt-0.5">
+            <p className="relative font-hindi text-[11px] sm:text-xs font-bold text-maroon-800 uppercase tracking-[0.25em] mt-0.5">
               ॥ माङ्गल्यं तनोतु सर्वदा ॥
             </p>
 
-            <Divider tone="maroon" className="h-5 w-48 mx-auto my-2" />
+            <div className="relative mx-auto mt-2 w-40">
+              <Monogram className="mx-auto h-14 w-14 text-gold-600" />
+            </div>
 
-            {/* 👑 Dedicated Honoured Guest Name Plate */}
-            <div className="my-3 relative bg-gradient-to-r from-gold-50 via-white to-gold-50 border-2 border-gold-400/90 py-4 px-6 rounded-2xl shadow-md">
+            <p className="relative font-sans text-[10px] font-bold uppercase tracking-[0.4em] text-maroon-700 mt-1">
+              · Royal Wedding Invitation ·
+            </p>
+
+            <Divider tone="maroon" className="h-5 w-56 mx-auto my-2" />
+
+            {/* Honoured guest plate */}
+            <div className="relative my-3 bg-gradient-to-br from-gold-50 via-white to-gold-50 border-2 border-gold-400/90 py-5 px-6 rounded-2xl shadow-md max-w-lg mx-auto">
               <p className="font-hindi text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-gold-800">
-                सादर आमंत्रण (Cordial Invitation)
+                सादर नमस्कार · Cordial Invitation
               </p>
+              <p className="font-hindi text-xs font-semibold text-maroon-700 mt-1">आदरणीय</p>
 
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-gold-grad shimmer mt-1 cinema-title-shadow break-words">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-gold-grad shimmer mt-1 cinema-title-shadow break-words leading-tight">
                 {guestName}
               </h2>
 
-              <p className="font-hindi text-xs sm:text-sm font-semibold text-maroon-700 mt-1">
-                (सपरिवार / With Family)
-              </p>
+              <div className="mt-2 flex items-center justify-center gap-2">
+                <span className="rounded-full border border-gold-400 bg-gold-100 px-3 py-1 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-maroon-900">
+                  सपरिवार · With Family
+                </span>
+                <span className="rounded-full border border-gold-300 bg-white px-3 py-1 font-mono text-[10px] sm:text-[11px] font-bold text-gold-800">
+                  {passNo}
+                </span>
+              </div>
 
               {/* Edit button */}
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="absolute top-3 right-3 text-gold-700 hover:text-maroon-900 transition-colors p-1 cursor-pointer"
+                className="absolute top-3 right-3 rounded-full p-1.5 text-gold-700 hover:text-maroon-900 hover:bg-gold-100 transition-colors cursor-pointer"
                 title="Change Name"
               >
                 <Edit3 className="h-4 w-4" />
               </button>
             </div>
 
-            {/* Traditional Card Content */}
-            <div className="space-y-2.5 font-hindi text-maroon-950 max-w-xl mx-auto px-2">
-              <p className="text-base sm:text-lg leading-relaxed">
-                परमपिता परमेश्वर की असीम अनुकंपा से हमारे सुपुत्र
-              </p>
-
-              <div className="my-2 py-2 border-y border-gold-300">
-                <p className="font-serif text-3xl sm:text-4xl font-bold text-maroon-900">
-                  चि. अश्विन (Ashwin)
+            {/* Couple portrait + names */}
+            <div className="relative mx-auto max-w-md">
+              <div className="arch-shadow rounded-t-[7rem] rounded-b-2xl border-2 border-gold-400 bg-white p-1.5 shadow-lg">
+                <div className="overflow-hidden rounded-t-[6.5rem] rounded-b-xl border border-gold-300">
+                  <img
+                    src={coupleImg}
+                    alt="Ashwin and Aarti"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-44 sm:h-56 w-full object-cover object-top"
+                  />
+                </div>
+              </div>
+              <div className="mt-3">
+                <p className="font-hindi text-sm font-semibold text-maroon-800">
+                  परमपिता परमेश्वर की असीम अनुकंपा से
                 </p>
-                <p className="text-xs sm:text-sm text-maroon-700 font-medium">
-                  (सुपुत्र: श्री विजय नारायण मौर्य एवं श्रीमती निर्मला मौर्य)
-                </p>
-
+                <p className="font-serif text-3xl sm:text-4xl font-bold text-maroon-900 mt-1">Ashwin</p>
+                <p className="text-xs text-maroon-700">(सुपुत्र: श्री विजय नारायण मौर्य एवं श्रीमती निर्मला मौर्य)</p>
                 <div className="flex items-center justify-center gap-2 my-1.5 text-gold-700">
                   <span className="h-px w-8 bg-gold-400" />
                   <Heart className="h-4 w-4 fill-rose-500 text-rose-500" />
@@ -323,20 +371,31 @@ export default function PersonalizedInvitationModal({
                   <Heart className="h-4 w-4 fill-rose-500 text-rose-500" />
                   <span className="h-px w-8 bg-gold-400" />
                 </div>
-
-                <p className="font-serif text-3xl sm:text-4xl font-bold text-maroon-900">
-                  आयु. आरती (Aarti)
-                </p>
-                <p className="text-xs sm:text-sm text-maroon-700 font-medium">
-                  (सुपुत्री: श्री राधेश्याम मौर्य एवं श्रीमती सुमन मौर्य)
-                </p>
+                <p className="font-serif text-3xl sm:text-4xl font-bold text-maroon-900">Aarti</p>
+                <p className="text-xs text-maroon-700">(सुपुत्री: श्री राधेश्याम मौर्य एवं श्रीमती सुमन मौर्य)</p>
               </div>
-
-              <p className="text-base sm:text-lg leading-relaxed">
-                के <strong className="text-gold-800 font-bold">शुभ विवाह</strong> के पावन अवसर पर
-                आप सपरिवार सादर आमंत्रित हैं। आपकी गरिमामयी उपस्थिति वर-वधू को नवजीवन का आशीष प्रदान करेगी।
-              </p>
             </div>
+
+            {/* All celebrations at a glance */}
+            <div className="relative mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-lg mx-auto">
+              {[
+                { d: "05 Dec", t: "Tilak", h: "तिलक" },
+                { d: "07 Dec", t: "Haldi", h: "हल्दी" },
+                { d: "08 Dec", t: "Sangeet", h: "संगीत" },
+                { d: "09 Dec", t: "Wedding", h: "विवाह" },
+              ].map((e) => (
+                <div key={e.d} className="rounded-xl border border-gold-300/80 bg-gold-50/60 px-2 py-2 text-center">
+                  <p className="font-sans text-[10px] font-bold uppercase tracking-wider text-maroon-800">{e.d}</p>
+                  <p className="font-hindi text-xs font-bold text-gold-800">{e.h}</p>
+                  <p className="font-serif text-xs font-bold text-maroon-900">{e.t}</p>
+                </div>
+              ))}
+            </div>
+
+            <p className="relative mt-3 max-w-xl mx-auto px-2 font-hindi text-base leading-relaxed text-maroon-950">
+              के <strong className="text-gold-800 font-bold">शुभ विवाह</strong> के पावन अवसर पर
+              आप सपरिवार सादर आमंत्रित हैं। आपकी गरिमामयी उपस्थिति वर-वधू को नवजीवन का आशीष प्रदान करेगी।
+            </p>
 
             {/* Event & Venue Info */}
             <div className="mt-3.5 grid grid-cols-1 sm:grid-cols-2 gap-3 text-left max-w-lg mx-auto bg-gold-50/70 border border-gold-300/80 p-3.5 rounded-xl">
@@ -391,7 +450,7 @@ export default function PersonalizedInvitationModal({
                 <Users className="h-4 w-4 text-gold-700" />
                 <span>क्या आप विवाह में पधार रहे हैं? (Will you attend?)</span>
               </p>
-              <div className="mt-2.5 flex items-center justify-center gap-2.5">
+              <div className="mt-2.5 flex items-center justify-center gap-2.5 flex-wrap">
                 <button
                   type="button"
                   onClick={() => handleConfirmAttendance(true)}
@@ -407,7 +466,18 @@ export default function PersonalizedInvitationModal({
                   <span>💐 शुभकामना संदेश</span>
                 </button>
               </div>
+              {rsvpDone && (
+                <p className="mt-2 rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-[11px] font-bold text-emerald-800 animate-fade-in">
+                  {rsvpDone === "yes"
+                    ? `धन्यवाद, ${guestName}! WhatsApp खुल रहा है — भेजने पर आपकी उपस्थिति दर्ज हो जाएगी। 🙏`
+                    : `शुक्रिया! WhatsApp खुल रहा है — आपकी शुभकामना परिवार तक पहुँचेगी। 🙏`}
+                </p>
+              )}
             </div>
+
+            <p className="mt-3 font-serif text-sm italic text-maroon-700/80">
+              #Ashwin<span className="text-gold-700 font-semibold">Weds</span>Aarti · स्वागताकांक्षी: समस्त मौर्य परिवार
+            </p>
 
             {/* Sharing & Action Options */}
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 pt-3 border-t border-gold-300">

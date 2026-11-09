@@ -107,53 +107,65 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
     // 3. Header
     ctx.fillStyle = GOLD_DARK;
     ctx.font = `bold 32px ${HINDI}`;
-    ctx.fillText("॥ श्री गणेशाय नमः ॥", W / 2, 130);
+    ctx.fillText("॥ श्री गणेशाय नमः ॥", W / 2, 118);
 
     ctx.font = `italic 22px ${SCRIPT}`;
     ctx.fillStyle = MAROON_SOFT;
-    ctx.fillText("॥ माङ्गल्यं तनोतु सर्वदा ॥", W / 2, 170);
+    ctx.fillText("॥ माङ्गल्यं तनोतु सर्वदा ॥", W / 2, 158);
+
+    // A&A monogram emblem
+    ctx.strokeStyle = GOLD;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(W / 2, 198, 26, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.font = `bold 22px ${SCRIPT}`;
+    ctx.fillStyle = GOLD_DARK;
+    ctx.fillText("A&A", W / 2, 205);
 
     ctx.strokeStyle = GOLD;
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(380, 205);
-    ctx.lineTo(820, 205);
+    ctx.moveTo(430, 248);
+    ctx.lineTo(500, 248);
+    ctx.moveTo(700, 248);
+    ctx.lineTo(770, 248);
     ctx.stroke();
 
     // 4. Honoured guest plate
     ctx.fillStyle = PAPER;
     ctx.strokeStyle = "#D4AF37";
     ctx.lineWidth = 3;
-    roundRectPath(ctx, 140, 240, 920, 185, 20);
+    roundRectPath(ctx, 140, 272, 920, 185, 20);
     ctx.fill();
     ctx.stroke();
 
     ctx.font = `bold 22px ${HINDI}`;
     ctx.fillStyle = GOLD_DARK;
-    ctx.fillText("सादर आमंत्रण · CORDIAL INVITATION", W / 2, 285);
+    ctx.fillText("सादर आमंत्रण · CORDIAL INVITATION", W / 2, 317);
 
     ctx.fillStyle = INK;
     const displayName = guestName.trim() || "सम्मानित अतिथि";
-    fitText(ctx, displayName, W / 2, 355, 840, 46, (px) => `bold ${px}px ${DISPLAY}`);
+    fitText(ctx, displayName, W / 2, 387, 840, 46, (px) => `bold ${px}px ${DISPLAY}`);
 
     ctx.font = `20px ${HINDI}`;
     ctx.fillStyle = MAROON_SOFT;
-    ctx.fillText("(सपरिवार / With Family)", W / 2, 395);
+    ctx.fillText("(सपरिवार / With Family)", W / 2, 427);
 
     // 5. Invitation body
     ctx.font = `26px ${HINDI}`;
     ctx.fillStyle = MAROON;
-    fitText(ctx, "परमपिता परमेश्वर की असीम अनुकंपा से हमारे सुपुत्र", W / 2, 475, 900, 26, (px) => `${px}px ${HINDI}`);
+    fitText(ctx, "परमपिता परमेश्वर की असीम अनुकंपा से हमारे सुपुत्र", W / 2, 507, 900, 26, (px) => `${px}px ${HINDI}`);
 
     ctx.fillStyle = INK;
-    fitText(ctx, "Ashwin", W / 2, 550, 860, 60, (px) => `bold ${px}px ${DISPLAY}`);
+    fitText(ctx, "Ashwin", W / 2, 582, 860, 60, (px) => `bold ${px}px ${DISPLAY}`);
 
     ctx.fillStyle = MAROON_SOFT;
     fitText(
       ctx,
       "(सुपुत्र: श्री विजय नारायण मौर्य एवं श्रीमती निर्मला मौर्य)",
       W / 2,
-      592,
+      624,
       900,
       22,
       (px) => `${px}px ${HINDI}`
@@ -161,17 +173,17 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
 
     ctx.font = `bold 32px ${SCRIPT}`;
     ctx.fillStyle = GOLD;
-    ctx.fillText("— संग (weds) —", W / 2, 642);
+    ctx.fillText("— संग (weds) —", W / 2, 674);
 
     ctx.fillStyle = INK;
-    fitText(ctx, "Aarti", W / 2, 720, 860, 60, (px) => `bold ${px}px ${DISPLAY}`);
+    fitText(ctx, "Aarti", W / 2, 752, 860, 60, (px) => `bold ${px}px ${DISPLAY}`);
 
     ctx.fillStyle = MAROON_SOFT;
     fitText(
       ctx,
       "(सुपुत्री: श्री राधेश्याम मौर्य एवं श्रीमती सुमन मौर्य)",
       W / 2,
-      762,
+      794,
       900,
       22,
       (px) => `${px}px ${HINDI}`
@@ -182,7 +194,7 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
       ctx,
       "के शुभ विवाह के पावन अवसर पर आप सपरिवार सादर आमंत्रित हैं।",
       W / 2,
-      835,
+      867,
       940,
       26,
       (px) => `${px}px ${HINDI}`
@@ -193,7 +205,7 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
       ctx,
       "आपकी गरिमामयी उपस्थिति वर-वधू को नवजीवन का आशीष प्रदान करेगी।",
       W / 2,
-      875,
+      907,
       940,
       22,
       (px) => `italic ${px}px ${HINDI}`
@@ -203,26 +215,26 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
     ctx.fillStyle = GOLD_LIGHT;
     ctx.strokeStyle = GOLD;
     ctx.lineWidth = 2;
-    roundRectPath(ctx, 140, 930, 920, 240, 16);
+    roundRectPath(ctx, 140, 962, 920, 240, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.font = `bold 24px ${HINDI}`;
     ctx.fillStyle = GOLD_DARK;
-    ctx.fillText("॥ मांगलिक उत्सव एवं शुभ तिथि ॥", W / 2, 980);
+    ctx.fillText("॥ मांगलिक उत्सव एवं शुभ तिथि ॥", W / 2, 1012);
 
     ctx.fillStyle = INK;
-    fitText(ctx, "बुधवार, 09 दिसम्बर 2026 (Wednesday)", W / 2, 1035, 860, 36, (px) => `bold ${px}px ${DISPLAY}`);
+    fitText(ctx, "बुधवार, 09 दिसम्बर 2026 (Wednesday)", W / 2, 1067, 860, 36, (px) => `bold ${px}px ${DISPLAY}`);
 
     ctx.font = `22px ${HINDI}`;
     ctx.fillStyle = MAROON_SOFT;
-    ctx.fillText("शुभ विवाह मुहूर्त एवं प्रीतिभोज", W / 2, 1075);
+    ctx.fillText("शुभ विवाह मुहूर्त एवं प्रीतिभोज", W / 2, 1107);
 
     fitText(
       ctx,
       "तिलक: 05 Dec · हल्दी: 07 Dec · संगीत: 08 Dec · विवाह: 09 Dec",
       W / 2,
-      1120,
+      1152,
       880,
       22,
       (px) => `${px}px ${HINDI}`
@@ -231,14 +243,14 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
     // 7. Venue
     ctx.font = `bold 26px ${HINDI}`;
     ctx.fillStyle = GOLD_DARK;
-    ctx.fillText("शुभ स्थल (Wedding Venue)", W / 2, 1225);
+    ctx.fillText("शुभ स्थल (Wedding Venue)", W / 2, 1257);
 
     ctx.fillStyle = INK;
     fitText(
       ctx,
       "ग्राम बिगहपुर, पोस्ट दुबारी, मऊ — उत्तर प्रदेश",
       W / 2,
-      1275,
+      1307,
       900,
       34,
       (px) => `bold ${px}px ${DISPLAY}`
@@ -249,7 +261,7 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
       ctx,
       "Village Bigrahpur, Post Dubari, Mau (Uttar Pradesh)",
       W / 2,
-      1315,
+      1347,
       900,
       20,
       (px) => `${px}px ${HINDI}`
@@ -259,8 +271,8 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
     ctx.strokeStyle = GOLD;
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.moveTo(350, 1365);
-    ctx.lineTo(850, 1365);
+    ctx.moveTo(350, 1397);
+    ctx.lineTo(850, 1397);
     ctx.stroke();
 
     ctx.fillStyle = GOLD_DARK;
@@ -268,7 +280,7 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
       ctx,
       "स्वागताकांक्षी: समस्त मौर्य परिवार",
       W / 2,
-      1420,
+      1452,
       880,
       28,
       (px) => `bold ${px}px ${HINDI}`
@@ -279,11 +291,15 @@ export function generateWeddingCardImage(guestName: string): Promise<string> {
       ctx,
       "निमंत्रक: अश्विन मौर्य (+91 99583 00518)",
       W / 2,
-      1465,
+      1497,
       880,
       22,
       (px) => `${px}px ${HINDI}`
     );
+
+    ctx.font = `italic 20px ${SCRIPT}`;
+    ctx.fillStyle = GOLD_DARK;
+    ctx.fillText("#AshwinWedsAarti", W / 2, 1532);
 
     resolve(canvas.toDataURL("image/png"));
   });
