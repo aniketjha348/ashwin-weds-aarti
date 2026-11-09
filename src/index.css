@@ -219,23 +219,6 @@ body {
     0 0 0 1px rgba(201, 162, 75, 0.4);
 }
 
-/* Film sprockets border pattern */
-.sprockets-pattern {
-  background-image: radial-gradient(#d4af37 25%, transparent 28%);
-  background-size: 16px 16px;
-  background-position: center;
-}
-
-/* Rolling film end credits */
-@keyframes credits-pan {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(-110%); }
-}
-
-.animate-credits-roll {
-  animation: credits-pan 28s linear infinite;
-}
-
 /* ---------- Ultra-Realistic Velvet Theatre Curtains ---------- */
 .curtain-panel-velvet {
   background:
@@ -340,8 +323,7 @@ body {
   .animate-glowpulse,
   .animate-scrollcue,
   .animate-flicker,
-  .animate-marquee,
-  .animate-credits-roll {
+  .animate-marquee {
     animation: none !important;
   }
   .animate-fade-in,

@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MapPin, Navigation, Phone, MessageCircle, Heart, Copy, Check, Share2 } from "lucide-react";
 import { Divider, Monogram, Paisley } from "./Ornaments";
+import { GOOGLE_MAPS_URL, PHONE_DISPLAY, PHONE_E164, VENUE_ADDRESS, waShareUrl, waRsvpUrl } from "../constants";
 import funImg from "../assets/fun.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,7 +14,7 @@ export default function Footer() {
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
 
-  const venueAddress = "Village Bigrahpur, Post Dubari, Mau — Uttar Pradesh";
+  const venueAddress = VENUE_ADDRESS;
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(venueAddress).then(() => {
@@ -32,10 +33,7 @@ export default function Footer() {
     if (navigator.share) {
       navigator.share(shareData).catch(() => {});
     } else {
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
-        shareData.text + shareData.url
-      )}`;
-      window.open(whatsappUrl, "_blank");
+      window.open(waShareUrl(shareData.text + shareData.url), "_blank");
       setShared(true);
       setTimeout(() => setShared(false), 2500);
     }
@@ -144,7 +142,7 @@ export default function Footer() {
 
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Bigrahpur,+Dubari,+Mau,+Uttar+Pradesh"
+                href={GOOGLE_MAPS_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 border border-gold-400 bg-gold-500 px-6 py-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.25em] text-maroon-950 transition-all duration-500 hover:bg-gold-600 hover:shadow-md"
@@ -195,12 +193,12 @@ export default function Footer() {
               <span className="text-maroon-950 font-bold">Ashwin Maurya</span>
             </p>
             <p className="mt-1 font-sans text-sm font-semibold tracking-[0.15em] text-maroon-800">
-              +91 99583 00518
+              {PHONE_DISPLAY}
             </p>
 
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <a
-                href="tel:+919958300518"
+                href={`tel:${PHONE_E164}`}
                 className="inline-flex items-center gap-2 border border-maroon-800 bg-white px-5 py-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-maroon-900 transition-all duration-300 hover:bg-gold-50"
               >
                 <Phone className="h-3.5 w-3.5 text-maroon-800" />
@@ -208,7 +206,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://wa.me/919958300518?text=Congratulations%20Ashwin%20%26%20Aarti!%20We%27ll%20definitely%20be%20there%20%E2%9C%A8"
+                href={waRsvpUrl("Congratulations Ashwin & Aarti! We'll definitely be there ✨")}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 border border-emerald-600 bg-emerald-600 px-5 py-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-emerald-700 shadow-sm"

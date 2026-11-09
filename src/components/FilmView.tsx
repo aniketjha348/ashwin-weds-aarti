@@ -25,7 +25,8 @@ import {
   WeddingBells,
   CornerFlourish,
 } from "./Ornaments";
-import { useCountdown } from "./Story";
+import { useCountdown } from "../hooks/useCountdown";
+import { GOOGLE_MAPS_URL, PHONE_DISPLAY, VENUE_ADDRESS, waRsvpUrl, waShareUrl } from "../constants";
 import PersonalizedInvitationModal from "./PersonalizedInvitationModal";
 
 import img1773 from "../assets/dsc_1773.jpg";
@@ -142,8 +143,6 @@ export default function FilmView({
     setPetalShowerCount((c) => c + 1);
   };
 
-  const sceneTimeOffsets = [0, 6.6, 14.6, 22.1, 30.6, 38.1, 44.6, 52.6];
-
   const jumpToScene = (index: number) => {
     setIsChapterMenuOpen(false);
     setActiveSceneIndex(index);
@@ -151,7 +150,10 @@ export default function FilmView({
     gsap.set(`#scene-${index}`, { opacity: 1, display: "flex" });
 
     if (masterTimelineRef.current) {
-      const targetTime = sceneTimeOffsets[index] || 0;
+      const label = `scene-${index}`;
+      const target = masterTimelineRef.current.labels?.[label];
+      const FALLBACK_OFFSETS = [0, 6.6, 14.6, 22.1, 30.6, 38.1, 44.6, 52.6];
+      const targetTime = typeof target === "number" ? target : FALLBACK_OFFSETS[index] ?? 0;
       masterTimelineRef.current.seek(targetTime);
       masterTimelineRef.current.play();
       setIsPaused(false);
@@ -176,7 +178,7 @@ export default function FilmView({
       // ──────────────────────────────────────────────────────────
       // SCENE 0: SACRED PRODUCTION PROLOGUE (0.0s - 6.5s)
       // ──────────────────────────────────────────────────────────
-      tl.call(() => setActiveSceneIndex(0))
+      tl.addLabel("scene-0").call(() => setActiveSceneIndex(0))
         .to("#scene-0", { opacity: 1, duration: 1.2, ease: "power2.out" })
         .from("#scene-0 .ganesh-icon-box", { scale: 0.75, opacity: 0, duration: 1.1, ease: "back.out(1.4)" }, "-=0.8")
         .from("#scene-0 .diya-flame", { scale: 0.5, opacity: 0, duration: 0.9, stagger: 0.15, ease: "power2.out" }, "-=0.7")
@@ -189,7 +191,7 @@ export default function FilmView({
       // SCENE 1: THE LEADING CAST & MAIN TITLE (DSC_3488) (6.5s - 14.5s)
       // Royal Palace Arch Frame - Faces & Outfits 100% clearly visible!
       // ──────────────────────────────────────────────────────────
-      tl.call(() => setActiveSceneIndex(1))
+      tl.addLabel("scene-1").call(() => setActiveSceneIndex(1))
         .set("#scene-1", { display: "flex" })
         .to("#scene-1", { opacity: 1, duration: 1.2, ease: "power2.out" })
         .from("#scene-1 .couple-arch-box", { scale: 0.92, y: 30, opacity: 0, duration: 1.2, ease: "power3.out" }, "-=0.9")
@@ -202,7 +204,7 @@ export default function FilmView({
       // ──────────────────────────────────────────────────────────
       // SCENE 2: TWO FAMILIES UNITE (DSC_1776) (14.5s - 22.0s)
       // ──────────────────────────────────────────────────────────
-      tl.call(() => setActiveSceneIndex(2))
+      tl.addLabel("scene-2").call(() => setActiveSceneIndex(2))
         .set("#scene-2", { display: "flex" })
         .to("#scene-2", { opacity: 1, duration: 1.1, ease: "power2.out" })
         .from("#scene-2 .family-photo-box", { scale: 0.92, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.7")
@@ -214,7 +216,7 @@ export default function FilmView({
       // ──────────────────────────────────────────────────────────
       // SCENE 3: CELEBRATIONS & 4 FUNCTIONS (DSC_1777) (22.0s - 30.5s)
       // ──────────────────────────────────────────────────────────
-      tl.call(() => setActiveSceneIndex(3))
+      tl.addLabel("scene-3").call(() => setActiveSceneIndex(3))
         .set("#scene-3", { display: "flex" })
         .to("#scene-3", { opacity: 1, duration: 1.1, ease: "power2.out" })
         .from("#scene-3 .events-photo-box", { scale: 0.92, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.7")
@@ -232,7 +234,7 @@ export default function FilmView({
       // ──────────────────────────────────────────────────────────
       // SCENE 4: OUR STORY / THE RING & PROMISE (DSC_1773) (30.5s - 38.0s)
       // ──────────────────────────────────────────────────────────
-      tl.call(() => setActiveSceneIndex(4))
+      tl.addLabel("scene-4").call(() => setActiveSceneIndex(4))
         .set("#scene-4", { display: "flex" })
         .to("#scene-4", { opacity: 1, duration: 1.1, ease: "power2.out" })
         .from("#scene-4 .story-photo-box", { scale: 0.92, opacity: 0, duration: 1.1, ease: "power3.out" }, "-=0.7")
@@ -244,7 +246,7 @@ export default function FilmView({
       // ──────────────────────────────────────────────────────────
       // SCENE 5: SPECIAL CAMEO — NIECE & NEPHEW (FUN.JPG) (38.0s - 44.5s)
       // ──────────────────────────────────────────────────────────
-      tl.call(() => setActiveSceneIndex(5))
+      tl.addLabel("scene-5").call(() => setActiveSceneIndex(5))
         .set("#scene-5", { display: "flex" })
         .to("#scene-5", { opacity: 1, duration: 1.1, ease: "power2.out" })
         .from("#scene-5 .kids-photo-box", { scale: 0.88, opacity: 0, duration: 1, ease: "back.out(1.2)" }, "-=0.7")
@@ -256,7 +258,7 @@ export default function FilmView({
       // ──────────────────────────────────────────────────────────
       // SCENE 6: GODHULI BELA — 16:9 SUNSET PANORAMA (DSC_3501) (44.5s - 52.5s)
       // ──────────────────────────────────────────────────────────
-      tl.call(() => setActiveSceneIndex(6))
+      tl.addLabel("scene-6").call(() => setActiveSceneIndex(6))
         .set("#scene-6", { display: "flex" })
         .to("#scene-6", { opacity: 1, duration: 1.2, ease: "power2.out" })
         .from("#scene-6 .panorama-box", { scale: 0.95, opacity: 0, duration: 1.1, ease: "power3.out" }, "-=0.8")
@@ -268,7 +270,7 @@ export default function FilmView({
       // ──────────────────────────────────────────────────────────
       // SCENE 7: GRAND CLIMAX & YOUR PERSONALIZED INVITATION (52.5s onwards)
       // ──────────────────────────────────────────────────────────
-      tl.call(() => setActiveSceneIndex(7))
+      tl.addLabel("scene-7").call(() => setActiveSceneIndex(7))
         .set("#scene-7", { display: "flex" })
         .to("#scene-7", { opacity: 1, duration: 1.2, ease: "power2.out" })
         .from("#scene-7 .venue-item", {
@@ -319,7 +321,7 @@ export default function FilmView({
       }
       if (e.key === "ArrowRight") {
         e.preventDefault();
-        jumpToScene(Math.min(sceneTimeOffsets.length - 1, activeSceneIndex + 1));
+        jumpToScene(Math.min(7, activeSceneIndex + 1));
       }
       if (e.key === "ArrowLeft") {
         e.preventDefault();
@@ -363,7 +365,7 @@ export default function FilmView({
     if (navigator.share) {
       navigator.share({ title: "Ashwin weds Aarti — Wedding Film", text, url: window.location.href }).catch(() => {});
     } else {
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+      window.open(waShareUrl(text), "_blank");
       setShared(true);
       setTimeout(() => setShared(false), 2000);
     }
@@ -686,7 +688,7 @@ export default function FilmView({
 
           <p className="couple-title-text flex items-center justify-center md:justify-start gap-1.5 sm:gap-2 font-serif text-xs sm:text-base md:text-lg text-maroon-800/90 italic">
             <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gold-600 shrink-0" />
-            Village Bigrahpur, Post Dubari, Mau — Uttar Pradesh
+            {VENUE_ADDRESS}
           </p>
         </div>
       </section>
@@ -969,10 +971,10 @@ export default function FilmView({
             <Kalash className="h-5 w-5 sm:h-6 sm:w-6 text-gold-600 -scale-x-100" />
           </div>
           <p className="font-serif text-lg sm:text-xl md:text-2xl font-bold text-maroon-900 mt-0.5 sm:mt-1">
-            Village Bigrahpur, Post Dubari, Mau — Uttar Pradesh
+            {VENUE_ADDRESS}
           </p>
           <p className="font-sans text-[11px] sm:text-xs uppercase tracking-wider text-maroon-700 mt-0.5">
-            Wedding Invitation by <strong className="text-maroon-900 font-bold">Ashwin Maurya</strong> (+91 99583 00518)
+            Wedding Invitation by <strong className="text-maroon-900 font-bold">Ashwin Maurya</strong> ({PHONE_DISPLAY})
           </p>
         </div>
 
@@ -1006,7 +1008,7 @@ export default function FilmView({
         <div className="venue-item mt-2 sm:mt-3 w-full max-w-md">
           <div className="flex items-stretch justify-center gap-2 sm:gap-3">
             <a
-              href="https://www.google.com/maps/search/?api=1&query=Bigrahpur,+Dubari,+Mau,+Uttar+Pradesh"
+              href={GOOGLE_MAPS_URL}
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
@@ -1019,7 +1021,7 @@ export default function FilmView({
             </a>
 
             <a
-              href="https://wa.me/919958300518?text=Congratulations%20Ashwin%20%26%20Aarti!%20We%27ll%20definitely%20be%20there%20%E2%9C%A8"
+              href={waRsvpUrl("Congratulations Ashwin & Aarti! We'll definitely be there ✨")}
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}

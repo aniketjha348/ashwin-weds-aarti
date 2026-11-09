@@ -14,7 +14,8 @@ import {
   Clock,
 } from "lucide-react";
 import { Ganesha, Diya, CornerFlourish, Divider, Petals } from "./Ornaments";
-import { useCountdown } from "./Story";
+import { useCountdown } from "../hooks/useCountdown";
+import { GOOGLE_MAPS_URL, WEDDING_CALENDAR_URL, waRsvpUrl } from "../constants";
 import { generateWeddingCardImage } from "../utils/downloadCard";
 import { useModalBehavior } from "../hooks/useModalBehavior";
 
@@ -105,8 +106,7 @@ export default function PersonalizedInvitationModal({
     const message = attending
       ? `सादर प्रणाम अश्विन भैया! 🙏 मैं *${name}* सपरिवार आपके और आरती जी के शुभ विवाह (09 दिसम्बर 2026, गाँव बिगहपुर, मऊ) में अवश्य पधारूँगा। आप दोनों को बहुत-बहुत बधाई व मंगलकामनाएँ! 🌸✨`
       : `सादर प्रणाम अश्विन भैया! 🙏 मैं *${name}* आप दोनों को शुभ विवाह की हार्दिक बधाई व अनंत शुभकामनाएँ प्रेषित करता हूँ। ईश्वर आपकी जोड़ी सदा बनाए रखे! 💐`;
-    const waUrl = `https://wa.me/919958300518?text=${encodeURIComponent(message)}`;
-    window.open(waUrl, "_blank");
+    window.open(waRsvpUrl(message), "_blank");
   };
 
   const handleDownloadCard = async () => {
@@ -342,7 +342,7 @@ export default function PersonalizedInvitationModal({
                   <p className="text-xs text-maroon-700">शुभ विवाह एवं प्रीतिभोज</p>
                   <div className="flex items-center gap-2 mt-1">
                     <a
-                      href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ashwin%20%E2%99%A5%20Aarti%20%E2%80%94%20Shubh%20Vivah&dates=20261209T133000Z%2F20261209T170000Z&details=Saat%20phere%2C%20ek%20vaada.%20Join%20the%20celebration!&location=Vill.%20Bigrahpur%2C%20Post%20Dubari%2C%20Mau%2C%20Uttar%20Pradesh"
+                      href={WEDDING_CALENDAR_URL}
                       target="_blank"
                       rel="noreferrer"
                       className="text-[11px] font-bold text-gold-800 hover:text-maroon-900 underline underline-offset-2"
@@ -366,7 +366,7 @@ export default function PersonalizedInvitationModal({
                   </p>
                   <p className="text-xs text-maroon-700">मऊ — उत्तर प्रदेश</p>
                   <a
-                    href="https://www.google.com/maps/search/?api=1&query=Bigrahpur,+Dubari,+Mau,+Uttar+Pradesh"
+                    href={GOOGLE_MAPS_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-block mt-1 text-[11px] font-bold text-gold-800 hover:text-maroon-900 underline underline-offset-2"

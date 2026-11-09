@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CalendarPlus, Clock, Droplets, Flower2, Heart, Music, Sparkles } from "lucide-react";
 import { Divider, Sparkles as SparkleField } from "./Ornaments";
+import { VENUE_SHORT } from "../constants";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,7 +77,7 @@ function makeCalendarUrl(title: string, dateISO: string, note: string) {
     `Ashwin ♥ Aarti — ${title}`
   )}&dates=${fmt(start)}/${fmt(end)}&details=${encodeURIComponent(
     `${note}. With joyful hearts, Ashwin & Aarti invite you!`
-  )}&location=${encodeURIComponent("Vill. Bigrahpur, Post Dubari, Mau, Uttar Pradesh")}`;
+  )}&location=${encodeURIComponent(VENUE_SHORT)}`;
 }
 
 export default function Celebrations() {

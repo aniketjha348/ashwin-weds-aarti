@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { X, Send, Heart, Sparkles, MessageCircle } from "lucide-react";
 import { CornerFlourish, Divider, Diya, Petals } from "./Ornaments";
 import { useModalBehavior } from "../hooks/useModalBehavior";
+import { waRsvpUrl } from "../constants";
 
 interface Blessing {
   id: string;
@@ -110,8 +111,7 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
     const name = authorName.trim() || "स्नेहीजन";
     const msg = customMessage.trim() || selectedBadge;
     const text = `सादर प्रणाम अश्विन भैया! 🙏\n\n*${name}* की ओर से आप दोनों को वैवाहिक जीवन की अनंत शुभकामनाएँ व मंगल आशीष:\n\n"${msg}" 🌸✨\n(09 Dec 2026, मऊ)`;
-    const waUrl = `https://wa.me/919958300518?text=${encodeURIComponent(text)}`;
-    window.open(waUrl, "_blank");
+    window.open(waRsvpUrl(text), "_blank");
   };
 
   return (

@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CalendarPlus } from "lucide-react";
 import { CornerFlourish, Divider } from "./Ornaments";
+import { useCountdown } from "../hooks/useCountdown";
+import { WEDDING_CALENDAR_URL } from "../constants";
 import storyImg from "../assets/dsc_1773.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -114,27 +116,6 @@ export function Story() {
 }
 
 /* ═══════════════════════ Countdown (Light & Straight) ═══════════════════════ */
-const TARGET = new Date("2026-12-09T19:00:00+05:30").getTime();
-
-export function useCountdown() {
-  const calc = () => {
-    const diff = Math.max(0, TARGET - Date.now());
-    return {
-      days: Math.floor(diff / 86400000),
-      hours: Math.floor(diff / 3600000) % 24,
-      mins: Math.floor(diff / 60000) % 60,
-      secs: Math.floor(diff / 1000) % 60,
-      done: diff === 0,
-    };
-  };
-  const [t, setT] = useState(calc);
-  useEffect(() => {
-    const id = setInterval(() => setT(calc()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return t;
-}
-
 export function Countdown() {
   const t = useCountdown();
   const containerRef = useRef<HTMLElement>(null);
@@ -224,7 +205,7 @@ export function Countdown() {
             09 · 12 · 2026 — Bigrahpur, Mau
           </p>
           <a
-            href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ashwin%20%E2%99%A5%20Aarti%20%E2%80%94%20Shubh%20Vivah&dates=20261209T133000Z%2F20261209T170000Z&details=Saat%20phere%2C%20ek%20vaada.%20Join%20the%20celebration!&location=Vill.%20Bigrahpur%2C%20Post%20Dubari%2C%20Mau%2C%20Uttar%20Pradesh"
+            href={WEDDING_CALENDAR_URL}
             target="_blank"
             rel="noreferrer"
             className="group relative inline-flex items-center gap-3 overflow-hidden border border-gold-400 bg-maroon-800 px-5 sm:px-8 py-3 sm:py-3.5 font-sans text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] sm:tracking-[0.3em] text-gold-100 transition-all duration-500 hover:bg-maroon-900 hover:shadow-[0_12px_35px_-8px_rgba(75,13,27,0.35)]"

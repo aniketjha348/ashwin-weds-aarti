@@ -1,6 +1,7 @@
 import { X, Train, Plane, Car, Phone, Navigation } from "lucide-react";
 import { CornerFlourish, Divider, Diya } from "./Ornaments";
 import { useModalBehavior } from "../hooks/useModalBehavior";
+import { GOOGLE_MAPS_URL, PHONE_E164, PHONE_DISPLAY } from "../constants";
 
 interface TravelGuideModalProps {
   isOpen: boolean;
@@ -109,7 +110,7 @@ export default function TravelGuideModal({ isOpen, onClose }: TravelGuideModalPr
         {/* Live Navigation & Contact */}
         <div className="mt-6 pt-4 border-t border-gold-300 flex flex-wrap items-center justify-center gap-3">
           <a
-            href="https://www.google.com/maps/search/?api=1&query=Bigrahpur,+Dubari,+Mau,+Uttar+Pradesh"
+            href={GOOGLE_MAPS_URL}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-xl border border-gold-400 bg-gold-500 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-maroon-950 hover:bg-gold-600 transition-colors shadow-md"
@@ -119,11 +120,11 @@ export default function TravelGuideModal({ isOpen, onClose }: TravelGuideModalPr
           </a>
 
           <a
-            href="tel:+919958300518"
+            href={`tel:${PHONE_E164}`}
             className="inline-flex items-center gap-2 rounded-xl border border-maroon-800 bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm"
           >
             <Phone className="h-4 w-4 text-maroon-800" />
-            <span>Call for Guidance (+91 99583 00518)</span>
+            <span>Call for Guidance ({PHONE_DISPLAY})</span>
           </a>
         </div>
       </div>

@@ -52,7 +52,7 @@ export default function App() {
     audioRef.current
       .play()
       .then(() => setIsPlayingMusic(true))
-      .catch((e) => console.log("Audio autoplay notice:", e));
+      .catch(() => {});
   }, []);
 
   const toggleMusic = useCallback(() => {
@@ -119,11 +119,11 @@ export default function App() {
         />
       )}
 
-      {/* 3. Continuous Scroll View */}
+      {/* 3. Continuous Scroll View — mounted only when visible so
+          ScrollTrigger measures the real layout and entrances replay */}
+      {!isFilmMode && (
       <main
-        className={`grain relative bg-ivory-50 text-maroon-900 font-sans antialiased transition-opacity duration-500 ${
-          isFilmMode ? "hidden" : "block"
-        }`}
+        className="grain relative bg-ivory-50 text-maroon-900 font-sans antialiased transition-opacity duration-500"
       >
         {/* Golden scroll progress */}
         <div
@@ -168,6 +168,7 @@ export default function App() {
 
         <BlessingsModal isOpen={isBlessingsOpen} onClose={() => setIsBlessingsOpen(false)} />
       </main>
+      )}
     </div>
   );
 }

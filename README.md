@@ -14,7 +14,7 @@ A cinematic, Bollywood-style interactive digital wedding invitation card for **A
 - 📜 **Continuous Scroll Mode**: Light royal ivory theme (`#FAF7F2`) with GSAP ScrollTrigger animations, mandalas, petals, and pre-wedding gallery.
 - 💌 **Personalized Invitation Card**: Guests enter their name and receive a dynamically generated gold-foil royal patrika with:
   - Downloadable PNG card (`?guest=Name` deep link)
-  - WhatsApp RSVP confirmation directly to the family (+91 99XXX XXXXX)
+  - WhatsApp RSVP confirmation directly to the family
   - Copy invite link / share via WhatsApp
 - 🙏 **Blessings Wall**: Guests post शुभकामना messages (stored locally) or send them via WhatsApp.
 - 🗺️ **Travel & Route Guide**: Nearest stations (Belthara Road / Mau Jn), airports (VNS / GOP), and Google Maps directions.
