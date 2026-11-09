@@ -40,15 +40,20 @@ interface FilmViewProps {
   isPlayingMusic: boolean;
   onToggleMusic: () => void;
   onSwitchToScroll: () => void;
+  onFadeOutMusic?: (durationMs?: number) => void;
+  onRestartMusic?: () => void;
 }
 
 export default function FilmView({
   isPlayingMusic,
   onToggleMusic,
   onSwitchToScroll,
+  onFadeOutMusic,
+  onRestartMusic,
 }: FilmViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const masterTimelineRef = useRef<gsap.core.Timeline | null>(null);
+  const fadeTimerRef = useRef<number | null>(null);
 
   const [activeSceneIndex, setActiveSceneIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -144,6 +149,10 @@ export default function FilmView({
   };
 
   const jumpToScene = (index: number) => {
+    if (fadeTimerRef.current !== null) {
+      window.clearTimeout(fadeTimerRef.current);
+      fadeTimerRef.current = null;
+    }
     setIsChapterMenuOpen(false);
     setActiveSceneIndex(index);
     gsap.set(".film-scene", { opacity: 0, display: "none" });
@@ -170,6 +179,10 @@ export default function FilmView({
       const tl = gsap.timeline({
         onComplete: () => {
           setIsEnded(true);
+          // Gently fade out track over 2000ms after 600ms delay so it never sounds abruptly cut in the middle
+          fadeTimerRef.current = window.setTimeout(() => {
+            onFadeOutMusic?.(2000);
+          }, 600);
         },
       });
 
@@ -282,7 +295,12 @@ export default function FilmView({
         }, "-=0.8");
     }, containerRef);
 
-    return () => ctx.revert();
+    return () => {
+      if (fadeTimerRef.current !== null) {
+        window.clearTimeout(fadeTimerRef.current);
+      }
+      ctx.revert();
+    };
   }, []);
 
   // Track film progress for the scrubber
@@ -348,15 +366,20 @@ export default function FilmView({
   };
 
   const handleReplay = useCallback(() => {
+    if (fadeTimerRef.current !== null) {
+      window.clearTimeout(fadeTimerRef.current);
+      fadeTimerRef.current = null;
+    }
     setIsEnded(false);
     setIsPaused(false);
+    onRestartMusic?.();
     if (masterTimelineRef.current) {
       gsap.set(".film-scene", { opacity: 0, display: "none" });
       gsap.set("#scene-0", { opacity: 1, display: "flex" });
       masterTimelineRef.current.seek(0);
       masterTimelineRef.current.play();
     }
-  }, []);
+  }, [onRestartMusic]);
 
   const handleShare = () => {
     const text =

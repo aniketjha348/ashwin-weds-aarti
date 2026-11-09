@@ -43,8 +43,28 @@ export default function App() {
     }
   }, []);
 
+  const fadeAnimRef = useRef<number | null>(null);
+
+  const cancelFade = useCallback(() => {
+    if (fadeAnimRef.current !== null) {
+      cancelAnimationFrame(fadeAnimRef.current);
+      fadeAnimRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      cancelFade();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [cancelFade]);
+
   // Initialize background audio
   const startMusic = useCallback(() => {
+    cancelFade();
     if (!audioRef.current) {
       const audio = new Audio(AUDIO_URL);
       audio.loop = true;
@@ -60,27 +80,79 @@ export default function App() {
       audioRef.current = audio;
     }
 
+    audioRef.current.volume = 0.55;
     audioRef.current
       .play()
       .then(() => setIsPlayingMusic(true))
       .catch(() => {});
-  }, []);
+  }, [cancelFade]);
 
-  const toggleMusic = useCallback(() => {
+  // Smooth cinematic S-curve audio fade-out within 1-3 seconds
+  const fadeOutMusic = useCallback(
+    (durationMs = 2200) => {
+      if (!audioRef.current) return;
+      const audio = audioRef.current;
+      if (audio.paused) return;
+
+      cancelFade();
+      const startVolume = audio.volume > 0 ? audio.volume : 0.55;
+      const startTime = performance.now();
+
+      const step = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / durationMs);
+        // Cosine S-curve: starts soft, drops smoothly, no abrupt cut
+        const factor = 0.5 * (1 + Math.cos(progress * Math.PI));
+        audio.volume = Math.max(0, startVolume * factor);
+
+        if (progress < 1) {
+          fadeAnimRef.current = requestAnimationFrame(step);
+        } else {
+          audio.pause();
+          audio.volume = 0.55; // Reset volume for next playback
+          setIsPlayingMusic(false);
+          fadeAnimRef.current = null;
+        }
+      };
+
+      fadeAnimRef.current = requestAnimationFrame(step);
+    },
+    [cancelFade]
+  );
+
+  const restartMusic = useCallback(() => {
+    cancelFade();
     if (!audioRef.current) {
       startMusic();
       return;
     }
+    const audio = audioRef.current;
+    audio.currentTime = 0;
+    audio.volume = 0.55;
+    audio
+      .play()
+      .then(() => setIsPlayingMusic(true))
+      .catch(() => {});
+  }, [cancelFade, startMusic]);
+
+  const toggleMusic = useCallback(() => {
+    cancelFade();
+    if (!audioRef.current) {
+      startMusic();
+      return;
+    }
+    const audio = audioRef.current;
     if (isPlayingMusic) {
-      audioRef.current.pause();
+      audio.pause();
       setIsPlayingMusic(false);
     } else {
-      audioRef.current
+      audio.volume = 0.55;
+      audio
         .play()
         .then(() => setIsPlayingMusic(true))
         .catch(() => {});
     }
-  }, [isPlayingMusic, startMusic]);
+  }, [cancelFade, isPlayingMusic, startMusic]);
 
   // Handle intro choice - launches the cinema hall film
   const handleStartFilm = () => {
@@ -127,6 +199,8 @@ export default function App() {
           isPlayingMusic={isPlayingMusic}
           onToggleMusic={toggleMusic}
           onSwitchToScroll={() => setIsFilmMode(false)}
+          onFadeOutMusic={fadeOutMusic}
+          onRestartMusic={restartMusic}
         />
       )}
 
