@@ -1,0 +1,16 @@
+{
+  "name": "Ashwin & Aarti — Shubh Vivah",
+  "short_name": "Ashwin ♥ Aarti",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF7F2",
+  "theme_color": "#FAF7F2",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
