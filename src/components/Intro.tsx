@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { gsap } from "gsap";
-import { Play, Ticket, Sparkles as SparklesIcon, Film } from "lucide-react";
+import { Play, Sparkles as SparklesIcon, Film } from "lucide-react";
 import { Ganesha, CornerFlourish, Diya } from "./Ornaments";
 
 interface IntroProps {
@@ -282,19 +282,11 @@ export default function Intro({ onStartFilm }: IntroProps) {
           <div className="absolute top-1/2 -right-3.5 h-6 w-6 sm:h-7 sm:w-7 -translate-y-1/2 rounded-full bg-[#0d0104] border border-gold-400" />
 
           {/* Top Bar of Ticket */}
-          <div className="flex items-center justify-between border-b border-gold-300/70 pb-2.5 sm:pb-3">
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <Diya className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="font-hindi text-xs sm:text-sm font-bold text-maroon-900">
-                ॥ श्री गणेशाय नमः ॥
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 text-gold-700">
-              <Ticket className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span className="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase font-semibold text-maroon-700">
-                PASS № MVP-2026
-              </span>
-            </div>
+          <div className="flex items-center justify-center gap-1.5 sm:gap-2 border-b border-gold-300/70 pb-2.5 sm:pb-3">
+            <Diya className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="font-hindi text-xs sm:text-sm font-bold text-maroon-900">
+              ॥ श्री गणेशाय नमः ॥
+            </span>
           </div>
 
           {/* Main Body of Ticket */}

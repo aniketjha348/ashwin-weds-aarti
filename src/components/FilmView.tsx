@@ -5,16 +5,11 @@ import {
   VolumeX,
   MapPin,
   Navigation,
-  Phone,
   MessageCircle,
   RotateCcw,
   Share2,
-  Copy,
-  Check,
   Pause,
   Heart,
-  CalendarPlus,
-  Compass,
   Sparkles as SparklesIcon,
   Clock,
   ChevronDown,
@@ -32,8 +27,6 @@ import {
 } from "./Ornaments";
 import { useCountdown } from "./Story";
 import PersonalizedInvitationModal from "./PersonalizedInvitationModal";
-import TravelGuideModal from "./TravelGuideModal";
-import BlessingsModal from "./BlessingsModal";
 
 import img1773 from "../assets/dsc_1773.jpg";
 import img1776 from "../assets/dsc_1776.jpg";
@@ -59,12 +52,9 @@ export default function FilmView({
   const [activeSceneIndex, setActiveSceneIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
   const [extraPetals, setExtraPetals] = useState<number[]>([]);
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
-  const [isTravelGuideOpen, setIsTravelGuideOpen] = useState(false);
-  const [isBlessingsOpen, setIsBlessingsOpen] = useState(false);
   const [isDiyaLit, setIsDiyaLit] = useState(false);
   const [isChapterMenuOpen, setIsChapterMenuOpen] = useState(false);
   const [petalShowerCount, setPetalShowerCount] = useState(0);
@@ -365,15 +355,6 @@ export default function FilmView({
       masterTimelineRef.current.play();
     }
   }, []);
-
-  const handleCopy = () => {
-    navigator.clipboard
-      .writeText("Village Bigrahpur, Post Dubari, Mau — Uttar Pradesh")
-      .then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      });
-  };
 
   const handleShare = () => {
     const text =
@@ -1021,102 +1002,66 @@ export default function FilmView({
           </button>
         </div>
 
-        {/* Action Buttons for Guests */}
-        <div className="venue-item flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-1 sm:mt-2 max-w-xl">
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=Bigrahpur,+Dubari,+Mau,+Uttar+Pradesh"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-500 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-950 hover:bg-gold-600 transition-colors shadow-md rounded-lg"
-          >
-            <Navigation className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-            Directions
-          </a>
+        {/* Minimal guest dock — 3 essentials, next-level clean finale */}
+        <div className="venue-item mt-2 sm:mt-3 w-full max-w-md">
+          <div className="flex items-stretch justify-center gap-2 sm:gap-3">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Bigrahpur,+Dubari,+Mau,+Uttar+Pradesh"
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="group flex flex-1 flex-col items-center gap-1.5 rounded-2xl border border-gold-400/80 bg-white/95 px-2 py-2.5 sm:py-3 shadow-sm backdrop-blur-md transition-all hover:bg-gold-50 hover:border-gold-500 active:scale-95"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold-400 bg-gold-100 transition-transform group-hover:scale-110">
+                <Navigation className="h-4 w-4 text-maroon-900" />
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-maroon-900">Directions</span>
+            </a>
 
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg cursor-pointer"
-          >
-            {copied ? <Check className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-600" /> : <Copy className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-700" />}
-            <span>{copied ? "Copied!" : "Copy"}</span>
-          </button>
+            <a
+              href="https://wa.me/919958300518?text=Congratulations%20Ashwin%20%26%20Aarti!%20We%27ll%20definitely%20be%20there%20%E2%9C%A8"
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="group flex flex-1 flex-col items-center gap-1.5 rounded-2xl border border-emerald-600 bg-emerald-600 px-2 py-2.5 sm:py-3 shadow-sm transition-all hover:bg-emerald-700 active:scale-95"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 transition-transform group-hover:scale-110">
+                <MessageCircle className="h-4 w-4 text-white" />
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-white">WhatsApp</span>
+            </a>
 
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsTravelGuideOpen(true);
-            }}
-            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg cursor-pointer"
-          >
-            <Compass className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-700" />
-            <span>मार्गदर्शिका (Route)</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsBlessingsOpen(true);
-            }}
-            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-gold-50 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-200 transition-colors shadow-sm rounded-lg cursor-pointer"
-          >
-            <SparklesIcon className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-700" />
-            <span>आशीर्वाद (Blessings)</span>
-          </button>
-
-          <a
-            href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ashwin%20%E2%99%A5%20Aarti%20%E2%80%94%20Shubh%20Vivah&dates=20261209T133000Z%2F20261209T170000Z&details=Saat%20phere%2C%20ek%20vaada.%20Join%20the%20celebration!&location=Vill.%20Bigrahpur%2C%20Post%20Dubari%2C%20Mau%2C%20Uttar%20Pradesh"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 border border-gold-400/80 bg-white px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg"
-          >
-            <CalendarPlus className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-700" />
-            <span>Calendar</span>
-          </a>
-
-          <a
-            href="tel:+919958300518"
-            className="inline-flex items-center gap-1.5 border border-maroon-800 bg-white px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-50 transition-colors shadow-sm rounded-lg"
-          >
-            <Phone className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-maroon-800" />
-            Call
-          </a>
-
-          <a
-            href="https://wa.me/919958300518?text=Congratulations%20Ashwin%20%26%20Aarti!%20We%27ll%20definitely%20be%20there%20%E2%9C%A8"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 border border-emerald-600 bg-emerald-600 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-700 transition-colors shadow-md rounded-lg"
-          >
-            <MessageCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-            WhatsApp
-          </a>
-
-          <button
-            type="button"
-            onClick={handleShare}
-            className="inline-flex items-center gap-1.5 border border-gold-400 bg-gold-50 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 hover:bg-gold-500 hover:text-white transition-colors shadow-sm rounded-lg cursor-pointer"
-          >
-            <Share2 className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-maroon-800" />
-            <span>{shared ? "Shared!" : "Share"}</span>
-          </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleShare();
+              }}
+              className="group flex flex-1 flex-col items-center gap-1.5 rounded-2xl border border-gold-400/80 bg-white/95 px-2 py-2.5 sm:py-3 shadow-sm backdrop-blur-md transition-all hover:bg-gold-50 hover:border-gold-500 active:scale-95 cursor-pointer"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold-400 bg-gold-100 transition-transform group-hover:scale-110">
+                <Share2 className="h-4 w-4 text-maroon-900" />
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-maroon-900">{shared ? "Shared!" : "Share"}</span>
+            </button>
+          </div>
         </div>
 
         {/* Replay Film & Scroll Card Options */}
-        <div className="venue-item mt-3 sm:mt-4 flex items-center justify-center gap-3">
+        <div className="venue-item mt-3 sm:mt-4 flex items-center justify-center gap-4">
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               handleReplay();
             }}
-            className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border-2 border-gold-500 bg-gradient-to-r from-gold-600 to-gold-500 px-4 sm:px-6 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-maroon-950 shadow-md hover:scale-105 transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-maroon-900 underline underline-offset-4 decoration-gold-500 decoration-2 hover:text-gold-800 transition-colors cursor-pointer"
           >
             <RotateCcw className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-            <span>Replay Film 📽️</span>
+            <span>Replay Film</span>
           </button>
+
+          <span className="h-1 w-1 rounded-full bg-gold-600/60" aria-hidden />
 
           <button
             type="button"
@@ -1129,16 +1074,18 @@ export default function FilmView({
             Scroll Full Card 📜
           </button>
         </div>
+
+        <p className="venue-item mt-3 font-serif text-sm italic text-maroon-700/80">
+          #Ashwin<span className="text-gold-700 font-semibold">Weds</span>Aarti · 09 Dec 2026
+        </p>
       </section>
 
-      {/* ─────────── 4. Subtitles — anchored above the letterbox, never under the header ─────────── */}
+      {/* ─────────── 4. Subtitles — slim cinematic caption, pinned above the letterbox ─────────── */}
       {activeSceneIndex !== 7 && (
-        <div className="absolute inset-x-0 bottom-14 sm:bottom-16 z-40 px-3 sm:px-6 text-center pointer-events-none">
-          <div className="inline-block max-w-2xl bg-white/95 backdrop-blur-md border border-gold-400 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full shadow-md">
-            <p className="font-serif text-[11px] sm:text-sm md:text-base italic leading-snug text-maroon-950 font-medium">
-              "{subtitles[activeSceneIndex]}"
-            </p>
-          </div>
+        <div className="absolute inset-x-0 bottom-9 sm:bottom-12 z-40 px-3 text-center pointer-events-none">
+          <p className="inline-block max-w-[92%] sm:max-w-xl rounded-full bg-maroon-950/85 px-4 py-1.5 font-serif text-[11px] sm:text-xs italic leading-snug text-ivory-100 shadow-lg backdrop-blur-sm border border-gold-400/30 animate-fade-in">
+            {subtitles[activeSceneIndex]}
+          </p>
         </div>
       )}
 
@@ -1146,18 +1093,6 @@ export default function FilmView({
       <PersonalizedInvitationModal
         isOpen={isInvitationModalOpen}
         onClose={() => setIsInvitationModalOpen(false)}
-      />
-
-      {/* ─────────── 6. Travel & Route Guide Modal ─────────── */}
-      <TravelGuideModal
-        isOpen={isTravelGuideOpen}
-        onClose={() => setIsTravelGuideOpen(false)}
-      />
-
-      {/* ─────────── 7. Blessings & Ashirwad Modal ─────────── */}
-      <BlessingsModal
-        isOpen={isBlessingsOpen}
-        onClose={() => setIsBlessingsOpen(false)}
       />
     </div>
   );
