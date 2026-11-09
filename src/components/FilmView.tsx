@@ -300,7 +300,7 @@ export default function FilmView({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || tag === "BUTTON") return;
 
       if (e.key === "Escape") {
         setIsChapterMenuOpen(false);
@@ -421,6 +421,8 @@ export default function FilmView({
               e.stopPropagation();
               setIsChapterMenuOpen((prev) => !prev);
             }}
+            aria-expanded={isChapterMenuOpen}
+            aria-haspopup="menu"
             className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-gold-400/90 bg-white/95 px-2.5 sm:px-3.5 py-1 sm:py-1.5 text-xs shadow-md backdrop-blur-md hover:bg-gold-50 transition-colors cursor-pointer group"
             title="Click to jump to any scene"
           >
@@ -445,6 +447,7 @@ export default function FilmView({
                 <button
                   type="button"
                   onClick={() => setIsChapterMenuOpen(false)}
+                  aria-label="Close chapters"
                   className="text-xs text-maroon-600 hover:text-maroon-950 font-bold cursor-pointer"
                 >
                   ✕
@@ -664,9 +667,9 @@ export default function FilmView({
             ॥ शुभ विवाह ॥
           </p>
 
-          <h1 className="couple-title-text font-script text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-gold-grad shimmer leading-[1.05] sm:leading-tight my-0.5 sm:my-1">
+          <p className="couple-title-text font-script text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-gold-grad shimmer leading-[1.05] sm:leading-tight my-0.5 sm:my-1">
             Ashwin &amp; Aarti
-          </h1>
+          </p>
 
           <div className="couple-title-text flex items-center justify-center md:justify-start gap-2 sm:gap-3 my-1.5 sm:my-2.5">
             <span className="h-px w-8 sm:w-16 md:w-20 bg-gold-400" />

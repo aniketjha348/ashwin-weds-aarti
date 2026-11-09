@@ -17,10 +17,17 @@ export default function Footer() {
   const venueAddress = VENUE_ADDRESS;
 
   const handleCopyAddress = () => {
-    navigator.clipboard.writeText(venueAddress).then(() => {
+    const done = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
-    });
+    };
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(venueAddress).then(done).catch(() => {
+        window.prompt("Copy this address:", venueAddress);
+      });
+    } else {
+      window.prompt("Copy this address:", venueAddress);
+    }
   };
 
   const handleShare = () => {

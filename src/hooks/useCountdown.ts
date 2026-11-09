@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
+import { WEDDING_DATE_ISO } from "../constants";
+
 export function useCountdown() {
   const calc = () => {
-    const diff = Math.max(0, new Date("2026-12-09T19:00:00+05:30").getTime() - Date.now());
+    const diff = Math.max(0, new Date(WEDDING_DATE_ISO).getTime() - Date.now());
     return {
       days: Math.floor(diff / 86400000),
       hours: Math.floor(diff / 3600000) % 24,

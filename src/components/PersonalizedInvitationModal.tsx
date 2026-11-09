@@ -85,10 +85,18 @@ export default function PersonalizedInvitationModal({
   const handleCopyLink = () => {
     const url = new URL(window.location.href);
     url.searchParams.set("guest", guestName || inputName);
-    navigator.clipboard.writeText(url.toString()).then(() => {
+    const text = url.toString();
+    const done = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    });
+    };
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => {
+        window.prompt("Copy this link:", text);
+      });
+    } else {
+      window.prompt("Copy this link:", text);
+    }
   };
 
   const handleShareWhatsApp = () => {
@@ -275,7 +283,7 @@ export default function PersonalizedInvitationModal({
                 सादर आमंत्रण (Cordial Invitation)
               </p>
 
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-gold-grad shimmer mt-1 cinema-title-shadow">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-gold-grad shimmer mt-1 cinema-title-shadow break-words">
                 {guestName}
               </h2>
 

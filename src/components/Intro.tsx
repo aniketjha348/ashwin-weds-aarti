@@ -299,9 +299,9 @@ export default function Intro({ onStartFilm }: IntroProps) {
               ॥ शुभ विवाह फ़िल्म ॥
             </p>
 
-            <h1 className="font-script text-4xl sm:text-6xl text-gold-grad shimmer font-bold leading-tight my-0.5 sm:my-1">
+            <p className="font-script text-4xl sm:text-6xl text-gold-grad shimmer font-bold leading-tight my-0.5 sm:my-1">
               Ashwin &amp; Aarti
-            </h1>
+            </p>
 
             <p className="font-serif text-xs sm:text-sm italic text-maroon-800">
               "Two Hearts · Seven Vows · One Epic Journey"

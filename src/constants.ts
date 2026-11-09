@@ -2,6 +2,7 @@
 export const PHONE_DISPLAY = "+91 99583 00518";
 export const PHONE_E164 = "+919958300518";
 export const VENUE_ADDRESS = "Village Bigrahpur, Post Dubari, Mau — Uttar Pradesh";
+export const WEDDING_DATE_ISO = "2026-12-09T19:00:00+05:30";
 export const VENUE_SHORT =
   "Vill. Bigrahpur, Post Dubari, Mau, Uttar Pradesh";
 export const GOOGLE_MAPS_URL =

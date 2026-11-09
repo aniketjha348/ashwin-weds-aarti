@@ -32,6 +32,17 @@ export default function App() {
   const [isTravelOpen, setIsTravelOpen] = useState(false);
   const [isBlessingsOpen, setIsBlessingsOpen] = useState(false);
 
+  // Deep-link magic: ?guest=Name opens the personalized card straight away
+  useEffect(() => {
+    try {
+      if (new URLSearchParams(window.location.search).has("guest")) {
+        setIsInvitationOpen(true);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   // Initialize background audio
   const startMusic = useCallback(() => {
     if (!audioRef.current) {
@@ -147,7 +158,7 @@ export default function App() {
         <Footer />
 
         {/* Clearance so the floating utility bar never covers the sign-off */}
-        <div className="h-20 sm:h-16" aria-hidden />
+        <div className="h-32 sm:h-24" aria-hidden />
 
         {/* Floating Utilities (Music + Switch to Film View) */}
         <MusicPlayer
@@ -158,17 +169,18 @@ export default function App() {
           onOpenTravel={() => setIsTravelOpen(true)}
           onOpenBlessings={() => setIsBlessingsOpen(true)}
         />
-
-        <PersonalizedInvitationModal
-          isOpen={isInvitationOpen}
-          onClose={() => setIsInvitationOpen(false)}
-        />
-
-        <TravelGuideModal isOpen={isTravelOpen} onClose={() => setIsTravelOpen(false)} />
-
-        <BlessingsModal isOpen={isBlessingsOpen} onClose={() => setIsBlessingsOpen(false)} />
       </main>
       )}
+
+      {/* Modals live at root so ?guest= deep-links work even in film mode */}
+      <PersonalizedInvitationModal
+        isOpen={isInvitationOpen}
+        onClose={() => setIsInvitationOpen(false)}
+      />
+
+      <TravelGuideModal isOpen={isTravelOpen} onClose={() => setIsTravelOpen(false)} />
+
+      <BlessingsModal isOpen={isBlessingsOpen} onClose={() => setIsBlessingsOpen(false)} />
     </div>
   );
 }
