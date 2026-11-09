@@ -129,7 +129,7 @@ export default function Intro({ onStartFilm }: IntroProps) {
       {/* ───────── Center Behind-Curtain Radiant Light Beam ───────── */}
       <div
         ref={centerLightBeamRef}
-        className="pointer-events-none absolute inset-y-0 left-1/2 -translate-x-1/2 w-48 bg-gradient-to-r from-transparent via-amber-200/90 to-transparent opacity-0 z-10 blur-xl transition-opacity"
+        className="light-beam pointer-events-none absolute inset-y-0 left-1/2 -translate-x-1/2 w-48 opacity-0 z-10"
       />
 
       {/* ───────── 1. REAL LEFT VELVET CURTAIN (मखमली बायाँ पर्दा) ───────── */}
@@ -221,11 +221,17 @@ export default function Intro({ onStartFilm }: IntroProps) {
           <div className="absolute inset-x-0 top-1/2 h-px bg-gold-400/60" />
           <div className="absolute inset-y-0 left-1/2 w-px bg-gold-400/60" />
           <div className="absolute inset-2 rounded-full border border-dashed border-gold-400/70 animate-spin-slow" />
-          <span className="font-serif text-3xl sm:text-5xl font-bold text-gold-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
+          <span
+            className={`px-2 text-center font-serif font-bold text-gold-200 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] ${
+              typeof countdownNum === "string"
+                ? "text-lg sm:text-2xl leading-tight"
+                : "text-3xl sm:text-5xl"
+            }`}
+          >
             {countdownNum}
           </span>
         </div>
-        <p className="mt-3 sm:mt-4 font-sans text-[11px] sm:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-gold-300 font-bold">
+        <p className="relative mt-3 sm:mt-4 inline-block rounded-full bg-[#0d0104]/85 px-4 sm:px-5 py-1 font-sans text-[11px] sm:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-gold-200 font-bold shadow-lg backdrop-blur-sm">
           ॥ शुभ आरंभ ॥
         </p>
       </div>
@@ -236,20 +242,34 @@ export default function Intro({ onStartFilm }: IntroProps) {
         className="relative z-30 flex flex-col items-center justify-center px-3 sm:px-4 max-w-xl w-full"
       >
         {/* Cinema Marquee Header */}
-        <div className="text-center mb-2 sm:mb-3">
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-gold-400 bg-maroon-950/90 px-3 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-[11px] font-sans font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-gold-300 shadow-xl backdrop-blur-sm">
+        <div className="relative text-center mb-2 sm:mb-3">
+          {/* Scrim so the gold curtain seam never cuts through the title */}
+          <div
+            className="pointer-events-none absolute -inset-x-8 -inset-y-3 bg-[radial-gradient(ellipse_at_center,rgba(13,1,4,0.92)_0%,rgba(13,1,4,0.72)_55%,transparent_85%)]"
+            aria-hidden
+          />
+          <div className="relative inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-gold-400 bg-maroon-950/90 px-3 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-[11px] font-sans font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-gold-300 shadow-xl backdrop-blur-sm">
             <Film className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold-400 animate-pulse" />
             <span>★ MAURYA CINEMAS PRESENTS ★</span>
           </div>
-          <p className="mt-1 font-serif text-[11px] sm:text-xs italic text-gold-200/80">
+          <p className="relative mt-1.5 font-serif text-[11px] sm:text-xs italic text-gold-100/90 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
             A Royal Wedding Film Premiere Experience
           </p>
         </div>
 
         {/* 🎟️ Royal Cinema Premiere Ticket Stub */}
         <div
+          role="button"
+          tabIndex={0}
+          aria-label="Open the curtains and start the wedding film"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleOpenCurtains();
+            }
+          }}
           onClick={handleOpenCurtains}
-          className="film-ticket group w-full rounded-2xl bg-white p-4 sm:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.8)] cursor-pointer hover:scale-[1.01] transition-transform duration-300 relative overflow-hidden"
+          className="film-ticket group w-full rounded-2xl bg-white p-4 sm:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.8)] cursor-pointer hover:scale-[1.01] transition-transform duration-300 relative overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-400"
         >
           {/* Golden Corner Flourishes */}
           <CornerFlourish className="absolute -left-1 -top-1 h-8 w-8 sm:h-9 sm:w-9 text-gold-600" />

@@ -68,6 +68,7 @@ export default function FilmView({
   const [isDiyaLit, setIsDiyaLit] = useState(false);
   const [isChapterMenuOpen, setIsChapterMenuOpen] = useState(false);
   const [petalShowerCount, setPetalShowerCount] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   const countdown = useCountdown();
 
@@ -188,7 +189,7 @@ export default function FilmView({
       tl.call(() => setActiveSceneIndex(0))
         .to("#scene-0", { opacity: 1, duration: 1.2, ease: "power2.out" })
         .from("#scene-0 .ganesh-icon-box", { scale: 0.75, opacity: 0, duration: 1.1, ease: "back.out(1.4)" }, "-=0.8")
-        .from("#scene-0 .diya-flame", { scale: 0, opacity: 0, duration: 0.9, stagger: 0.15, ease: "power2.out" }, "-=0.7")
+        .from("#scene-0 .diya-flame", { scale: 0.5, opacity: 0, duration: 0.9, stagger: 0.15, ease: "power2.out" }, "-=0.7")
         .from("#scene-0 .ganesh-text", { y: 22, opacity: 0, duration: 1, stagger: 0.2, ease: "power2.out" }, "-=0.6")
         .to({}, { duration: 3.5 })
         .to("#scene-0", { opacity: 0, duration: 1.0, ease: "power2.in" })
@@ -292,6 +293,53 @@ export default function FilmView({
     return () => ctx.revert();
   }, []);
 
+  // Track film progress for the scrubber
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      const tl = masterTimelineRef.current;
+      if (!tl) return;
+      const total = tl.duration();
+      setProgress(total > 0 ? Math.min(1, tl.time() / total) : 0);
+    }, 250);
+    return () => window.clearInterval(id);
+  }, []);
+
+  // Keyboard: space = play/pause, arrows = scenes, Esc = close chapter menu
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+      if (e.key === "Escape") {
+        setIsChapterMenuOpen(false);
+        return;
+      }
+      if (e.key === " " || e.code === "Space") {
+        e.preventDefault();
+        const tl = masterTimelineRef.current;
+        if (!tl) return;
+        if (tl.paused()) {
+          tl.play();
+          setIsPaused(false);
+        } else {
+          tl.pause();
+          setIsPaused(true);
+        }
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        jumpToScene(Math.min(sceneTimeOffsets.length - 1, activeSceneIndex + 1));
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        jumpToScene(Math.max(0, activeSceneIndex - 1));
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [activeSceneIndex]);
+
   // Screen click toggles pause / resume and triggers petals
   const handleScreenClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLElement).closest("a, button, input")) return;
@@ -345,6 +393,8 @@ export default function FilmView({
       ref={containerRef}
       onClick={handleScreenClick}
       className="fixed inset-0 z-50 flex flex-col justify-between bg-[#FAF7F2] pattern-light text-maroon-900 select-none overflow-hidden cursor-pointer"
+      role="region"
+      aria-label="Wedding film"
     >
       {/* ─────────── 1. Royal Ivory Ambient Glow & Subtle Gold Trims ─────────── */}
       <div className="absolute inset-0 pointer-events-none vignette-hero-light z-10" />
@@ -352,6 +402,18 @@ export default function FilmView({
       {/* Thin Gold Cinema Letterbox Trims */}
       <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 z-40 pointer-events-none shadow-sm" />
       <div className="absolute bottom-0 inset-x-0 h-1.5 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 z-40 pointer-events-none shadow-sm" />
+
+      {/* Chapter progress rail — where am I in the film */}
+      {!isEnded && (
+        <div className="absolute top-1.5 inset-x-0 z-40 pointer-events-none">
+          <div className="film-progress-track h-[2px] w-full">
+            <div
+              className="film-progress-fill h-full origin-left transition-[width] duration-300 ease-linear"
+              style={{ width: `${Math.round(progress * 100)}%` }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Floating Sparkles & Rose Petals */}
       <div className="absolute inset-0 pointer-events-none z-30">
@@ -1069,11 +1131,11 @@ export default function FilmView({
         </div>
       </section>
 
-      {/* ─────────── 4. Subtitles in Clean Light Frosted Pill (Scenes 0 to 6) ─────────── */}
+      {/* ─────────── 4. Subtitles — anchored above the letterbox, never under the header ─────────── */}
       {activeSceneIndex !== 7 && (
-        <div className="relative z-40 w-full px-4 sm:px-6 pb-3 sm:pb-5 text-center pointer-events-none">
+        <div className="absolute inset-x-0 bottom-14 sm:bottom-16 z-40 px-3 sm:px-6 text-center pointer-events-none">
           <div className="inline-block max-w-2xl bg-white/95 backdrop-blur-md border border-gold-400 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full shadow-md">
-            <p className="font-serif text-xs sm:text-sm md:text-base italic leading-snug text-maroon-950 font-medium">
+            <p className="font-serif text-[11px] sm:text-sm md:text-base italic leading-snug text-maroon-950 font-medium">
               "{subtitles[activeSceneIndex]}"
             </p>
           </div>

@@ -9,6 +9,10 @@ import { Story, Countdown } from "./components/Story";
 import Gallery from "./components/Gallery";
 import MusicPlayer from "./components/MusicPlayer";
 import FilmView from "./components/FilmView";
+import Footer from "./components/Footer";
+import PersonalizedInvitationModal from "./components/PersonalizedInvitationModal";
+import TravelGuideModal from "./components/TravelGuideModal";
+import BlessingsModal from "./components/BlessingsModal";
 import { Mangalacharan, Swagatakankshi } from "./components/FamilyBlessings";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,6 +28,9 @@ export default function App() {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [isFilmMode, setIsFilmMode] = useState(true);
   const [introFinished, setIntroFinished] = useState(false);
+  const [isInvitationOpen, setIsInvitationOpen] = useState(false);
+  const [isTravelOpen, setIsTravelOpen] = useState(false);
+  const [isBlessingsOpen, setIsBlessingsOpen] = useState(false);
 
   // Initialize background audio
   const startMusic = useCallback(() => {
@@ -31,9 +38,13 @@ export default function App() {
       const audio = new Audio(AUDIO_URL);
       audio.loop = true;
       audio.volume = 0.55;
+      let triedFallback = false;
       audio.onerror = () => {
+        if (triedFallback) return;
+        triedFallback = true;
         audio.src = FALLBACK_AUDIO_URL;
-        audio.play().catch(() => {});
+        audio.load();
+        audio.play().catch(() => setIsPlayingMusic(false));
       };
       audioRef.current = audio;
     }
@@ -88,6 +99,12 @@ export default function App() {
     };
   }, [isFilmMode]);
 
+  // Keep ScrollTriggers valid when toggling between film and scroll modes
+  useEffect(() => {
+    const id = window.setTimeout(() => ScrollTrigger.refresh(), 60);
+    return () => window.clearTimeout(id);
+  }, [isFilmMode, introFinished]);
+
   return (
     <div className="relative min-h-screen bg-[#FAF7F2] text-maroon-900 font-sans antialiased">
       {/* 1. Theatre Curtains Opening */}
@@ -127,13 +144,29 @@ export default function App() {
         <Gallery />
         <Countdown />
         <Swagatakankshi />
+        <Footer />
+
+        {/* Clearance so the floating utility bar never covers the sign-off */}
+        <div className="h-20 sm:h-16" aria-hidden />
 
         {/* Floating Utilities (Music + Switch to Film View) */}
         <MusicPlayer
           isPlaying={isPlayingMusic}
           onToggle={toggleMusic}
           onOpenFilm={() => setIsFilmMode(true)}
+          onOpenInvitation={() => setIsInvitationOpen(true)}
+          onOpenTravel={() => setIsTravelOpen(true)}
+          onOpenBlessings={() => setIsBlessingsOpen(true)}
         />
+
+        <PersonalizedInvitationModal
+          isOpen={isInvitationOpen}
+          onClose={() => setIsInvitationOpen(false)}
+        />
+
+        <TravelGuideModal isOpen={isTravelOpen} onClose={() => setIsTravelOpen(false)} />
+
+        <BlessingsModal isOpen={isBlessingsOpen} onClose={() => setIsBlessingsOpen(false)} />
       </main>
     </div>
   );

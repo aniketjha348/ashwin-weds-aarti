@@ -1,5 +1,6 @@
 import { X, Train, Plane, Car, Phone, Navigation } from "lucide-react";
 import { CornerFlourish, Divider, Diya } from "./Ornaments";
+import { useModalBehavior } from "../hooks/useModalBehavior";
 
 interface TravelGuideModalProps {
   isOpen: boolean;
@@ -7,16 +8,22 @@ interface TravelGuideModalProps {
 }
 
 export default function TravelGuideModal({ isOpen, onClose }: TravelGuideModalProps) {
+  const panelRef = useModalBehavior(isOpen, onClose);
+
   if (!isOpen) return null;
 
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-6 overflow-y-auto animate-fade-in"
+      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-6 overflow-y-auto animate-overlay-in"
     >
       <div
+        ref={panelRef}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl bg-[#FFFDF9] text-maroon-900 rounded-2xl sm:rounded-3xl border-2 border-gold-400 p-4 sm:p-9 shadow-[0_25px_80px_rgba(31,4,10,0.6)] my-auto select-text overflow-hidden max-h-[92dvh] overflow-y-auto"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Travel and route guide"
+        className="relative w-full max-w-2xl bg-[#FFFDF9] text-maroon-900 rounded-2xl sm:rounded-3xl border-2 border-gold-400 p-4 sm:p-9 shadow-[0_25px_80px_rgba(31,4,10,0.6)] my-auto select-text overflow-hidden max-h-[92dvh] overflow-y-auto animate-fade-in"
       >
         <CornerFlourish className="absolute -left-1 -top-1 h-12 w-12 text-gold-600 pointer-events-none" />
         <CornerFlourish className="absolute -right-1 -top-1 h-12 w-12 rotate-90 text-gold-600 pointer-events-none" />

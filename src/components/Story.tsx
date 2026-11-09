@@ -64,6 +64,8 @@ export function Story() {
               <img
                 src={storyImg}
                 alt="Ashwin putting a ring on Aarti's finger"
+                loading="lazy"
+                decoding="async"
                 className="h-[20rem] sm:h-[26rem] w-full object-cover object-top md:h-[30rem]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-maroon-900/15 via-transparent to-transparent" />

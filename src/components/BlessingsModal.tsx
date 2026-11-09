@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { X, Send, Heart, Sparkles, MessageCircle } from "lucide-react";
 import { CornerFlourish, Divider, Diya, Petals } from "./Ornaments";
+import { useModalBehavior } from "../hooks/useModalBehavior";
 
 interface Blessing {
   id: string;
@@ -65,6 +66,8 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
   const [showCelebration, setShowCelebration] = useState(false);
   const [sentSuccess, setSentSuccess] = useState(false);
 
+  const panelRef = useModalBehavior(isOpen, onClose);
+
   useEffect(() => {
     if (guestName && !authorName) {
       setAuthorName(guestName);
@@ -114,7 +117,7 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-6 overflow-y-auto animate-fade-in"
+      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-6 overflow-y-auto animate-overlay-in"
     >
       {showCelebration && (
         <div className="pointer-events-none fixed inset-0 z-[130]">
@@ -123,8 +126,12 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
       )}
 
       <div
+        ref={panelRef}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl bg-[#FFFDF9] text-maroon-900 rounded-3xl border-2 border-gold-400 p-5 sm:p-9 shadow-[0_25px_80px_rgba(31,4,10,0.6)] my-auto select-text overflow-hidden max-h-[90vh] flex flex-col"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Bless the couple"
+        className="relative w-full max-w-2xl bg-[#FFFDF9] text-maroon-900 rounded-3xl border-2 border-gold-400 p-5 sm:p-9 shadow-[0_25px_80px_rgba(31,4,10,0.6)] my-auto select-text overflow-hidden max-h-[90dvh] flex flex-col animate-fade-in"
       >
         <CornerFlourish className="absolute -left-1 -top-1 h-12 w-12 text-gold-600 pointer-events-none" />
         <CornerFlourish className="absolute -right-1 -top-1 h-12 w-12 rotate-90 text-gold-600 pointer-events-none" />
@@ -167,7 +174,9 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-2.5">
+              <label className="sr-only" htmlFor="blessing-name">Your name</label>
               <input
+                id="blessing-name"
                 type="text"
                 value={authorName}
                 onChange={(e) => setAuthorName(e.target.value)}
@@ -175,7 +184,9 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
                 className="w-full rounded-xl border border-gold-300 bg-gold-50/50 px-3.5 py-2 font-serif text-sm font-semibold text-maroon-950 focus:outline-none focus:ring-1 focus:ring-gold-500"
               />
 
+              <label className="sr-only" htmlFor="blessing-badge">Choose a blessing badge</label>
               <select
+                id="blessing-badge"
                 value={selectedBadge}
                 onChange={(e) => setSelectedBadge(e.target.value)}
                 className="w-full rounded-xl border border-gold-300 bg-gold-50/50 px-3.5 py-2 font-hindi text-xs font-bold text-maroon-900 focus:outline-none focus:ring-1 focus:ring-gold-500"
@@ -188,7 +199,9 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
               </select>
             </div>
 
+            <label className="sr-only" htmlFor="blessing-message">Your blessing message</label>
             <textarea
+              id="blessing-message"
               rows={2}
               value={customMessage}
               onChange={(e) => setCustomMessage(e.target.value)}

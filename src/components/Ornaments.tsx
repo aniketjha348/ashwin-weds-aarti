@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useId, useMemo } from "react";
 
 /* ──────────────────────────────── Flourish divider ─────────────────────────────── */
 export function Divider({ className = "", tone = "gold" }: { className?: string; tone?: "gold" | "maroon" }) {
@@ -176,6 +176,19 @@ export function Monogram({ className = "" }: { className?: string }) {
       {Array.from({ length: 12 }, (_, i) => (
         <circle key={i} cx="60" cy="6.5" r="1.6" fill="#e7cf8b" transform={`rotate(${i * 30} 60 60)`} />
       ))}
+      {/* Interlocked A & A — without this the emblem is an empty ring */}
+      <g
+        stroke="#c9a24b"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      >
+        <path d="M38 78 L52 42 L66 78" />
+        <path d="M43.5 64 H60.5" />
+        <path d="M82 78 L68 42 L54 78" strokeOpacity="0.62" />
+        <path d="M76.5 64 H59.5" strokeOpacity="0.62" />
+      </g>
     </svg>
   );
 }
@@ -183,22 +196,70 @@ export function Monogram({ className = "" }: { className?: string }) {
 /* ──────────────────────────────── Divine Ganesha Motif ─────────────────────────────── */
 export function Ganesha({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" aria-hidden>
-      <path d="M50 8 L58 24 H42 Z" strokeWidth="2" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2" />
-      <circle cx="50" cy="6" r="2.5" fill="currentColor" />
-      <path d="M42 24 C30 22 22 28 20 38 C18 46 24 50 34 50" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M58 24 C70 22 78 28 80 38 C82 46 76 50 66 50" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M45 28 H55 M46 32 H54 M48 36 H52 M50 26 V38" strokeWidth="1.8" strokeLinecap="round" />
-      <circle cx="50" cy="41" r="1.5" fill="currentColor" />
-      <path d="M46 44 C46 54 44 64 50 72 C56 80 66 78 68 70 C69 64 64 62 60 64" strokeWidth="2.4" strokeLinecap="round" />
-      <path d="M40 50 L34 54" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="28" cy="62" r="4.5" fill="currentColor" fillOpacity="0.8" />
+    <svg viewBox="0 0 100 100" className={className} fill="none" aria-hidden>
+      {/* Crown / mukut */}
+      <path
+        d="M50 4 L57 15 L50 12 L43 15 Z"
+        fill="currentColor"
+        fillOpacity="0.85"
+      />
+      <path d="M40 17 C44 13 56 13 60 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+
+      {/* Head */}
+      <path
+        d="M50 17 C38 17 30 26 30 38 C30 50 38 58 50 58 C62 58 70 50 70 38 C70 26 62 17 50 17 Z"
+        fill="currentColor"
+        fillOpacity="0.12"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinejoin="round"
+      />
+
+      {/* Eyes */}
+      <circle cx="42" cy="36" r="2.1" fill="currentColor" />
+      <circle cx="58" cy="36" r="2.1" fill="currentColor" />
+
+      {/* Trunk — the defining feature, curling to the left */}
+      <path
+        d="M50 41 C50 48 48 52 44 55 C39 58 35 55 36 50 C37 46 41 45 43 48"
+        stroke="currentColor"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Tusks */}
+      <path d="M40 46 L34 50" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M60 46 L66 50" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+
+      {/* Ears */}
+      <path
+        d="M30 30 C21 28 15 36 17 45 C19 52 26 53 30 48"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M70 30 C79 28 85 36 83 45 C81 52 74 53 70 48"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+
+      {/* Modak / offering in hand */}
+      <circle cx="50" cy="74" r="7" fill="currentColor" fillOpacity="0.18" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M50 67 L50 81 M43 74 L57 74" stroke="currentColor" strokeWidth="1.2" strokeOpacity="0.7" />
+
+      {/* Shoulders / lotus seat */}
+      <path d="M26 88 C34 82 66 82 74 88" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M22 92 C34 86 66 86 78 92" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeOpacity="0.55" />
     </svg>
   );
 }
 
 /* ──────────────────────────────── Sacred Diya (Oil Lamp) ─────────────────────────────── */
 export function Diya({ className = "" }: { className?: string }) {
+  const gid = useId().replace(/[^a-zA-Z0-9]/g, "");
   return (
     <svg viewBox="0 0 64 64" className={className} fill="none" aria-hidden>
       <path
@@ -210,10 +271,10 @@ export function Diya({ className = "" }: { className?: string }) {
       <ellipse cx="32" cy="40" rx="20" ry="4" fill="#E7CF8B" stroke="#C9A24B" strokeWidth="1" />
       <path
         d="M32 38 C32 30 27 22 32 12 C37 22 32 30 32 38 Z"
-        fill="url(#diyaFlameGrad)"
+        fill={`url(#diyaFlameGrad-${gid})`}
       />
       <defs>
-        <radialGradient id="diyaFlameGrad" cx="50%" cy="60%" r="50%">
+        <radialGradient id={`diyaFlameGrad-${gid}`} cx="50%" cy="60%" r="50%">
           <stop offset="0%" stopColor="#FFF9D2" />
           <stop offset="50%" stopColor="#FFB300" />
           <stop offset="100%" stopColor="#E53935" />

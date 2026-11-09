@@ -78,6 +78,8 @@ export default function Gallery() {
               <img
                 src={img3501}
                 alt="Ashwin and Aarti Golden Hour"
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-maroon-950/60 via-transparent to-transparent opacity-80" />
@@ -108,6 +110,8 @@ export default function Gallery() {
               <img
                 src={img3488}
                 alt="Ashwin and Aarti Royal Portrait"
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-maroon-950/50 via-transparent to-transparent opacity-70" />
@@ -125,6 +129,8 @@ export default function Gallery() {
                 <img
                   src={img1773}
                   alt="Ashwin and Aarti Moments"
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-maroon-950/50 via-transparent to-transparent opacity-70" />
@@ -141,6 +147,8 @@ export default function Gallery() {
                   <img
                     src={img1776}
                     alt="Ashwin and Aarti Candid"
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-maroon-950/50 via-transparent to-transparent opacity-70" />
@@ -155,6 +163,8 @@ export default function Gallery() {
                   <img
                     src={img1777}
                     alt="Ashwin and Aarti Celebration"
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-maroon-950/50 via-transparent to-transparent opacity-70" />

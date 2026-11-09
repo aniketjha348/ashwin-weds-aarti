@@ -116,6 +116,8 @@ export default function Invitation() {
           <img
             src={inviteCoupleImg}
             alt="Ashwin & Aarti Together"
+            loading="lazy"
+            decoding="async"
             className="h-52 sm:h-64 md:h-72 w-full object-cover"
           />
         </div>

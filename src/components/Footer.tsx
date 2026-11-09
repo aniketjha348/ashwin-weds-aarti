@@ -87,6 +87,8 @@ export default function Footer() {
               <img
                 src={funImg}
                 alt="The little ones of the family"
+                loading="lazy"
+                decoding="async"
                 className="h-72 w-60 rounded-t-full object-cover object-top md:h-80 md:w-64"
               />
             </div>

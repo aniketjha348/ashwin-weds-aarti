@@ -16,6 +16,7 @@ import {
 import { Ganesha, Diya, CornerFlourish, Divider, Petals } from "./Ornaments";
 import { useCountdown } from "./Story";
 import { generateWeddingCardImage } from "../utils/downloadCard";
+import { useModalBehavior } from "../hooks/useModalBehavior";
 
 interface PersonalizedInvitationModalProps {
   isOpen: boolean;
@@ -37,6 +38,7 @@ export default function PersonalizedInvitationModal({
   const [showCelebrationPetals, setShowCelebrationPetals] = useState(false);
 
   const countdown = useCountdown();
+  const panelRef = useModalBehavior(isOpen, onClose);
 
   // Read URL query parameter "?guest=Name" if present
   useEffect(() => {
@@ -90,7 +92,8 @@ export default function PersonalizedInvitationModal({
 
   const handleShareWhatsApp = () => {
     const name = guestName || inputName || "अतिथि";
-    const text = `सादर प्रणाम 🙏\n\nAshwin weds Aarti के शुभ विवाह (09 Dec 2026, मऊ) का डिजिटल निमंत्रण पत्र आदरणीय ${name} सपरिवार के लिए:\n${window.location.origin}/?guest=${encodeURIComponent(name)}`;
+    const base = `${window.location.origin}${window.location.pathname}`;
+    const text = `सादर प्रणाम 🙏\n\nAshwin weds Aarti के शुभ विवाह (09 Dec 2026, मऊ) का डिजिटल निमंत्रण पत्र आदरणीय ${name} सपरिवार के लिए:\n${base}?guest=${encodeURIComponent(name)}`;
     const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(waUrl, "_blank");
     setShared(true);
@@ -129,7 +132,7 @@ export default function PersonalizedInvitationModal({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 overflow-y-auto animate-fade-in"
+      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 overflow-y-auto animate-overlay-in"
     >
       {/* Celebration Petal Shower on Card Opening */}
       {showCelebrationPetals && (
@@ -139,8 +142,12 @@ export default function PersonalizedInvitationModal({
       )}
 
       <div
+        ref={panelRef}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl bg-[#FFFDF9] text-maroon-900 rounded-2xl sm:rounded-3xl border-2 border-gold-400 p-4 sm:p-10 shadow-[0_25px_80px_rgba(31,4,10,0.6)] my-auto select-text overflow-hidden max-h-[92dvh] overflow-y-auto"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Your personalized wedding invitation"
+        className="relative w-full max-w-2xl bg-[#FFFDF9] text-maroon-900 rounded-2xl sm:rounded-3xl border-2 border-gold-400 p-4 sm:p-10 shadow-[0_25px_80px_rgba(31,4,10,0.6)] my-auto select-text overflow-hidden max-h-[92dvh] overflow-y-auto animate-fade-in"
       >
         {/* Ornate Corner Flourishes */}
         <CornerFlourish className="absolute -left-1 -top-1 h-12 w-12 text-gold-600 pointer-events-none" />
@@ -177,8 +184,10 @@ export default function PersonalizedInvitationModal({
             </p>
 
             <form onSubmit={handleSaveName} className="mt-6 max-w-md mx-auto">
+              <label htmlFor="guest-name" className="sr-only">Your full name</label>
               <div className="relative">
                 <input
+                  id="guest-name"
                   type="text"
                   autoFocus
                   value={inputName}
