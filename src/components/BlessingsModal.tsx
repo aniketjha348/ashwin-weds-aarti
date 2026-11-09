@@ -52,7 +52,7 @@ interface BlessingsModalProps {
 export default function BlessingsModal({ isOpen, onClose, guestName = "" }: BlessingsModalProps) {
   const [blessings, setBlessings] = useState<Blessing[]>(() => {
     try {
-      const saved = localStorage.getItem("ashwin_aarti_blessings");
+      const saved = localStorage.getItem("Ashwin_Aarti_Blessings") ?? localStorage.getItem("ashwin_aarti_blessings");
       if (saved) return JSON.parse(saved);
     } catch {
       // ignore
@@ -92,7 +92,7 @@ export default function BlessingsModal({ isOpen, onClose, guestName = "" }: Bles
     const updated = [newBlessing, ...blessings];
     setBlessings(updated);
     try {
-      localStorage.setItem("ashwin_aarti_blessings", JSON.stringify(updated));
+      localStorage.setItem("Ashwin_Aarti_Blessings", JSON.stringify(updated));
     } catch {
       // ignore
     }
