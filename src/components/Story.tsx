@@ -51,7 +51,7 @@ export function Story() {
   }, []);
 
   return (
-    <section ref={containerRef} className="paper relative overflow-hidden py-24 md:py-32">
+    <section id="story" ref={containerRef} className="paper relative overflow-hidden py-24 md:py-32">
       <div className="absolute -right-40 top-10 h-[26rem] w-[26rem] rounded-full bg-rose-300/20 blur-[110px] pointer-events-none" />
       <div className="absolute -left-40 bottom-10 h-[26rem] w-[26rem] rounded-full bg-gold-400/20 blur-[110px] pointer-events-none" />
 

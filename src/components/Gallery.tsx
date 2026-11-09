@@ -47,6 +47,7 @@ export default function Gallery() {
 
   return (
     <section
+      id="gallery"
       ref={containerRef}
       className="relative overflow-hidden bg-[#FAF6EF] pattern-light py-24 md:py-32 border-t border-gold-400/40"
     >

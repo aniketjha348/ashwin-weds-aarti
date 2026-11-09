@@ -120,6 +120,7 @@ export default function Celebrations() {
 
   return (
     <section
+      id="celebrations"
       ref={containerRef}
       className="relative overflow-hidden bg-[#FAF7F2] pattern-light py-24 md:py-32"
     >

@@ -119,7 +119,7 @@ export default function Footer() {
       </section>
 
       {/* ─────────── Venue + RSVP (Straight, Crisp, Light) ─────────── */}
-      <section className="relative border-t border-gold-400/40 bg-[#F5EFEB] py-20 md:py-24">
+      <section id="venue" className="relative border-t border-gold-400/40 bg-[#F5EFEB] py-20 md:py-24">
         <div
           ref={cardsRef}
           className="relative mx-auto grid max-w-5xl gap-10 px-6 md:grid-cols-2 md:gap-8"

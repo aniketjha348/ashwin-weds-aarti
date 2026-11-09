@@ -77,12 +77,12 @@ export default function MusicPlayer({
         <button
           type="button"
           onClick={onOpenTravel}
-          className="flex items-center gap-1.5 rounded-full border border-gold-400/80 bg-white/95 px-3 py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 shadow-md backdrop-blur-md transition-all hover:bg-gold-50 hover:scale-105 active:scale-95"
+          className="flex items-center gap-1.5 rounded-full border border-gold-400/80 bg-white/95 px-2.5 sm:px-3 py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 shadow-md backdrop-blur-md transition-all hover:bg-gold-50 hover:scale-105 active:scale-95"
           title="Travel and route guide"
+          aria-label="Travel and route guide"
         >
           <Compass className="h-3.5 w-3.5 text-gold-700" />
           <span className="hidden sm:inline">Route</span>
-          <span className="sm:hidden">Route</span>
         </button>
       )}
 
@@ -90,12 +90,12 @@ export default function MusicPlayer({
         <button
           type="button"
           onClick={onOpenBlessings}
-          className="flex items-center gap-1.5 rounded-full border border-gold-400/80 bg-white/95 px-3 py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 shadow-md backdrop-blur-md transition-all hover:bg-gold-50 hover:scale-105 active:scale-95"
+          className="flex items-center gap-1.5 rounded-full border border-gold-400/80 bg-white/95 px-2.5 sm:px-3 py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-maroon-900 shadow-md backdrop-blur-md transition-all hover:bg-gold-50 hover:scale-105 active:scale-95"
           title="Bless the couple"
+          aria-label="Bless the couple"
         >
           <Heart className="h-3.5 w-3.5 text-rose-500 fill-rose-500" />
           <span className="hidden sm:inline">Bless</span>
-          <span className="sm:hidden">Bless</span>
         </button>
       )}
     </div>
