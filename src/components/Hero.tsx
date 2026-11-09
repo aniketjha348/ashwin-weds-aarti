@@ -152,6 +152,8 @@ export default function Hero() {
               <img
                 src={coupleImg}
                 alt="Ashwin and Aarti"
+                loading="lazy"
+                decoding="async"
                 className="h-[17rem] w-[13rem] object-cover object-top sm:h-[22rem] sm:w-[17rem] md:h-[27rem] md:w-[21rem]"
               />
             </div>

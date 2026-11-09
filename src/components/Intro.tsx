@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import { Play, Sparkles as SparklesIcon, Film } from "lucide-react";
 import { Ganesha, CornerFlourish, Diya } from "./Ornaments";
@@ -18,6 +18,15 @@ export default function Intro({ onStartFilm }: IntroProps) {
 
   const [countdownNum, setCountdownNum] = useState<number | string>(3);
   const [isStarting, setIsStarting] = useState(false);
+
+  // Lock page scroll while curtains are up
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
 
   const handleOpenCurtains = () => {
     if (isStarting) return;

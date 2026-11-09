@@ -18,7 +18,7 @@ export function Marquee() {
   const row = [...items, ...items, ...items, ...items];
 
   return (
-    <div className="relative z-10 border-y border-gold-500/60 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 py-3.5 shadow-[0_4px_25px_-5px_rgba(201,162,75,0.35)]">
+    <div className="relative z-10 border-y border-gold-500/60 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 py-3.5 shadow-[0_4px_25px_-5px_rgba(201,162,75,0.35)] overflow-hidden">
       <div className="flex w-max animate-marquee items-center gap-10 whitespace-nowrap px-5">
         {row.map((t, i) => (
           <span key={i} className="flex items-center gap-10">
